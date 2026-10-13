@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rà soát lịch giảng dạy</title>
+<style>
+body{font:16px/1.45 system-ui,sans-serif;max-width:1400px;margin:2rem auto;padding:0 1rem;color:#183047;background:#f5f8fb}
+main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #172f4212}h1{margin-top:0}
+form.filters{display:flex;flex-wrap:wrap;gap:.7rem;align-items:end;margin:1rem 0;padding:1rem;border:1px solid #d3dfe7;border-radius:8px}
+label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inherit;padding:.45rem}button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}button:disabled{background:#9aaab3;cursor:not-allowed}
+.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.88rem}th,td{border:1px solid #d3dfe7;padding:.5rem;text-align:left;white-space:nowrap;vertical-align:top}th{background:#e9f2f7}
+.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;margin:.4rem 0;border-radius:6px}.success{background:#e6f6e9;color:#195a2b;padding:.6rem 1rem;border-radius:6px}
+.hint{color:#4c6270}a{color:#145e83}.approve{margin:1rem 0}.pages{display:flex;gap:1rem;margin-top:1rem}
+.pref-summary{display:flex;flex-wrap:wrap;gap:.8rem;margin:.8rem 0}.pref-summary span{background:#e9f2f7;padding:.45rem .65rem;border-radius:6px}
+.pref-status{font-weight:600}.pref-status.met{color:#195a2b}.pref-status.partial{color:#8a5800}.pref-status.unmet{color:#a5271c}.pref-status.unassessed{color:#52677a}
+</style></head><body><main>
+<p><a href="/admin/">← Quản trị</a></p><h1>Rà soát lịch giảng dạy</h1>
+<p class="hint">Chọn học kỳ và lọc lịch. Chỉ các buổi chờ duyệt được chọn để duyệt; giảng viên chỉ xem được lịch đã duyệt.</p>
+{% for message in messages %}<div class="success">{{ message }}</div>{% endfor %}
+{% for error in errors %}<div class="error">{{ error }}</div>{% endfor %}
+<form class="filters" method="get">{% if filters.run %}<input type="hidden" name="run" value="{{ filters.run }}">{% endif %}
+<div><label for="semester">Học kỳ</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>
+{% for semester in semesters %}<option value="{{ semester.pk }}" {% if selected_semester.pk == semester.pk %}selected{% endif %}>{{ semester.name }} ({{ semester.academic_year }})</option>{% endfor %}</select></div>
+<div><label for="course">Môn học</label><select id="course" name="course"><option value="">Tất cả</option>{% for course in courses %}<option value="{{ course.pk }}" {% if filters.course == course.pk|stringformat:'s' %}selected{% endif %}>{{ course.code }} – {{ course.name }}</option>{% endfor %}</select></div>
+<div><label for="group">Nhóm</label><input id="group" name="group" value="{{ filters.group }}" size="8"></div>
+<div><label for="lecturer">Giảng viên</label><select id="lecturer" name="lecturer"><option value="">Tất cả</option>{% for lecturer in lecturers %}<option value="{{ lecturer.pk }}" {% if filters.lecturer == lecturer.pk|stringformat:'s' %}selected{% endif %}>{{ lecturer.employee_code }} – {{ lecturer.name }}</option>{% endfor %}</select></div>
+<div><label for="room">Phòng</label><select id="room" name="room"><option value="">Tất cả</option>{% for room in rooms %}<option value="{{ room.pk }}" {% if filters.room == room.pk|stringformat:'s' %}selected{% endif %}>{{ room.code }}</option>{% endfor %}</select></div>
+<div><label for="status">Trạng thái</label><select id="status" name="status"><option value="">Tất cả</option><option value="ChoDuyet" {% if filters.status == 'ChoDuyet' %}selected{% endif %}>Chờ duyệt</option><option value="DaDuyet" {% if filters.status == 'DaDuyet' %}selected{% endif %}>Đã duyệt</option></select></div>
+<button type="submit">Lọc lịch</button></form>
+{% if selected_semester %}<p>{% if filters.run %}Lần chạy #{{ filters.run }} · {% endif %}<strong>{{ count }}</strong> buổi phù hợp. {% if selected_semester.status == 'DaKhoa' %}<span class="hint">Học kỳ đã khóa; không thể sửa hoặc duyệt.</span>{% endif %}</p>
+<section id="nguyen-vong"><h2>Mức đáp ứng nguyện vọng giảng viên</h2>
+<p class="hint">Đánh giá theo {% if filters.run %}các buổi của lần chạy #{{ filters.run }}{% else %}các buổi đang lưu trong học kỳ{% endif %}, không theo bộ lọc môn/phòng hoặc trang hiện tại. Mỗi buổi định kỳ được tính một lần. Nguyện vọng ngày không thể dạy là ràng buộc cứng; ưu tiên hoặc tránh khung giờ là nguyện vọng mềm. Kết quả dùng nguyện vọng hiện đang lưu; nếu nguyện vọng được gửi sau lần xếp lịch, hãy chạy lại để bộ giải áp dụng. Đây chưa phải đánh giá theo quy định nội bộ SGU.</p>
+{% if selected_run and selected_run.preferences_captured_at %}<p class="hint">Ảnh chụp nguyện vọng dùng khi xếp lịch: {{ selected_run.preferences_captured_at|date:'d/m/Y H:i:s' }}. Có khi chạy, chưa sửa: {{ preference_report.snapshot_totals.unchanged }}; gửi sau: {{ preference_report.snapshot_totals.added }}; sửa sau: {{ preference_report.snapshot_totals.changed }}; xóa sau: {{ preference_report.snapshot_totals.removed }}.</p>
+{% elif selected_run %}<p class="hint">Lần chạy này chưa có ảnh chụp nguyện vọng; không thể xác định nguyện vọng được gửi hoặc sửa sau khi chạy.</p>{% endif %}
+<div class="pref-summary"><span>Đáp ứng: {{ preference_report.totals.met }}</span><span>Một phần: {{ preference_report.totals.partial }}</span><span>Chưa đáp ứng: {{ preference_report.totals.unmet }}</span><span>Chưa đánh giá: {{ preference_report.totals.unassessed }}</span></div>
+{% if preference_report.totals.hard_unmet %}<p class="error">Có {{ preference_report.totals.hard_unmet }} nguyện vọng ngày không thể dạy bị trùng lịch trong phạm vi đang xem. Hãy rà soát và xếp lại trước khi duyệt.</p>{% endif %}
+{% if preference_report.violations %}<p><strong>Các buổi cần sửa:</strong>
+{% for entry in preference_report.violations %}<a href="{% url 'edit_schedule' entry.pk %}">#{{ entry.pk }} ({{ entry.group.course.code }}/{{ entry.group.group }}, {{ entry.lecturer.name }}, thứ {{ entry.day }})</a>{% if not forloop.last %}; {% endif %}{% endfor %}</p>{% endif %}
+<div class="table-wrap"><table><thead><tr><th>Giảng viên</th><th>Nguyện vọng</th><th>Mức ưu tiên</th>{% if preference_report.snapshot_totals %}<th>So với lúc chạy</th>{% endif %}<th>Kết quả</th><th>Cơ sở đánh giá</th></tr></thead><tbody>
+{% for row in preference_report.rows %}<tr><td>{{ row.preference.lecturer.employee_code }}<br>{{ row.preference.lecturer.name }}</td><td>{{ row.rule }}{% if row.preference.note %}<br>{{ row.preference.note }}{% endif %}</td><td>{{ row.priority_label }}</td>{% if preference_report.snapshot_totals %}<td>{{ row.snapshot_label }}</td>{% endif %}<td><span class="pref-status {{ row.status }}">{{ row.status_label }}</span></td><td>{{ row.detail }}</td></tr>{% empty %}<tr><td colspan="{% if preference_report.snapshot_totals %}6{% else %}5{% endif %}">Chưa có nguyện vọng nào được gửi cho học kỳ này.</td></tr>{% endfor %}
+</tbody></table></div>
+{% if preference_report.removed_preferences %}<p><strong>Nguyện vọng đã xóa sau lần chạy:</strong>
+{% for item in preference_report.removed_preferences %}{{ item.employee_code }} – {{ item.lecturer_name }} ({{ item.kind }}{% if item.day %}, thứ {{ item.day }}{% endif %}{% if item.time_block %}, {{ item.time_block }}{% endif %}){% if not forloop.last %}; {% endif %}{% endfor %}</p>{% endif %}</section>
+<form method="post" class="approve">{% csrf_token %}<input type="hidden" name="action" value="approve"><input type="hidden" name="semester" value="{{ selected_semester.pk }}">
+<div class="table-wrap"><table><thead><tr><th>Chọn</th><th>Môn học</th><th>Nhóm / Tổ TH</th><th>Giảng viên</th><th>Phòng / địa điểm</th><th>Thứ</th><th>Tiết</th><th>Tuần</th><th>Trạng thái</th><th>Người duyệt</th><th>Thao tác</th></tr></thead><tbody>
+{% for entry in page %}<tr>
+<td>{% if entry.status == 'ChoDuyet' and selected_semester.status != 'DaKhoa' %}<input type="checkbox" name="entry_ids" value="{{ entry.pk }}" aria-label="Chọn buổi {{ entry.pk }}">{% endif %}</td>
+<td>{{ entry.group.course.code }}<br>{{ entry.group.course.name }}</td><td>{{ entry.group.group }}{% if entry.group.lab_group %} / {{ entry.group.lab_group }}{% endif %}</td>
+<td>{{ entry.lecturer.employee_code|default:'—' }}<br>{{ entry.lecturer.name|default:'Chưa phân công' }}</td>
+<td>{% if entry.room %}{{ entry.room.code }}{% else %}{{ entry.other_location|default:'—' }}{% endif %}</td><td>{{ entry.day }}</td><td>Tiết {{ entry.start_period_id }} ({{ entry.period_count }} tiết)</td>
+<td>{% for item in entry.schedule_weeks.all %}{{ item.week }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+<td>{% if entry.status == 'DaDuyet' %}Đã duyệt{% else %}Chờ duyệt{% endif %}</td>
+<td>{% if entry.approved_by %}{{ entry.approved_by.username }}<br>{{ entry.approved_at|date:'d/m/Y H:i' }}{% else %}—{% endif %}</td>
+<td>{% if selected_semester.status != 'DaKhoa' %}<a href="{% url 'edit_schedule' entry.pk %}">Sửa</a>{% else %}—{% endif %}</td>
+</tr>{% empty %}<tr><td colspan="11">Không có buổi học phù hợp.</td></tr>{% endfor %}
+</tbody></table></div>
+<p><button type="submit" {% if selected_semester.status == 'DaKhoa' %}disabled{% endif %}>Duyệt các buổi đã chọn trên trang này</button></p></form>
+<div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
+{% endif %}
+</main></body></html>

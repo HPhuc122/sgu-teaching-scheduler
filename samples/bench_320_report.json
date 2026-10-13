@@ -1,0 +1,15 @@
+{
+  "semester": "HK test 2026-2027",
+  "expected_sessions": 320,
+  "run_id": 1,
+  "status": "HEURISTIC",
+  "scheduled_sessions": 320,
+  "objective_before": 320,
+  "objective_after": 320,
+  "diagnostic_rows": 0,
+  "enqueue_seconds": 0.077,
+  "worker_seconds": 43.694,
+  "approval_seconds": 7.339,
+  "export_rows": 320,
+  "message": ""
+}

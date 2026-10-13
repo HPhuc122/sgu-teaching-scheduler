@@ -1,0 +1,15 @@
+{
+  "semester": "TEST_1000_constrained_seed42",
+  "expected_sessions": 1000,
+  "run_id": 1,
+  "status": "HEURISTIC",
+  "scheduled_sessions": 1000,
+  "objective_before": 1000,
+  "objective_after": 1000,
+  "diagnostic_rows": 0,
+  "enqueue_seconds": 0.185,
+  "worker_seconds": 5.232,
+  "approval_seconds": 0.311,
+  "export_rows": 1000,
+  "message": ""
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Đăng nhập lịch giảng dạy SGU</title>
+  <style>
+    body{font-family:system-ui,sans-serif;background:#f5f7fb;color:#17233d;min-height:100vh;display:grid;place-items:center;margin:0}
+    main{background:white;border:1px solid #dce3ef;border-radius:12px;padding:32px;width:min(400px,calc(100vw - 40px));box-sizing:border-box;box-shadow:0 8px 30px #1020430d}
+    h1{font-size:24px;margin:0 0 8px} p{color:#526174;line-height:1.5}
+    label{display:block;font-weight:600;margin:18px 0 6px} input{width:100%;box-sizing:border-box;padding:11px;border:1px solid #aebbd0;border-radius:7px;font:inherit}
+    button{width:100%;margin-top:24px;background:#164b8b;color:white;border:0;border-radius:7px;padding:12px;font:inherit;font-weight:600;cursor:pointer}
+    .error{color:#a12626;background:#fff3f3;padding:10px;border-radius:6px}
+  </style>
+</head>
+<body><main>
+  <h1>Lịch giảng dạy SGU</h1>
+  <p>Đăng nhập để xem lịch dạy và gửi nguyện vọng xếp lịch.</p>
+  {% if form.errors %}<p class="error">Tên đăng nhập hoặc mật khẩu không đúng.</p>{% endif %}
+  <form method="post">{% csrf_token %}
+    <label for="id_username">Tên đăng nhập</label>{{ form.username }}
+    <label for="id_password">Mật khẩu</label>{{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit">Đăng nhập</button>
+  </form>
+</main></body>
+</html>

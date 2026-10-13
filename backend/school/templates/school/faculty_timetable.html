@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Thời khóa biểu giảng viên theo khoa</title>
+<style>
+body{font:16px/1.45 system-ui,sans-serif;max-width:1500px;margin:2rem auto;padding:0 1rem;color:#183047;background:#f5f8fb}
+main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #172f4212}h1{margin-top:0}
+form{display:flex;flex-wrap:wrap;gap:.8rem;align-items:end;margin:1rem 0}label{display:block;font-weight:600}select,button{font:inherit;padding:.5rem}
+button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1000px;font-size:.88rem}
+th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top;width:13%}th{background:#e9f2f7}th:first-child,td:first-child{width:9%;white-space:nowrap}
+.slot{background:#e8f3fa;border-left:3px solid #145e83;padding:.35rem;margin:.15rem 0;border-radius:3px}.continued{background:#f2f7fa;color:#52677a;border-left-color:#9cb5c4}
+.hint{color:#52677a}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}.pages{display:flex;gap:1rem;margin:1rem 0}a{color:#145e83}
+</style></head><body><main>
+<p><a href="/admin/">← Quản trị</a></p><h1>Thời khóa biểu giảng viên theo khoa</h1>
+<p class="hint">Hiển thị lịch đã duyệt theo khoa quản lý giảng viên và tuần học được chọn.</p>
+{% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
+<form method="get">
+<div><label for="semester">Học kỳ</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>{% for item in semesters %}<option value="{{ item.pk }}" {% if selected_semester.pk == item.pk %}selected{% endif %}>{{ item.name }} ({{ item.academic_year }})</option>{% endfor %}</select></div>
+<div><label for="faculty">Khoa</label><select id="faculty" name="faculty" required><option value="">Chọn khoa</option>{% for item in faculties %}<option value="{{ item.pk }}" {% if selected_faculty.pk == item.pk %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></div>
+<div><label for="week">Tuần</label><select id="week" name="week">{% for item in weeks %}<option value="{{ item }}" {% if week == item %}selected{% endif %}>Tuần {{ item }}</option>{% endfor %}</select></div>
+<div><label for="lecturer">Giảng viên</label><select id="lecturer" name="lecturer"><option value="">Tất cả</option>{% for item in lecturers %}<option value="{{ item.pk }}" {% if lecturer_id == item.pk|stringformat:'s' %}selected{% endif %}>{{ item.employee_code|default:'—' }} · {{ item.name }}</option>{% endfor %}</select></div>
+<button type="submit">Xem lịch</button></form>
+{% if selected_semester and selected_faculty and not errors %}
+<p><strong>{{ page.paginator.count }}</strong> giảng viên · Tuần {{ week }} · Tối đa 10 giảng viên mỗi trang.</p>
+{% for block in timetable %}<section><h2>{{ block.lecturer.name }} <small class="hint">({{ block.lecturer.employee_code|default:'chưa có mã' }})</small></h2>
+<div class="table-wrap"><table><thead><tr><th>Tiết</th>{% for day, label in days %}<th>{{ label }}</th>{% endfor %}</tr></thead><tbody>
+{% for row in block.rows %}<tr><th>Tiết {{ row.period.pk }}<br><small>{{ row.period.start_time|time:'H:i' }}–{{ row.period.end_time|time:'H:i' }}</small></th>
+{% for cell in row.cells %}<td>{% for slot in cell %}<div class="slot{% if not slot.is_start %} continued{% endif %}">
+{% if slot.is_start %}<strong>{{ slot.entry.group.course.code }} · {{ slot.entry.group.course.name }}</strong><br>Nhóm {{ slot.entry.group.group }}{% if slot.entry.group.lab_group %} / {{ slot.entry.group.lab_group }}{% endif %}<br>
+{{ slot.entry.period_count }} tiết · {% if slot.entry.room %}{{ slot.entry.room.code }}{% else %}{{ slot.entry.other_location|default:'Chưa có địa điểm' }}{% endif %}<br>
+<a href="{% url 'edit_schedule' slot.entry.pk %}">Xem buổi dạy</a>
+{% else %}Tiếp: {{ slot.entry.group.course.code }}{% endif %}</div>{% endfor %}</td>{% endfor %}</tr>{% empty %}<tr><td colspan="8">Chưa cấu hình tiết học.</td></tr>{% endfor %}
+</tbody></table></div></section>{% empty %}<p>Chưa có giảng viên trong khoa này.</p>{% endfor %}
+<div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
+{% endif %}
+</main></body></html>

@@ -1,0 +1,15 @@
+{
+  "semester": "TEST_1000_infeasible_seed42",
+  "expected_sessions": 1000,
+  "run_id": 1,
+  "status": "INFEASIBLE",
+  "scheduled_sessions": 0,
+  "objective_before": null,
+  "objective_after": null,
+  "diagnostic_rows": 1000,
+  "enqueue_seconds": 0.2,
+  "worker_seconds": 12.876,
+  "approval_seconds": null,
+  "export_rows": 0,
+  "message": "Không có phương án thỏa đồng thời các ràng buộc với nguồn lực hiện có"
+}

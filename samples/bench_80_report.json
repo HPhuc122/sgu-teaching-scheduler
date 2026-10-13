@@ -1,0 +1,15 @@
+{
+  "semester": "HK test 2026-2027",
+  "expected_sessions": 80,
+  "run_id": 1,
+  "status": "OPTIMAL",
+  "scheduled_sessions": 80,
+  "objective_before": 80,
+  "objective_after": 80,
+  "diagnostic_rows": 0,
+  "enqueue_seconds": 0.039,
+  "worker_seconds": 12.159,
+  "approval_seconds": 0.928,
+  "export_rows": 80,
+  "message": ""
+}

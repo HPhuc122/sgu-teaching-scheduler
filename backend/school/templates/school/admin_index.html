@@ -1,0 +1,18 @@
+{% extends "admin/index.html" %}
+{% block content %}
+<div class="module" style="padding:1rem;margin-bottom:1rem">
+  <h2>Xếp lịch tự động</h2>
+  <p><a href="{% url 'auto_schedule' %}">Tải ba file Excel và chạy xếp lịch cho học kỳ</a></p>
+  <h2>Nhập danh mục từ Excel</h2>
+  <p><a href="{% url 'import_catalog' 'courses' %}">Học phần và nhóm học phần</a> · <a href="{% url 'import_catalog' 'rooms' %}">Phòng học</a> · <a href="{% url 'import_catalog' 'lecturers' %}">Giảng viên</a></p>
+  <h2>Nhập lịch giảng dạy</h2>
+  <p><a href="{% url 'import_schedule' %}">Chọn học kỳ và nhập file Excel</a></p>
+  <h2>Rà soát lịch</h2>
+  <p><a href="{% url 'review_schedules' %}">Xem, sửa và duyệt lịch theo học kỳ</a></p>
+  <h2>Xuất phân công giảng dạy</h2>
+  <p><a href="{% url 'export_assignments' %}">Chọn học kỳ, khoa và tải Excel lịch đã duyệt</a></p>
+  <h2>Thời khóa biểu giảng viên theo khoa</h2>
+  <p><a href="{% url 'faculty_timetable' %}">Xem lịch theo học kỳ, khoa và tuần</a></p>
+</div>
+{{ block.super }}
+{% endblock %}

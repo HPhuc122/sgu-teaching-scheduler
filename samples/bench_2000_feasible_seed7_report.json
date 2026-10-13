@@ -1,0 +1,15 @@
+{
+  "semester": "TEST_2000_feasible_seed7",
+  "expected_sessions": 2000,
+  "run_id": 1,
+  "status": "HEURISTIC",
+  "scheduled_sessions": 2000,
+  "objective_before": 2000,
+  "objective_after": 2000,
+  "diagnostic_rows": 0,
+  "enqueue_seconds": 0.361,
+  "worker_seconds": 10.968,
+  "approval_seconds": 0.669,
+  "export_rows": 2000,
+  "message": ""
+}

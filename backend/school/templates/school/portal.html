@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thời khóa biểu giảng viên</title>
+  <style>
+    :root{font-family:system-ui,sans-serif;color:#17233d;background:#f5f7fb}*{box-sizing:border-box}body{margin:0}
+    header{background:#133c70;color:white;padding:18px max(24px,calc((100vw - 1100px)/2))}header strong{font-size:19px}
+    header form{float:right}header button{background:transparent;border:1px solid #acc5e3;color:white;padding:6px 12px;border-radius:6px;cursor:pointer}
+    main{max-width:1100px;margin:28px auto;padding:0 20px}h1{font-size:28px;margin:0 0 8px}h2{font-size:20px;margin:0 0 18px}
+    .sub{color:#526174;margin:0 0 24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    section{background:white;border:1px solid #dce3ef;border-radius:10px;padding:22px;margin-bottom:20px}
+    label{display:block;font-weight:600;margin:12px 0 5px}input,select{font:inherit;padding:9px;border:1px solid #aebbd0;border-radius:6px;max-width:100%;width:100%}
+    button.primary{background:#164b8b;color:white;border:0;border-radius:6px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer;margin-top:16px}
+    table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #e4e9f1;vertical-align:top}th{background:#edf2f8;font-size:13px}
+    .table-wrap{overflow-x:auto}.muted{color:#637186}.message{padding:10px 13px;border-radius:6px;background:#e9f4eb;margin-bottom:16px}
+    ul{padding-left:20px;line-height:1.7}@media(max-width:750px){.grid{grid-template-columns:1fr}header{padding:16px 20px}}
+  </style>
+</head>
+<body>
+<header><strong>Quản lý giảng dạy SGU</strong><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button>Đăng xuất</button></form></header>
+<main>
+  <h1>Thời khóa biểu của tôi</h1>
+  <p class="sub">{{ lecturer.name }} · Mã viên chức {{ lecturer.employee_code|default:"Chưa có" }} · {{ lecturer.department.name }} · {{ lecturer.email }}</p>
+  {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+  <section>
+    <form method="get"><label for="semester">Học kỳ</label><select id="semester" name="semester" onchange="this.form.submit()">
+      {% for semester in semesters %}<option value="{{ semester.id }}" {% if selected_semester == semester.id|stringformat:"s" %}selected{% endif %}>{{ semester.name }}</option>{% endfor %}
+    </select></form>
+  </section>
+  <section><h2>Lịch dạy đã duyệt</h2><div class="table-wrap"><table>
+    <thead><tr><th>Học phần</th><th>Nhóm / Tổ TH</th><th>Thứ</th><th>Tiết BĐ</th><th>Số tiết</th><th>Phòng</th><th>Tuần học</th></tr></thead>
+    <tbody>{% for entry in entries %}<tr>
+      <td>{{ entry.group.course.code }} · {{ entry.group.course.name }}</td><td>{{ entry.group.group }}{% if entry.group.lab_group %} / {{ entry.group.lab_group }}{% endif %}</td>
+      <td>{{ entry.day }}</td><td>{{ entry.start_period_id }}</td><td>{{ entry.period_count }}</td>
+      <td>{% if entry.room %}{{ entry.room.code }}{% else %}{{ entry.other_location|default:"—" }}{% endif %}</td>
+      <td>{% for item in entry.schedule_weeks.all %}{{ item.week }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+    </tr>{% empty %}<tr><td colspan="7" class="muted">Chưa có lịch đã duyệt trong học kỳ này.</td></tr>{% endfor %}</tbody>
+  </table></div></section>
+  <div class="grid">
+    <section><h2>Gửi nguyện vọng xếp lịch</h2><form method="post" action="{% url 'submit_preference' %}">{% csrf_token %}
+      {% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% endfor %}
+      <button class="primary" type="submit">Gửi nguyện vọng</button>
+    </form></section>
+    <section><h2>Nguyện vọng đã gửi</h2><ul>{% for item in preferences %}<li>{{ item.get_kind_display|default:item.kind }}{% if item.day %} · Thứ {{ item.day }}{% endif %}{% if item.time_block %} · {{ item.time_block }}{% endif %}{% if item.note %} · {{ item.note }}{% endif %}</li>{% empty %}<li class="muted">Chưa có nguyện vọng cho học kỳ này.</li>{% endfor %}</ul></section>
+  </div>
+</main></body></html>
