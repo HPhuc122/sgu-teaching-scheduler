@@ -1,0 +1,4724 @@
+{
+  "dataset": "SGU public timetable derived demo",
+  "semester": "SGU DEMO 15 khoa - BO_02",
+  "public_source_page": "https://daotao.sgu.edu.vn/index.php/thong-bao/so-tay-dang-ki-mon-hoc/so-tay-dang-ki-mon-hoc-hk1-nh-2026-2027",
+  "faculty_source_page": "https://www.sgu.edu.vn/danh-sach-cac-don-vi/",
+  "selected_programs": [
+    "DAN",
+    "DCM",
+    "DCT",
+    "DCV",
+    "DDE",
+    "DDH",
+    "DDI",
+    "DDL",
+    "DDU",
+    "DDV",
+    "DGD",
+    "DGM",
+    "DGT",
+    "DHA",
+    "DHO",
+    "DKD",
+    "DKE",
+    "DKH",
+    "DKI",
+    "DKM",
+    "DKP",
+    "DKQ",
+    "DLD",
+    "DLI",
+    "DLS",
+    "DLU",
+    "DMI",
+    "DNH",
+    "DNT",
+    "DQG",
+    "DQK",
+    "DQT",
+    "DQV",
+    "DSA",
+    "DSI",
+    "DSU",
+    "DTL",
+    "DTN",
+    "DTO",
+    "DTT",
+    "DTU",
+    "DVA",
+    "DVI",
+    "TKB_MONCHUNG"
+  ],
+  "raw_rows": 4471,
+  "usable_distinct_sessions": 480,
+  "sampling": {
+    "max_sessions": 480,
+    "seed": 42
+  },
+  "excluded_or_duplicate_rows": 3991,
+  "counts": {
+    "courses": {
+      "Khoa": 15,
+      "BoMon": 15,
+      "ChuongTrinh": 43,
+      "HocPhan": 278,
+      "HocPhanChuongTrinh": 426,
+      "NhomHocPhan": 454,
+      "BuoiHocYeuCau": 480
+    },
+    "rooms": {
+      "PhongHoc": 176,
+      "PhongKhongKhaDung": 0
+    },
+    "lecturers": {
+      "GiangVien": 273,
+      "GiangVienHocPhan": 386,
+      "GiangVienKhongKhaDung": 0
+    }
+  },
+  "source_files": {
+    "DAN": {
+      "code": "DAN",
+      "name": "Ngôn ngữ Anh",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DAN.pdf",
+      "sha256": "c83c85f922d58a6922c1850380a870ca984049e66c687ef110ab0565e994215c",
+      "bytes": 212111
+    },
+    "DCM": {
+      "code": "DCM",
+      "name": "Công nghệ Kĩ thuật Môi trường",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DCM.pdf",
+      "sha256": "de00db0ffc238fdfb6d18564d9fae109d1f96f65f979ffee9810f93e90e2512c",
+      "bytes": 184816
+    },
+    "DCT": {
+      "code": "DCT",
+      "name": "Công nghệ thông tin",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DCT.pdf",
+      "sha256": "c69d3f9f4177ea8ff6d82b8d36e97115181c9c3b09df3680903cdc6c73b096ef",
+      "bytes": 227083
+    },
+    "DCV": {
+      "code": "DCV",
+      "name": "Công nghệ kỹ thuật điện tử – viễn thông",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DCV.pdf",
+      "sha256": "f0b7ee2394b8caeaf83a272623c1ba27e12070017ed2d9e53d2b73283cae9ea7",
+      "bytes": 191971
+    },
+    "DDE": {
+      "code": "DDE",
+      "name": "Kỹ thuật điện",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DDE.pdf",
+      "sha256": "f3652455c6bc3ef722da32e8faaccd8e307abc2bdbcd193027b08a2332825cf0",
+      "bytes": 188655
+    },
+    "DDH": {
+      "code": "DDH",
+      "name": "Địa lý học",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DDH.pdf",
+      "sha256": "07b9bddef56de6c808f7fb33c877f281768783ee3596d82d17c6b5639a0ee57a",
+      "bytes": 168487
+    },
+    "DDI": {
+      "code": "DDI",
+      "name": "Sư phạm Địa lý",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DDI.pdf",
+      "sha256": "ed1ebcaa50055c9234b6d16a8ed53d39450a53144b77641d137be6490f6cdb45",
+      "bytes": 181673
+    },
+    "DDL": {
+      "code": "DDL",
+      "name": "Du lịch",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DDL.pdf",
+      "sha256": "c73ce7bfdaa336a213723682e3ea927bc6706d36cff7bba4dbde393fb779b1e5",
+      "bytes": 189121
+    },
+    "DDU": {
+      "code": "DDU",
+      "name": "Khoa học dữ liệu",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DDU.pdf",
+      "sha256": "c2c7053fa202075da130d6a6ea50f8900721e4fe588322d7aee371648b28bf17",
+      "bytes": 342482
+    },
+    "DDV": {
+      "code": "DDV",
+      "name": "Kỹ thuật điện tử – viễn thông",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DDV.pdf",
+      "sha256": "62914ff9bb6d7c1db2296aa880b5b1d04575817beedf6a147fe31ab15f4ce8e4",
+      "bytes": 190335
+    },
+    "DGD": {
+      "code": "DGD",
+      "name": "Giáo dục chính trị",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DGD.pdf",
+      "sha256": "9a92b8e780cbaffdc2bd5381f3877eace01e4fde3e9cfd38e5b060d309ec4641",
+      "bytes": 177737
+    },
+    "DGM": {
+      "code": "DGM",
+      "name": "Giáo dục Mầm non",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DGM.pdf",
+      "sha256": "55f0bfc571f6284dc23e81a88e3733ccda847cedc2a79f26b83ac069f3de9318",
+      "bytes": 219264
+    },
+    "DGT": {
+      "code": "DGT",
+      "name": "Giáo dục Tiểu học",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DGT.pdf",
+      "sha256": "705c026f714c885db5776ea07cb3a4db9b646c31e977734f82c0b3e5cf0d0d42",
+      "bytes": 219039
+    },
+    "DHA": {
+      "code": "DHA",
+      "name": "Quản trị nhà hàng và dịch vụ ăn uống",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DHA.pdf",
+      "sha256": "5c7c3116118faa64f0b900389265f4354f990378a512740ac5197b05ca8f759d",
+      "bytes": 184738
+    },
+    "DHO": {
+      "code": "DHO",
+      "name": "Sư phạm Hóa",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DHO.pdf",
+      "sha256": "546d16525c41c5ecec72deb1b003fe2f52152268e6731bd3c6267fbcab7348e0",
+      "bytes": 363023
+    },
+    "DKD": {
+      "code": "DKD",
+      "name": "Công nghệ kĩ thuật điện, điện tử",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKD.pdf",
+      "sha256": "cd9cf94cc00a29e82396ffba6ca3cc9ff92bf01084a6bc544f86cf9db73bd255",
+      "bytes": 192491
+    },
+    "DKE": {
+      "code": "DKE",
+      "name": "Kế toán",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKE.pdf",
+      "sha256": "6a55bdd396efb7ffba3563870ddc6e3441dfcdd1bd5b0e7a35f745df19bef9c6",
+      "bytes": 374696
+    },
+    "DKH": {
+      "code": "DKH",
+      "name": "Sư phạm Khoa học tự nhiên",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKH.pdf",
+      "sha256": "e8e27fb5f89d7cfd92d8e4d11183eb0a4c8807048be43d1cce32cdd6ec38e2f3",
+      "bytes": 367739
+    },
+    "DKI": {
+      "code": "DKI",
+      "name": "Kiểm toán",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKI.pdf",
+      "sha256": "e148ba84527a59ad179bfa30658ffff1908defa940d2115edf642814ec285bb4",
+      "bytes": 329191
+    },
+    "DKM": {
+      "code": "DKM",
+      "name": "Khoa học môi trường",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKM.pdf",
+      "sha256": "624b58d9bc46e796eaf2f7cd0457e6c269d759168b944462f63b57a1ab996924",
+      "bytes": 182681
+    },
+    "DKP": {
+      "code": "DKP",
+      "name": "Kỹ thuật phần mềm",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKP.pdf",
+      "sha256": "c69d3f9f4177ea8ff6d82b8d36e97115181c9c3b09df3680903cdc6c73b096ef",
+      "bytes": 227083
+    },
+    "DKQ": {
+      "code": "DKQ",
+      "name": "Kinh doanh quốc tế",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DKQ.pdf",
+      "sha256": "0014537d3486112ba7bd03b40df47c47482765a552c3045db4f229cb2f5c8860",
+      "bytes": 196252
+    },
+    "DLD": {
+      "code": "DLD",
+      "name": "Sư phạm Lịch sử – Địa lý",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DLD.pdf",
+      "sha256": "92bb8d88038df2414de0f73971ce3d293586ae3f66f51b54ceb90103b3d715b5",
+      "bytes": 182162
+    },
+    "DLI": {
+      "code": "DLI",
+      "name": "Sư phạm Vật lí",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DLI.pdf",
+      "sha256": "5b67cb1847ff4ffba7b447345fbb735217ffda51f3442dbdc56f944a143cb376",
+      "bytes": 364689
+    },
+    "DLS": {
+      "code": "DLS",
+      "name": "Lịch sử",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DLS.pdf",
+      "sha256": "b7ff62cdf944b2dcca2d274f0cd363c0ffa56fe3e5e71a60b2fb598f4f403e77",
+      "bytes": 169598
+    },
+    "DLU": {
+      "code": "DLU",
+      "name": "Luật",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DLU.pdf",
+      "sha256": "cb3999701a79b1f9baa464e727f15cc05f71ddb1454d3c8e0a9569d4bd797825",
+      "bytes": 189412
+    },
+    "DMI": {
+      "code": "DMI",
+      "name": "Sư phạm Mỹ thuật",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DMI.pdf",
+      "sha256": "4745c163804fac4babbbe17f143d8dbeb3304ec705cf6fab7f0f04e6fa9f2d1d",
+      "bytes": 186387
+    },
+    "DNH": {
+      "code": "DNH",
+      "name": "Sư phạm Âm nhạc",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DNH.pdf",
+      "sha256": "406e500619408bc721a3375dae465421199a6d7011a53689fb7e008072e1791c",
+      "bytes": 211397
+    },
+    "DNT": {
+      "code": "DNT",
+      "name": "Trí tuệ nhân tạo",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DNT.pdf",
+      "sha256": "c69d3f9f4177ea8ff6d82b8d36e97115181c9c3b09df3680903cdc6c73b096ef",
+      "bytes": 227083
+    },
+    "DQG": {
+      "code": "DQG",
+      "name": "Quản lý Giáo dục",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DQG.pdf",
+      "sha256": "59c6d3d9398f9572a5d8f069736747ebab4ad2568b815ec9e14d1199deb42ddc",
+      "bytes": 202439
+    },
+    "DQK": {
+      "code": "DQK",
+      "name": "Quản trị kinh doanh",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DQK.pdf",
+      "sha256": "0cf5b25c7d2f6bc626306d0c87d237c2cef68c0d538d69496737264d590d0337",
+      "bytes": 275346
+    },
+    "DQT": {
+      "code": "DQT",
+      "name": "Quốc tế học",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DQT.pdf",
+      "sha256": "6ef1ea991d0a78e58c308595aea05b2cd583964321735ef96d0b37ce4111e77e",
+      "bytes": 183322
+    },
+    "DQV": {
+      "code": "DQV",
+      "name": "Quản trị văn phòng",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DQV.pdf",
+      "sha256": "512da7aba8cc2eb3e78e7feca829792985501b0e7524fd3b45b72f19d1d20131",
+      "bytes": 178937
+    },
+    "DSA": {
+      "code": "DSA",
+      "name": "Sư phạm Tiếng Anh",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DSA.pdf",
+      "sha256": "759e7900c0ded272e830d756468d9b4d3c174fbaf04a44bcdf1b6cfe4f35497f",
+      "bytes": 210583
+    },
+    "DSI": {
+      "code": "DSI",
+      "name": "Sư phạm Sinh học",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DSI.pdf",
+      "sha256": "b47f4e3a7d2b29c36bb653aa4c706b5fcbcb186253ccc0a6fb88fde01f5adbed",
+      "bytes": 364631
+    },
+    "DSU": {
+      "code": "DSU",
+      "name": "Sư phạm Lịch sử",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DSU.pdf",
+      "sha256": "93b102f90cfd8fab59e5c3b0eb0e2b605eb82adee4a5955a98795cf15c79355b",
+      "bytes": 179718
+    },
+    "DTL": {
+      "code": "DTL",
+      "name": "Tâm lí học",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DTL.pdf",
+      "sha256": "c8a6167a8e1d817904784d1dfe262c888b81441884a54935d6eb0c583292745f",
+      "bytes": 185009
+    },
+    "DTN": {
+      "code": "DTN",
+      "name": "Tài chính – Ngân hàng",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DTN.pdf",
+      "sha256": "6be52fd6b1d4876dcbe989a9d06b2763fcb6a1259fa1741b83dcb539d51a3bb4",
+      "bytes": 527082
+    },
+    "DTO": {
+      "code": "DTO",
+      "name": "Sư phạm Toán",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DTO.pdf",
+      "sha256": "fcf675b32bf176652b6286cf40ec9f1a0e448950e040f275f1a8010675e47504",
+      "bytes": 365150
+    },
+    "DTT": {
+      "code": "DTT",
+      "name": "Khoa học Thư viện (Thông tin – Thư viện)",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DTT.pdf",
+      "sha256": "96d53c3eb0072bc8d5f7f87974aee2f1225de1ecaa0ebb1fe677aab0902c25a9",
+      "bytes": 177852
+    },
+    "DTU": {
+      "code": "DTU",
+      "name": "Toán ứng dụng",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DTU.pdf",
+      "sha256": "34c7bff389732c11da281e507072cc08851643174e244d8244ad0545a3fc5924",
+      "bytes": 350204
+    },
+    "DVA": {
+      "code": "DVA",
+      "name": "Sư phạm Ngữ văn",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DVA.pdf",
+      "sha256": "9c75e6762ecd6f1bc670bbd750dd044fc36f2038a3fd10fe2c1ba91e7eb13d4d",
+      "bytes": 177634
+    },
+    "DVI": {
+      "code": "DVI",
+      "name": "Việt Nam học",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/DVI.pdf",
+      "sha256": "6d4397313ed76f40b5708682e1367fa3397cea964ebd0cdae617bc97ab45453a",
+      "bytes": 189782
+    },
+    "TKB_MONCHUNG": {
+      "code": "TKB_MONCHUNG",
+      "name": "TẢI VỀ",
+      "url": "https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/261/TKB_monchung.pdf",
+      "sha256": "efe89c4c5f9401ec6530d732f5830f416bf588e05541b5eb166ece140a455a87",
+      "bytes": 686565
+    }
+  },
+  "source_rows": [
+    {
+      "course": "864007",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 8,
+      "stt": 206,
+      "class_printed": "DCT1262",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "862409",
+      "group": "33",
+      "source_pdf": "DQG.pdf",
+      "page": 2,
+      "stt": 45,
+      "class_printed": "DQG1231",
+      "weeks_printed": "-2----------------"
+    },
+    {
+      "course": "820347",
+      "group": "01",
+      "source_pdf": "DGD.pdf",
+      "page": 1,
+      "stt": 8,
+      "class_printed": "DGD1251",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "819020",
+      "group": "02",
+      "source_pdf": "DGM.pdf",
+      "page": 1,
+      "stt": 2,
+      "class_printed": "DGM1261",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "862101",
+      "group": "37",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 13,
+      "stt": 134,
+      "class_printed": "SGU_DEMO_CHUNG_862101_37",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "815504",
+      "group": "03",
+      "source_pdf": "DGT.pdf",
+      "page": 4,
+      "stt": 79,
+      "class_printed": "DGT1241",
+      "weeks_printed": "1-34567890--------"
+    },
+    {
+      "course": "809404",
+      "group": "01",
+      "source_pdf": "DVA.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DVA1231",
+      "weeks_printed": "1-34567890--------"
+    },
+    {
+      "course": "850016",
+      "group": "02",
+      "source_pdf": "DDV.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DDV1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "843070",
+      "group": "01",
+      "source_pdf": "DLU.pdf",
+      "page": 1,
+      "stt": 21,
+      "class_printed": "DLU1261",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "813404",
+      "group": "09",
+      "source_pdf": "DSA.pdf",
+      "page": 1,
+      "stt": 22,
+      "class_printed": "DSA1262",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833403",
+      "group": "02",
+      "source_pdf": "DQK.pdf",
+      "page": 4,
+      "stt": 92,
+      "class_printed": "DQK1232",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "802135",
+      "group": "03",
+      "source_pdf": "DLI.pdf",
+      "page": 1,
+      "stt": 8,
+      "class_printed": "DLI1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832050",
+      "group": "02",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 24,
+      "class_printed": "DKE1252",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "862409",
+      "group": "29",
+      "source_pdf": "DTO.pdf",
+      "page": 2,
+      "stt": 49,
+      "class_printed": "DTO1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "833075",
+      "group": "03",
+      "source_pdf": "DHA.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DHA1231",
+      "weeks_printed": "--3456789012------"
+    },
+    {
+      "course": "832050",
+      "group": "01",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 21,
+      "class_printed": "DKE1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "815095",
+      "group": "01",
+      "source_pdf": "DGT.pdf",
+      "page": 2,
+      "stt": 27,
+      "class_printed": "DGT1261",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "862409",
+      "group": "02",
+      "source_pdf": "DQK.pdf",
+      "page": 15,
+      "stt": 199,
+      "class_printed": "DQK1245,DQ K1242,DQK12 41,DQK1244, DQK1246,DQ K1243",
+      "weeks_printed": "----5-------------"
+    },
+    {
+      "course": "806060",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DSI1261",
+      "weeks_printed": "1234567-----------"
+    },
+    {
+      "course": "866402",
+      "group": "20",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 80,
+      "stt": 484,
+      "class_printed": "SGU_DEMO_CHUNG_866402_20",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862409",
+      "group": "43",
+      "source_pdf": "DSA.pdf",
+      "page": 6,
+      "stt": 116,
+      "class_printed": "DSA1231,DS A1232",
+      "weeks_printed": "--3---------------"
+    },
+    {
+      "course": "838074",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 86,
+      "class_printed": "DAN1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "867002",
+      "group": "06",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 86,
+      "stt": 527,
+      "class_printed": "SGU_DEMO_CHUNG_867002_06",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850436",
+      "group": "01",
+      "source_pdf": "DDV.pdf",
+      "page": 2,
+      "stt": 39,
+      "class_printed": "DDV1221",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "836507",
+      "group": "01",
+      "source_pdf": "DQV.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DQV1251",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "835114",
+      "group": "02",
+      "source_pdf": "DVI.pdf",
+      "page": 1,
+      "stt": 24,
+      "class_printed": "DVI1231",
+      "weeks_printed": "-----------2345---"
+    },
+    {
+      "course": "832061",
+      "group": "05",
+      "source_pdf": "DTN.pdf",
+      "page": 2,
+      "stt": 37,
+      "class_printed": "DTN1253",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862409",
+      "group": "01",
+      "source_pdf": "DQK.pdf",
+      "page": 12,
+      "stt": 180,
+      "class_printed": "DQK1245,DQ K1242,DQK12 41,DQK1244, DQK1246,DQ K1243",
+      "weeks_printed": "-----6------------"
+    },
+    {
+      "course": "832055",
+      "group": "04",
+      "source_pdf": "DKE.pdf",
+      "page": 2,
+      "stt": 38,
+      "class_printed": "DKE1244",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833504",
+      "group": "01",
+      "source_pdf": "DKQ.pdf",
+      "page": 3,
+      "stt": 57,
+      "class_printed": "DKQ1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "862409",
+      "group": "20",
+      "source_pdf": "DTN.pdf",
+      "page": 36,
+      "stt": 340,
+      "class_printed": "DTN1244,D TN1247,DT N1241,DTN1 246,DTN124 5,DTN1243, DTN1242",
+      "weeks_printed": "---------0--------"
+    },
+    {
+      "course": "862409",
+      "group": "02",
+      "source_pdf": "DQK.pdf",
+      "page": 14,
+      "stt": 194,
+      "class_printed": "DQK1245,DQ K1242,DQK12 41,DQK1244, DQK1246,DQ K1243",
+      "weeks_printed": "----5-------------"
+    },
+    {
+      "course": "862409",
+      "group": "29",
+      "source_pdf": "DSI.pdf",
+      "page": 2,
+      "stt": 41,
+      "class_printed": "DSI1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "864006",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 62,
+      "stt": 351,
+      "class_printed": "SGU_DEMO_CHUNG_864006_01",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "867003",
+      "group": "07",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 87,
+      "stt": 535,
+      "class_printed": "SGU_DEMO_CHUNG_867003_07",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862409",
+      "group": "28",
+      "source_pdf": "DNH.pdf",
+      "page": 4,
+      "stt": 96,
+      "class_printed": "DNH1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "862409",
+      "group": "26",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 39,
+      "stt": 285,
+      "class_printed": "SGU_DEMO_CHUNG_862409_26",
+      "weeks_printed": "-----------2------"
+    },
+    {
+      "course": "841476",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 7,
+      "stt": 179,
+      "class_printed": "DCT1221",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "854521",
+      "group": "01",
+      "source_pdf": "DQT.pdf",
+      "page": 2,
+      "stt": 38,
+      "class_printed": "DQT1241",
+      "weeks_printed": "1234--789012------"
+    },
+    {
+      "course": "841302",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 69,
+      "class_printed": "DCT1261",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "867510",
+      "group": "07",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 97,
+      "stt": 590,
+      "class_printed": "SGU_DEMO_CHUNG_867510_07",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "862409",
+      "group": "32",
+      "source_pdf": "DTO.pdf",
+      "page": 4,
+      "stt": 85,
+      "class_printed": "DTO1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "833403",
+      "group": "04",
+      "source_pdf": "DQK.pdf",
+      "page": 4,
+      "stt": 94,
+      "class_printed": "DQK1234",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "833104",
+      "group": "04",
+      "source_pdf": "DQK.pdf",
+      "page": 2,
+      "stt": 39,
+      "class_printed": "DQK1244",
+      "weeks_printed": "1234---89012------"
+    },
+    {
+      "course": "858001",
+      "group": "01",
+      "source_pdf": "DDU.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DDU1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "813404",
+      "group": "04",
+      "source_pdf": "DAN.pdf",
+      "page": 2,
+      "stt": 42,
+      "class_printed": "DAN1264",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833303",
+      "group": "01",
+      "source_pdf": "DQK.pdf",
+      "page": 3,
+      "stt": 57,
+      "class_printed": "DQK1241",
+      "weeks_printed": "1234---8901-------"
+    },
+    {
+      "course": "813413",
+      "group": "10",
+      "source_pdf": "DSA.pdf",
+      "page": 2,
+      "stt": 44,
+      "class_printed": "DSA1261,DS A1262",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833359",
+      "group": "04",
+      "source_pdf": "DKQ.pdf",
+      "page": 2,
+      "stt": 33,
+      "class_printed": "DKQ1242",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862101",
+      "group": "53",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 14,
+      "stt": 150,
+      "class_printed": "SGU_DEMO_CHUNG_862101_53",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "859501",
+      "group": "01",
+      "source_pdf": "DHA.pdf",
+      "page": 2,
+      "stt": 31,
+      "class_printed": "DHA1241",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "862409",
+      "group": "30",
+      "source_pdf": "DLI.pdf",
+      "page": 3,
+      "stt": 53,
+      "class_printed": "DLI1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "819418",
+      "group": "02",
+      "source_pdf": "DGM.pdf",
+      "page": 4,
+      "stt": 75,
+      "class_printed": "DGM1241",
+      "weeks_printed": "-----678901-------"
+    },
+    {
+      "course": "850411",
+      "group": "01",
+      "source_pdf": "DKD.pdf",
+      "page": 2,
+      "stt": 45,
+      "class_printed": "DKD1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "848411",
+      "group": "01",
+      "source_pdf": "DTU.pdf",
+      "page": 2,
+      "stt": 44,
+      "class_printed": "DTU1251",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "833402",
+      "group": "03",
+      "source_pdf": "DQK.pdf",
+      "page": 4,
+      "stt": 87,
+      "class_printed": "DQK1243",
+      "weeks_printed": "1234---8901-------"
+    },
+    {
+      "course": "833311",
+      "group": "01",
+      "source_pdf": "DHA.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DHA1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862409",
+      "group": "32",
+      "source_pdf": "DTO.pdf",
+      "page": 3,
+      "stt": 81,
+      "class_printed": "DTO1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "862409",
+      "group": "31",
+      "source_pdf": "DSI.pdf",
+      "page": 3,
+      "stt": 73,
+      "class_printed": "DSI1231",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "862406",
+      "group": "02",
+      "source_pdf": "DKM.pdf",
+      "page": 2,
+      "stt": 29,
+      "class_printed": "DKM1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833503",
+      "group": "03",
+      "source_pdf": "DHA.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DHA1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "838405",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 5,
+      "stt": 114,
+      "class_printed": "DAN1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "815055",
+      "group": "01",
+      "source_pdf": "DGT.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DGT1251",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "867009",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 93,
+      "stt": 569,
+      "class_printed": "SGU_DEMO_CHUNG_867009_09",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "843481",
+      "group": "01",
+      "source_pdf": "DLU.pdf",
+      "page": 3,
+      "stt": 49,
+      "class_printed": "DLU1241",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "867009",
+      "group": "04",
+      "source_pdf": "DQK.pdf",
+      "page": 26,
+      "stt": 301,
+      "class_printed": "DQK1263",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "803125",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 5,
+      "class_printed": "DHO1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "803401",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 12,
+      "class_printed": "DHO1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "833505",
+      "group": "06",
+      "source_pdf": "DKQ.pdf",
+      "page": 3,
+      "stt": 63,
+      "class_printed": "DKQ1242",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850514",
+      "group": "01",
+      "source_pdf": "DDV.pdf",
+      "page": 2,
+      "stt": 47,
+      "class_printed": "DDV1241",
+      "weeks_printed": "1---56------------"
+    },
+    {
+      "course": "863005",
+      "group": "08",
+      "source_pdf": "DKH.pdf",
+      "page": 4,
+      "stt": 95,
+      "class_printed": "DKH1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "817406",
+      "group": "02",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 52,
+      "class_printed": "DMI1261",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "835111",
+      "group": "01",
+      "source_pdf": "DVI.pdf",
+      "page": 1,
+      "stt": 12,
+      "class_printed": "DVI1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813407",
+      "group": "04",
+      "source_pdf": "DAN.pdf",
+      "page": 3,
+      "stt": 52,
+      "class_printed": "DAN1254",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "820311",
+      "group": "01",
+      "source_pdf": "DGD.pdf",
+      "page": 1,
+      "stt": 2,
+      "class_printed": "DGD1261",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "835301",
+      "group": "01",
+      "source_pdf": "DVI.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DVI1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861302",
+      "group": "07",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 4,
+      "stt": 42,
+      "class_printed": "SGU_DEMO_CHUNG_861302_07",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "853003",
+      "group": "01",
+      "source_pdf": "DTL.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DTL1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841457",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 6,
+      "stt": 160,
+      "class_printed": "DCT1236",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "832033",
+      "group": "01",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 19,
+      "class_printed": "DKE1254",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841072",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 2,
+      "stt": 51,
+      "class_printed": "DCT1221",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "842113",
+      "group": "01",
+      "source_pdf": "DTN.pdf",
+      "page": 4,
+      "stt": 100,
+      "class_printed": "DTN1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "841322",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 96,
+      "class_printed": "DKP1241",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "862409",
+      "group": "15",
+      "source_pdf": "DTN.pdf",
+      "page": 24,
+      "stt": 273,
+      "class_printed": "DTN1244,D TN1247,DT N1241,DTN1 246,DTN124 5,DTN1243, DTN1242",
+      "weeks_printed": "--------9---------"
+    },
+    {
+      "course": "816413",
+      "group": "01",
+      "source_pdf": "DNH.pdf",
+      "page": 1,
+      "stt": 14,
+      "class_printed": "DNH1261",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "850408",
+      "group": "01",
+      "source_pdf": "DDV.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DDV1251",
+      "weeks_printed": "1-3-5-7-9-1-------"
+    },
+    {
+      "course": "816423",
+      "group": "03",
+      "source_pdf": "DNH.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DNH1231",
+      "weeks_printed": "-23456789---------"
+    },
+    {
+      "course": "833362",
+      "group": "01",
+      "source_pdf": "DKQ.pdf",
+      "page": 2,
+      "stt": 35,
+      "class_printed": "DKQ1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "838306",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 97,
+      "class_printed": "DAN1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832402",
+      "group": "02",
+      "source_pdf": "DKE.pdf",
+      "page": 4,
+      "stt": 87,
+      "class_printed": "DKE1242",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "806409",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DSI1241",
+      "weeks_printed": "-2345678901-------"
+    },
+    {
+      "course": "862406",
+      "group": "06",
+      "source_pdf": "DGT.pdf",
+      "page": 4,
+      "stt": 95,
+      "class_printed": "DGT1261",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "843038",
+      "group": "02",
+      "source_pdf": "DLU.pdf",
+      "page": 1,
+      "stt": 15,
+      "class_printed": "DLU1242",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "867009",
+      "group": "06",
+      "source_pdf": "DKQ.pdf",
+      "page": 4,
+      "stt": 84,
+      "class_printed": "DKQ1262",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "863515",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 4,
+      "stt": 84,
+      "class_printed": "DHO1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832113",
+      "group": "05",
+      "source_pdf": "DTN.pdf",
+      "page": 3,
+      "stt": 70,
+      "class_printed": "DTN1245",
+      "weeks_printed": "1234567---12------"
+    },
+    {
+      "course": "850408",
+      "group": "01",
+      "source_pdf": "DDE.pdf",
+      "page": 2,
+      "stt": 40,
+      "class_printed": "DDE1251",
+      "weeks_printed": "1-3-5-7-9-1-------"
+    },
+    {
+      "course": "867510",
+      "group": "08",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 97,
+      "stt": 591,
+      "class_printed": "SGU_DEMO_CHUNG_867510_08",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "838306",
+      "group": "02",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 100,
+      "class_printed": "DAN1242",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "854409",
+      "group": "01",
+      "source_pdf": "DQT.pdf",
+      "page": 1,
+      "stt": 15,
+      "class_printed": "DQT1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "802103",
+      "group": "01",
+      "source_pdf": "DLI.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DLI1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "839402",
+      "group": "01",
+      "source_pdf": "DTT.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DTT1261",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "832302",
+      "group": "02",
+      "source_pdf": "DKE.pdf",
+      "page": 3,
+      "stt": 77,
+      "class_printed": "DKE1242",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "867009",
+      "group": "01",
+      "source_pdf": "DHA.pdf",
+      "page": 2,
+      "stt": 44,
+      "class_printed": "DHA1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "835111",
+      "group": "01",
+      "source_pdf": "DVI.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DVI1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "865006",
+      "group": "08",
+      "source_pdf": "DKQ.pdf",
+      "page": 4,
+      "stt": 76,
+      "class_printed": "DKQ1262",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "813426",
+      "group": "01",
+      "source_pdf": "DSA.pdf",
+      "page": 3,
+      "stt": 60,
+      "class_printed": "DSA1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "821506",
+      "group": "01",
+      "source_pdf": "DKH.pdf",
+      "page": 2,
+      "stt": 31,
+      "class_printed": "DKH1251",
+      "weeks_printed": "--------9012------"
+    },
+    {
+      "course": "853505",
+      "group": "03",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 31,
+      "class_printed": "DTL1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "819309",
+      "group": "01",
+      "source_pdf": "DGM.pdf",
+      "page": 3,
+      "stt": 52,
+      "class_printed": "DGM1241",
+      "weeks_printed": "-----678901-------"
+    },
+    {
+      "course": "833104",
+      "group": "06",
+      "source_pdf": "DQK.pdf",
+      "page": 2,
+      "stt": 41,
+      "class_printed": "DQK1242,DQ K1241",
+      "weeks_printed": "1234---89012------"
+    },
+    {
+      "course": "859407",
+      "group": "01",
+      "source_pdf": "DHA.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DHA1241",
+      "weeks_printed": "---456789012------"
+    },
+    {
+      "course": "862409",
+      "group": "19",
+      "source_pdf": "DTN.pdf",
+      "page": 33,
+      "stt": 322,
+      "class_printed": "DTN1244,D TN1247,DT N1241,DTN1 246,DTN124 5,DTN1243, DTN1242",
+      "weeks_printed": "---------0--------"
+    },
+    {
+      "course": "854404",
+      "group": "01",
+      "source_pdf": "DQT.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DQT1241",
+      "weeks_printed": "1234--78901-------"
+    },
+    {
+      "course": "867009",
+      "group": "04",
+      "source_pdf": "DQK.pdf",
+      "page": 26,
+      "stt": 300,
+      "class_printed": "DQK1263",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833501",
+      "group": "03",
+      "source_pdf": "DQK.pdf",
+      "page": 4,
+      "stt": 99,
+      "class_printed": "DQK1253",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "854514",
+      "group": "02",
+      "source_pdf": "DQT.pdf",
+      "page": 2,
+      "stt": 35,
+      "class_printed": "DQT1241",
+      "weeks_printed": "1234--78901-------"
+    },
+    {
+      "course": "866402",
+      "group": "23",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 80,
+      "stt": 487,
+      "class_printed": "SGU_DEMO_CHUNG_866402_23",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813310",
+      "group": "07",
+      "source_pdf": "DSA.pdf",
+      "page": 1,
+      "stt": 18,
+      "class_printed": "DSA1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "867007",
+      "group": "11",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 92,
+      "stt": 554,
+      "class_printed": "SGU_DEMO_CHUNG_867007_11",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "866401",
+      "group": "14",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 77,
+      "stt": 452,
+      "class_printed": "SGU_DEMO_CHUNG_866401_14",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833362",
+      "group": "02",
+      "source_pdf": "DKQ.pdf",
+      "page": 2,
+      "stt": 36,
+      "class_printed": "DKQ1232",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "857417",
+      "group": "01",
+      "source_pdf": "DDL.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DDL1231",
+      "weeks_printed": "----567890123-----"
+    },
+    {
+      "course": "861305",
+      "group": "11",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 10,
+      "stt": 90,
+      "class_printed": "SGU_DEMO_CHUNG_861305_11",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "862409",
+      "group": "34",
+      "source_pdf": "DGT.pdf",
+      "page": 5,
+      "stt": 114,
+      "class_printed": "DGT1231",
+      "weeks_printed": "-2----------------"
+    },
+    {
+      "course": "853508",
+      "group": "02",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 37,
+      "class_printed": "DTL1242",
+      "weeks_printed": "1234567-9012------"
+    },
+    {
+      "course": "864007",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 3,
+      "stt": 67,
+      "class_printed": "DCV1261",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "867007",
+      "group": "10",
+      "source_pdf": "DTN.pdf",
+      "page": 37,
+      "stt": 360,
+      "class_printed": "DTN1264",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "815023",
+      "group": "02",
+      "source_pdf": "DGT.pdf",
+      "page": 1,
+      "stt": 8,
+      "class_printed": "DGT1231",
+      "weeks_printed": "1-345678901-------"
+    },
+    {
+      "course": "867007",
+      "group": "14",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 92,
+      "stt": 557,
+      "class_printed": "SGU_DEMO_CHUNG_867007_14",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813411",
+      "group": "05",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 75,
+      "class_printed": "DAN1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861301",
+      "group": "04",
+      "source_pdf": "DKD.pdf",
+      "page": 3,
+      "stt": 68,
+      "class_printed": "DKD1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850412",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 2,
+      "stt": 41,
+      "class_printed": "DCV1241",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "841458",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 6,
+      "stt": 163,
+      "class_printed": "DNT1241",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "846404",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 2,
+      "stt": 22,
+      "class_printed": "DQG1231",
+      "weeks_printed": "1-3456789-1234----"
+    },
+    {
+      "course": "850408",
+      "group": "01",
+      "source_pdf": "DDV.pdf",
+      "page": 2,
+      "stt": 29,
+      "class_printed": "DDV1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "862101",
+      "group": "28",
+      "source_pdf": "DQK.pdf",
+      "page": 5,
+      "stt": 119,
+      "class_printed": "DQK1262",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "832060",
+      "group": "02",
+      "source_pdf": "DKE.pdf",
+      "page": 2,
+      "stt": 45,
+      "class_printed": "DKE1232",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "832024",
+      "group": "02",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DKE1262",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "801083",
+      "group": "01",
+      "source_pdf": "DTU.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DTU1241",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "864005",
+      "group": "04",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 61,
+      "stt": 349,
+      "class_printed": "SGU_DEMO_CHUNG_864005_04",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "866402",
+      "group": "25",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 81,
+      "stt": 489,
+      "class_printed": "SGU_DEMO_CHUNG_866402_25",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "834411",
+      "group": "01",
+      "source_pdf": "DKM.pdf",
+      "page": 1,
+      "stt": 16,
+      "class_printed": "DKM1241",
+      "weeks_printed": "123456-8901-------"
+    },
+    {
+      "course": "813408",
+      "group": "04",
+      "source_pdf": "DAN.pdf",
+      "page": 3,
+      "stt": 63,
+      "class_printed": "DAN1264",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "842112",
+      "group": "04",
+      "source_pdf": "DTN.pdf",
+      "page": 4,
+      "stt": 97,
+      "class_printed": "DTN1244",
+      "weeks_printed": "1234567---12------"
+    },
+    {
+      "course": "838502",
+      "group": "03",
+      "source_pdf": "DAN.pdf",
+      "page": 6,
+      "stt": 134,
+      "class_printed": "DAN1263",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841111",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 61,
+      "class_printed": "DCT1244",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "811301",
+      "group": "01",
+      "source_pdf": "DDI.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DDI1251,DDH 1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "811071",
+      "group": "01",
+      "source_pdf": "DDI.pdf",
+      "page": 1,
+      "stt": 1,
+      "class_printed": "DDH1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "866403",
+      "group": "13",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 83,
+      "stt": 507,
+      "class_printed": "SGU_DEMO_CHUNG_866403_13",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "820436",
+      "group": "01",
+      "source_pdf": "DGD.pdf",
+      "page": 2,
+      "stt": 23,
+      "class_printed": "DGD1241",
+      "weeks_printed": "**"
+    },
+    {
+      "course": "867007",
+      "group": "01",
+      "source_pdf": "DQK.pdf",
+      "page": 26,
+      "stt": 290,
+      "class_printed": "DQK1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841408",
+      "group": "03",
+      "source_pdf": "DCT.pdf",
+      "page": 5,
+      "stt": 116,
+      "class_printed": "DCT1243",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "841302",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 71,
+      "class_printed": "DCT1261",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "838406",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 5,
+      "stt": 124,
+      "class_printed": "DAN1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862407",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 19,
+      "stt": 214,
+      "class_printed": "SGU_DEMO_CHUNG_862407_09",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "865006",
+      "group": "18",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 73,
+      "stt": 416,
+      "class_printed": "SGU_DEMO_CHUNG_865006_18",
+      "weeks_printed": "---------012------"
+    },
+    {
+      "course": "842025",
+      "group": "03",
+      "source_pdf": "DTN.pdf",
+      "page": 3,
+      "stt": 73,
+      "class_printed": "DTN1233",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "850424",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 2,
+      "stt": 51,
+      "class_printed": "DCV1231,DC V1241",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "838407",
+      "group": "05",
+      "source_pdf": "DAN.pdf",
+      "page": 6,
+      "stt": 129,
+      "class_printed": "DAN1235",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "864007",
+      "group": "10",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 63,
+      "stt": 363,
+      "class_printed": "SGU_DEMO_CHUNG_864007_10",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "865006",
+      "group": "25",
+      "source_pdf": "DAN.pdf",
+      "page": 6,
+      "stt": 148,
+      "class_printed": "DAN1264",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "862409",
+      "group": "36",
+      "source_pdf": "DQG.pdf",
+      "page": 3,
+      "stt": 71,
+      "class_printed": "DQG1231",
+      "weeks_printed": "-2----------------"
+    },
+    {
+      "course": "806410",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 19,
+      "class_printed": "DSI1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "832065",
+      "group": "03",
+      "source_pdf": "DTN.pdf",
+      "page": 2,
+      "stt": 44,
+      "class_printed": "DTN1242",
+      "weeks_printed": "1234567---12------"
+    },
+    {
+      "course": "813407",
+      "group": "08",
+      "source_pdf": "DSA.pdf",
+      "page": 2,
+      "stt": 26,
+      "class_printed": "DSA1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "815050",
+      "group": "02",
+      "source_pdf": "DGT.pdf",
+      "page": 1,
+      "stt": 12,
+      "class_printed": "DGT1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832056",
+      "group": "01",
+      "source_pdf": "DKE.pdf",
+      "page": 2,
+      "stt": 39,
+      "class_printed": "DKE1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "865006",
+      "group": "08",
+      "source_pdf": "DKQ.pdf",
+      "page": 4,
+      "stt": 77,
+      "class_printed": "DKQ1262",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "862101",
+      "group": "19",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 12,
+      "stt": 116,
+      "class_printed": "SGU_DEMO_CHUNG_862101_19",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "822504",
+      "group": "01",
+      "source_pdf": "DLD.pdf",
+      "page": 2,
+      "stt": 29,
+      "class_printed": "DLD1261",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "863516",
+      "group": "03",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 57,
+      "stt": 341,
+      "class_printed": "SGU_DEMO_CHUNG_863516_03",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "843410",
+      "group": "04",
+      "source_pdf": "DLU.pdf",
+      "page": 2,
+      "stt": 39,
+      "class_printed": "DLU1242",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "859410",
+      "group": "01",
+      "source_pdf": "DHA.pdf",
+      "page": 2,
+      "stt": 22,
+      "class_printed": "DHA1241",
+      "weeks_printed": "1-----------------"
+    },
+    {
+      "course": "842401",
+      "group": "03",
+      "source_pdf": "DTN.pdf",
+      "page": 5,
+      "stt": 126,
+      "class_printed": "DTN1243",
+      "weeks_printed": "1234567---12------"
+    },
+    {
+      "course": "832105",
+      "group": "07",
+      "source_pdf": "DTN.pdf",
+      "page": 2,
+      "stt": 53,
+      "class_printed": "DTN1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "866401",
+      "group": "04",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 76,
+      "stt": 441,
+      "class_printed": "SGU_DEMO_CHUNG_866401_04",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "834433",
+      "group": "01",
+      "source_pdf": "DCM.pdf",
+      "page": 2,
+      "stt": 21,
+      "class_printed": "DCM1231",
+      "weeks_printed": "123456-890123-----"
+    },
+    {
+      "course": "819407",
+      "group": "04",
+      "source_pdf": "DGM.pdf",
+      "page": 3,
+      "stt": 65,
+      "class_printed": "DGM1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "832033",
+      "group": "03",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DTN1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "833101",
+      "group": "01",
+      "source_pdf": "DQK.pdf",
+      "page": 2,
+      "stt": 26,
+      "class_printed": "DQK1241",
+      "weeks_printed": "1234---89012------"
+    },
+    {
+      "course": "846504",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 2,
+      "stt": 29,
+      "class_printed": "DQG1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "851407",
+      "group": "01",
+      "source_pdf": "DKD.pdf",
+      "page": 3,
+      "stt": 62,
+      "class_printed": "DKD1221",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "862101",
+      "group": "08",
+      "source_pdf": "DCV.pdf",
+      "page": 3,
+      "stt": 64,
+      "class_printed": "DCV1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "815404",
+      "group": "02",
+      "source_pdf": "DGT.pdf",
+      "page": 2,
+      "stt": 41,
+      "class_printed": "DGT1241",
+      "weeks_printed": "1-345678901-------"
+    },
+    {
+      "course": "846401",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 1,
+      "stt": 19,
+      "class_printed": "DQG1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862101",
+      "group": "42",
+      "source_pdf": "DTN.pdf",
+      "page": 6,
+      "stt": 147,
+      "class_printed": "DTN1263",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "836419",
+      "group": "01",
+      "source_pdf": "DQV.pdf",
+      "page": 2,
+      "stt": 26,
+      "class_printed": "DQV1241",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "819088",
+      "group": "03",
+      "source_pdf": "DGM.pdf",
+      "page": 2,
+      "stt": 27,
+      "class_printed": "DGM1231",
+      "weeks_printed": "123-5678901-------"
+    },
+    {
+      "course": "841047",
+      "group": "03",
+      "source_pdf": "DCT.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DCT1243",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "850411",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 2,
+      "stt": 38,
+      "class_printed": "DCV1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "866403",
+      "group": "10",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 82,
+      "stt": 503,
+      "class_printed": "SGU_DEMO_CHUNG_866403_10",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "865006",
+      "group": "31",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 73,
+      "stt": 429,
+      "class_printed": "SGU_DEMO_CHUNG_865006_31",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "809409",
+      "group": "01",
+      "source_pdf": "DVA.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DVA1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "853507",
+      "group": "02",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 34,
+      "class_printed": "DTL1242",
+      "weeks_printed": "1234567-901-------"
+    },
+    {
+      "course": "833069",
+      "group": "02",
+      "source_pdf": "DQK.pdf",
+      "page": 1,
+      "stt": 21,
+      "class_printed": "DQK1252",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "834455",
+      "group": "01",
+      "source_pdf": "DKM.pdf",
+      "page": 1,
+      "stt": 21,
+      "class_printed": "DKM1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "835106",
+      "group": "02",
+      "source_pdf": "DVI.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DVI1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "836141",
+      "group": "01",
+      "source_pdf": "DQV.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DQV1231",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "841322",
+      "group": "02",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 98,
+      "class_printed": "DNT1241",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "833505",
+      "group": "01",
+      "source_pdf": "DQK.pdf",
+      "page": 4,
+      "stt": 101,
+      "class_printed": "DQK1241",
+      "weeks_printed": "1234---89012------"
+    },
+    {
+      "course": "858009",
+      "group": "01",
+      "source_pdf": "DDU.pdf",
+      "page": 1,
+      "stt": 14,
+      "class_printed": "DDU1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "810410",
+      "group": "01",
+      "source_pdf": "DSU.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DSU1261,DLS 1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "817403",
+      "group": "01",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 45,
+      "class_printed": "DMI1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "864005",
+      "group": "02",
+      "source_pdf": "DCV.pdf",
+      "page": 3,
+      "stt": 66,
+      "class_printed": "DCV1261",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "833020",
+      "group": "04",
+      "source_pdf": "DKQ.pdf",
+      "page": 1,
+      "stt": 2,
+      "class_printed": "DKQ1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850408",
+      "group": "02",
+      "source_pdf": "DDE.pdf",
+      "page": 2,
+      "stt": 43,
+      "class_printed": "DDE1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "867508",
+      "group": "06",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 95,
+      "stt": 576,
+      "class_printed": "SGU_DEMO_CHUNG_867508_06",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850319",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 1,
+      "stt": 24,
+      "class_printed": "DCV1231",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "864007",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 8,
+      "stt": 205,
+      "class_printed": "DCT1262",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "816434",
+      "group": "04",
+      "source_pdf": "DNH.pdf",
+      "page": 3,
+      "stt": 63,
+      "class_printed": "DNH1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "865006",
+      "group": "23",
+      "source_pdf": "DAN.pdf",
+      "page": 6,
+      "stt": 144,
+      "class_printed": "DAN1262",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "846405",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 2,
+      "stt": 23,
+      "class_printed": "DQG1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833069",
+      "group": "03",
+      "source_pdf": "DQK.pdf",
+      "page": 1,
+      "stt": 22,
+      "class_printed": "DQK1253",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "851506",
+      "group": "03",
+      "source_pdf": "DKD.pdf",
+      "page": 3,
+      "stt": 66,
+      "class_printed": "DKD1241",
+      "weeks_printed": "1-3-5-7-9-1-------"
+    },
+    {
+      "course": "849416",
+      "group": "01",
+      "source_pdf": "DDE.pdf",
+      "page": 1,
+      "stt": 20,
+      "class_printed": "DDE1221",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "867508",
+      "group": "11",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 96,
+      "stt": 582,
+      "class_printed": "SGU_DEMO_CHUNG_867508_11",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "838303",
+      "group": "04",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 95,
+      "class_printed": "DAN1254",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833505",
+      "group": "03",
+      "source_pdf": "DQK.pdf",
+      "page": 5,
+      "stt": 106,
+      "class_printed": "DQK1243",
+      "weeks_printed": "1234---89012------"
+    },
+    {
+      "course": "813404",
+      "group": "10",
+      "source_pdf": "DSA.pdf",
+      "page": 1,
+      "stt": 23,
+      "class_printed": "DSA1261,DS A1262",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850310",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 1,
+      "stt": 19,
+      "class_printed": "DCV1241",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "862406",
+      "group": "07",
+      "source_pdf": "DTN.pdf",
+      "page": 6,
+      "stt": 156,
+      "class_printed": "DTN1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813404",
+      "group": "08",
+      "source_pdf": "DSA.pdf",
+      "page": 1,
+      "stt": 19,
+      "class_printed": "DSA1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813412",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 76,
+      "class_printed": "DAN1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "867007",
+      "group": "12",
+      "source_pdf": "DKQ.pdf",
+      "page": 4,
+      "stt": 79,
+      "class_printed": "DKQ1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861303",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 6,
+      "stt": 57,
+      "class_printed": "SGU_DEMO_CHUNG_861303_09",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "867009",
+      "group": "02",
+      "source_pdf": "DQK.pdf",
+      "page": 26,
+      "stt": 296,
+      "class_printed": "DQK1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832025",
+      "group": "04",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DKE1234",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "813404",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 2,
+      "stt": 36,
+      "class_printed": "DAN1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862406",
+      "group": "02",
+      "source_pdf": "DKM.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DKM1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "834402",
+      "group": "01",
+      "source_pdf": "DCM.pdf",
+      "page": 1,
+      "stt": 10,
+      "class_printed": "DCM1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "854407",
+      "group": "01",
+      "source_pdf": "DQT.pdf",
+      "page": 1,
+      "stt": 14,
+      "class_printed": "DQT1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "803052",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 1,
+      "class_printed": "DHO1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813412",
+      "group": "03",
+      "source_pdf": "DSA.pdf",
+      "page": 2,
+      "stt": 39,
+      "class_printed": "DSA1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "841438",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 6,
+      "stt": 148,
+      "class_printed": "DCT1244",
+      "weeks_printed": "*************"
+    },
+    {
+      "course": "833303",
+      "group": "03",
+      "source_pdf": "DQK.pdf",
+      "page": 3,
+      "stt": 62,
+      "class_printed": "DQK1243",
+      "weeks_printed": "1234---8901-------"
+    },
+    {
+      "course": "810412",
+      "group": "01",
+      "source_pdf": "DSU.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DLS1251,DSU 1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "819502",
+      "group": "02",
+      "source_pdf": "DGM.pdf",
+      "page": 4,
+      "stt": 88,
+      "class_printed": "DGM1261",
+      "weeks_printed": "-2-4-6-8-0-2------"
+    },
+    {
+      "course": "843049",
+      "group": "01",
+      "source_pdf": "DLU.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DLU1231",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "867007",
+      "group": "15",
+      "source_pdf": "DHA.pdf",
+      "page": 2,
+      "stt": 41,
+      "class_printed": "DHA1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "819309",
+      "group": "01",
+      "source_pdf": "DGM.pdf",
+      "page": 3,
+      "stt": 51,
+      "class_printed": "DGM1241",
+      "weeks_printed": "-----678901-------"
+    },
+    {
+      "course": "866403",
+      "group": "23",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 83,
+      "stt": 517,
+      "class_printed": "SGU_DEMO_CHUNG_866403_23",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841438",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 6,
+      "stt": 141,
+      "class_printed": "DCT1241",
+      "weeks_printed": "*************"
+    },
+    {
+      "course": "866403",
+      "group": "08",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 82,
+      "stt": 501,
+      "class_printed": "SGU_DEMO_CHUNG_866403_08",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "833351",
+      "group": "02",
+      "source_pdf": "DKQ.pdf",
+      "page": 1,
+      "stt": 20,
+      "class_printed": "DKQ1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "850426",
+      "group": "01",
+      "source_pdf": "DDV.pdf",
+      "page": 2,
+      "stt": 37,
+      "class_printed": "DDV1241",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "863412",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 54,
+      "stt": 332,
+      "class_printed": "SGU_DEMO_CHUNG_863412_01",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "816413",
+      "group": "02",
+      "source_pdf": "DNH.pdf",
+      "page": 1,
+      "stt": 15,
+      "class_printed": "DNH1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "816506",
+      "group": "02",
+      "source_pdf": "DNH.pdf",
+      "page": 4,
+      "stt": 83,
+      "class_printed": "DNH1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "813416",
+      "group": "02",
+      "source_pdf": "DSA.pdf",
+      "page": 2,
+      "stt": 48,
+      "class_printed": "DSA1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "802403",
+      "group": "02",
+      "source_pdf": "DLI.pdf",
+      "page": 1,
+      "stt": 19,
+      "class_printed": "DLI1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862406",
+      "group": "08",
+      "source_pdf": "DTN.pdf",
+      "page": 6,
+      "stt": 157,
+      "class_printed": "DTN1262",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "836306",
+      "group": "01",
+      "source_pdf": "DQV.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DQV1231",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "816506",
+      "group": "01",
+      "source_pdf": "DNH.pdf",
+      "page": 3,
+      "stt": 81,
+      "class_printed": "DNH1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "862101",
+      "group": "06",
+      "source_pdf": "DDV.pdf",
+      "page": 3,
+      "stt": 58,
+      "class_printed": "DDV1261",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "850310",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 1,
+      "stt": 20,
+      "class_printed": "DCV1241",
+      "weeks_printed": "-2-4-6-8-0-2------"
+    },
+    {
+      "course": "832055",
+      "group": "03",
+      "source_pdf": "DKE.pdf",
+      "page": 2,
+      "stt": 35,
+      "class_printed": "DKE1243",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861305",
+      "group": "08",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 10,
+      "stt": 87,
+      "class_printed": "SGU_DEMO_CHUNG_861305_08",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "861301",
+      "group": "02",
+      "source_pdf": "DCM.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DCM1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "836127",
+      "group": "01",
+      "source_pdf": "DQV.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DQV1231",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "832061",
+      "group": "01",
+      "source_pdf": "DKE.pdf",
+      "page": 2,
+      "stt": 49,
+      "class_printed": "DKE1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "854001",
+      "group": "01",
+      "source_pdf": "DQT.pdf",
+      "page": 1,
+      "stt": 1,
+      "class_printed": "DQT1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841467",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 6,
+      "stt": 167,
+      "class_printed": "DCT1231",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "865001",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 67,
+      "stt": 383,
+      "class_printed": "SGU_DEMO_CHUNG_865001_09",
+      "weeks_printed": "1234567-----------"
+    },
+    {
+      "course": "801301",
+      "group": "01",
+      "source_pdf": "DTO.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DTO1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "846504",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DQG1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "839510",
+      "group": "01",
+      "source_pdf": "DTT.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DTT1251",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "834314",
+      "group": "01",
+      "source_pdf": "DKM.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DKM1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "817403",
+      "group": "03",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 49,
+      "class_printed": "DMI1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832058",
+      "group": "02",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 20,
+      "class_printed": "DTN1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832061",
+      "group": "03",
+      "source_pdf": "DTN.pdf",
+      "page": 2,
+      "stt": 33,
+      "class_printed": "DTN1251",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "842059",
+      "group": "03",
+      "source_pdf": "DTN.pdf",
+      "page": 4,
+      "stt": 86,
+      "class_printed": "DTN1233",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "841468",
+      "group": "03",
+      "source_pdf": "DCT.pdf",
+      "page": 7,
+      "stt": 177,
+      "class_printed": "DKP1231",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "849407",
+      "group": "01",
+      "source_pdf": "DDE.pdf",
+      "page": 1,
+      "stt": 16,
+      "class_printed": "DDE1231",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "841111",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 60,
+      "class_printed": "DCT1244",
+      "weeks_printed": "*****"
+    },
+    {
+      "course": "817116",
+      "group": "02",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 37,
+      "class_printed": "DMI1231",
+      "weeks_printed": "-------------4----"
+    },
+    {
+      "course": "853002",
+      "group": "01",
+      "source_pdf": "DTL.pdf",
+      "page": 1,
+      "stt": 1,
+      "class_printed": "DTL1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "803102",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 3,
+      "class_printed": "DHO1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "866402",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 79,
+      "stt": 472,
+      "class_printed": "SGU_DEMO_CHUNG_866402_09",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "817351",
+      "group": "01",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 40,
+      "class_printed": "DMI1231",
+      "weeks_printed": "---45678901234----"
+    },
+    {
+      "course": "832033",
+      "group": "04",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 10,
+      "class_printed": "DTN1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "803407",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 16,
+      "class_printed": "DHO1241",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "819308",
+      "group": "02",
+      "source_pdf": "DGM.pdf",
+      "page": 3,
+      "stt": 45,
+      "class_printed": "DGM1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "849010",
+      "group": "01",
+      "source_pdf": "DKD.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DKD1241",
+      "weeks_printed": "-2-4-6-8-0-2------"
+    },
+    {
+      "course": "862101",
+      "group": "35",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 13,
+      "stt": 132,
+      "class_printed": "SGU_DEMO_CHUNG_862101_35",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "835401",
+      "group": "01",
+      "source_pdf": "DVI.pdf",
+      "page": 2,
+      "stt": 44,
+      "class_printed": "DVI1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841111",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 55,
+      "class_printed": "DCT1241",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "867511",
+      "group": "02",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 99,
+      "stt": 595,
+      "class_printed": "SGU_DEMO_CHUNG_867511_02",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "802301",
+      "group": "01",
+      "source_pdf": "DLI.pdf",
+      "page": 1,
+      "stt": 10,
+      "class_printed": "DLI1261",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "867007",
+      "group": "06",
+      "source_pdf": "DKE.pdf",
+      "page": 5,
+      "stt": 117,
+      "class_printed": "DKE1263",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "817409",
+      "group": "02",
+      "source_pdf": "DMI.pdf",
+      "page": 3,
+      "stt": 58,
+      "class_printed": "DMI1251",
+      "weeks_printed": "1--4567890--------"
+    },
+    {
+      "course": "850437",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 3,
+      "stt": 56,
+      "class_printed": "DCV1221",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "862101",
+      "group": "47",
+      "source_pdf": "DTN.pdf",
+      "page": 6,
+      "stt": 154,
+      "class_printed": "DTN1265",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "866402",
+      "group": "12",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 80,
+      "stt": 476,
+      "class_printed": "SGU_DEMO_CHUNG_866402_12",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "833355",
+      "group": "02",
+      "source_pdf": "DKQ.pdf",
+      "page": 1,
+      "stt": 23,
+      "class_printed": "DKQ1232",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "816408",
+      "group": "01",
+      "source_pdf": "DNH.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DNH1261",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "834438",
+      "group": "01",
+      "source_pdf": "DCM.pdf",
+      "page": 2,
+      "stt": 26,
+      "class_printed": "DCM1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "815412",
+      "group": "03",
+      "source_pdf": "DGT.pdf",
+      "page": 3,
+      "stt": 60,
+      "class_printed": "DGT1251",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "841417",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 5,
+      "stt": 120,
+      "class_printed": "DCT1251",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "862407",
+      "group": "15",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 19,
+      "stt": 220,
+      "class_printed": "SGU_DEMO_CHUNG_862407_15",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "848010",
+      "group": "01",
+      "source_pdf": "DTU.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DTU1251",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "861301",
+      "group": "15",
+      "source_pdf": "DTN.pdf",
+      "page": 5,
+      "stt": 138,
+      "class_printed": "DTN1264",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862406",
+      "group": "14",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 17,
+      "stt": 189,
+      "class_printed": "SGU_DEMO_CHUNG_862406_14",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861301",
+      "group": "09",
+      "source_pdf": "DKE.pdf",
+      "page": 4,
+      "stt": 103,
+      "class_printed": "DKE1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "817101",
+      "group": "01",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 26,
+      "class_printed": "DMI1251",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "850437",
+      "group": "01",
+      "source_pdf": "DDV.pdf",
+      "page": 2,
+      "stt": 40,
+      "class_printed": "DDV1221",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "832024",
+      "group": "08",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DTN1264",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "843416",
+      "group": "02",
+      "source_pdf": "DLU.pdf",
+      "page": 2,
+      "stt": 48,
+      "class_printed": "DLU1232",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "850324",
+      "group": "03",
+      "source_pdf": "DKD.pdf",
+      "page": 2,
+      "stt": 32,
+      "class_printed": "DKD1231",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "813411",
+      "group": "09",
+      "source_pdf": "DSA.pdf",
+      "page": 2,
+      "stt": 38,
+      "class_printed": "DSA1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862406",
+      "group": "27",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 18,
+      "stt": 203,
+      "class_printed": "SGU_DEMO_CHUNG_862406_27",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832009",
+      "group": "05",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 5,
+      "class_printed": "DKE1234",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "811418",
+      "group": "01",
+      "source_pdf": "DDI.pdf",
+      "page": 2,
+      "stt": 24,
+      "class_printed": "DDI1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813408",
+      "group": "03",
+      "source_pdf": "DAN.pdf",
+      "page": 3,
+      "stt": 61,
+      "class_printed": "DAN1263",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "819026",
+      "group": "03",
+      "source_pdf": "DGM.pdf",
+      "page": 1,
+      "stt": 12,
+      "class_printed": "DGM1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "841072",
+      "group": "02",
+      "source_pdf": "DCT.pdf",
+      "page": 2,
+      "stt": 52,
+      "class_printed": "DCT1222",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "841403",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 99,
+      "class_printed": "DCT1261",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "865006",
+      "group": "17",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 73,
+      "stt": 415,
+      "class_printed": "SGU_DEMO_CHUNG_865006_17",
+      "weeks_printed": "---------012------"
+    },
+    {
+      "course": "806064",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DSI1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "838306",
+      "group": "02",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 99,
+      "class_printed": "DAN1242",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "838307",
+      "group": "02",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 103,
+      "class_printed": "DAN1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "838309",
+      "group": "04",
+      "source_pdf": "DAN.pdf",
+      "page": 5,
+      "stt": 108,
+      "class_printed": "DAN1254",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "850311",
+      "group": "01",
+      "source_pdf": "DKD.pdf",
+      "page": 1,
+      "stt": 20,
+      "class_printed": "DKD1241",
+      "weeks_printed": "-2-4-6-8-0-2------"
+    },
+    {
+      "course": "817351",
+      "group": "01",
+      "source_pdf": "DMI.pdf",
+      "page": 2,
+      "stt": 41,
+      "class_printed": "DMI1231",
+      "weeks_printed": "---45678901234----"
+    },
+    {
+      "course": "833303",
+      "group": "04",
+      "source_pdf": "DQK.pdf",
+      "page": 3,
+      "stt": 63,
+      "class_printed": "DQK1244",
+      "weeks_printed": "1234---8901-------"
+    },
+    {
+      "course": "867510",
+      "group": "03",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 97,
+      "stt": 586,
+      "class_printed": "SGU_DEMO_CHUNG_867510_03",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "841403",
+      "group": "12",
+      "source_pdf": "DTU.pdf",
+      "page": 2,
+      "stt": 28,
+      "class_printed": "DTU1241",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "841302",
+      "group": "16",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 93,
+      "class_printed": "DCT1266",
+      "weeks_printed": "*************"
+    },
+    {
+      "course": "862101",
+      "group": "58",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 14,
+      "stt": 155,
+      "class_printed": "SGU_DEMO_CHUNG_862101_58",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "802408",
+      "group": "02",
+      "source_pdf": "DLI.pdf",
+      "page": 1,
+      "stt": 23,
+      "class_printed": "DLI1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861302",
+      "group": "08",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 4,
+      "stt": 43,
+      "class_printed": "SGU_DEMO_CHUNG_861302_08",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "841431",
+      "group": "03",
+      "source_pdf": "DCT.pdf",
+      "page": 5,
+      "stt": 131,
+      "class_printed": "DCT1233",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "842025",
+      "group": "04",
+      "source_pdf": "DTN.pdf",
+      "page": 3,
+      "stt": 74,
+      "class_printed": "DTN1234",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "850007",
+      "group": "03",
+      "source_pdf": "DDV.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DDV1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832056",
+      "group": "03",
+      "source_pdf": "DKE.pdf",
+      "page": 2,
+      "stt": 42,
+      "class_printed": "DKE1233",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "806067",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 10,
+      "class_printed": "DSI1241",
+      "weeks_printed": "-234567890--------"
+    },
+    {
+      "course": "861304",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 8,
+      "stt": 59,
+      "class_printed": "SGU_DEMO_CHUNG_861304_01",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "811402",
+      "group": "01",
+      "source_pdf": "DDI.pdf",
+      "page": 1,
+      "stt": 10,
+      "class_printed": "DDI1261,DDH 1261",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "853507",
+      "group": "01",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 33,
+      "class_printed": "DTL1241",
+      "weeks_printed": "1234567-901-------"
+    },
+    {
+      "course": "835117",
+      "group": "05",
+      "source_pdf": "DVI.pdf",
+      "page": 2,
+      "stt": 25,
+      "class_printed": "DVI1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "842401",
+      "group": "01",
+      "source_pdf": "DTN.pdf",
+      "page": 5,
+      "stt": 123,
+      "class_printed": "DTN1241",
+      "weeks_printed": "1234567---12------"
+    },
+    {
+      "course": "835114",
+      "group": "02",
+      "source_pdf": "DVI.pdf",
+      "page": 1,
+      "stt": 22,
+      "class_printed": "DVI1231",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "863515",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 4,
+      "stt": 83,
+      "class_printed": "DHO1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "866403",
+      "group": "16",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 83,
+      "stt": 510,
+      "class_printed": "SGU_DEMO_CHUNG_866403_16",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862101",
+      "group": "03",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 12,
+      "stt": 100,
+      "class_printed": "SGU_DEMO_CHUNG_862101_03",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "864005",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 8,
+      "stt": 202,
+      "class_printed": "DNT1261",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "862407",
+      "group": "10",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 19,
+      "stt": 215,
+      "class_printed": "SGU_DEMO_CHUNG_862407_10",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "816437",
+      "group": "01",
+      "source_pdf": "DNH.pdf",
+      "page": 3,
+      "stt": 66,
+      "class_printed": "DNH1231",
+      "weeks_printed": "-234567890123-----"
+    },
+    {
+      "course": "841302",
+      "group": "02",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 74,
+      "class_printed": "DCT1262",
+      "weeks_printed": "***"
+    },
+    {
+      "course": "864001",
+      "group": "02",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 58,
+      "stt": 343,
+      "class_printed": "SGU_DEMO_CHUNG_864001_02",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "822307",
+      "group": "01",
+      "source_pdf": "DLD.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DLD1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "802305",
+      "group": "01",
+      "source_pdf": "DLI.pdf",
+      "page": 1,
+      "stt": 15,
+      "class_printed": "DLI1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862406",
+      "group": "06",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 16,
+      "stt": 181,
+      "class_printed": "SGU_DEMO_CHUNG_862406_06",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "864002",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 59,
+      "stt": 344,
+      "class_printed": "SGU_DEMO_CHUNG_864002_01",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "833504",
+      "group": "02",
+      "source_pdf": "DKQ.pdf",
+      "page": 3,
+      "stt": 59,
+      "class_printed": "DKQ1252",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "865001",
+      "group": "06",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 67,
+      "stt": 380,
+      "class_printed": "SGU_DEMO_CHUNG_865001_06",
+      "weeks_printed": "1234567-----------"
+    },
+    {
+      "course": "865006",
+      "group": "25",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 73,
+      "stt": 423,
+      "class_printed": "SGU_DEMO_CHUNG_865006_25",
+      "weeks_printed": "----------12------"
+    },
+    {
+      "course": "861304",
+      "group": "21",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 9,
+      "stt": 79,
+      "class_printed": "SGU_DEMO_CHUNG_861304_21",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "864006",
+      "group": "03",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 62,
+      "stt": 353,
+      "class_printed": "SGU_DEMO_CHUNG_864006_03",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "863005",
+      "group": "02",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 50,
+      "stt": 317,
+      "class_printed": "SGU_DEMO_CHUNG_863005_02",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "838303",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 89,
+      "class_printed": "DAN1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841403",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 105,
+      "class_printed": "DKP1261",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "867510",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 97,
+      "stt": 592,
+      "class_printed": "SGU_DEMO_CHUNG_867510_09",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "853505",
+      "group": "02",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 28,
+      "class_printed": "DTL1252",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "834063",
+      "group": "01",
+      "source_pdf": "DKM.pdf",
+      "page": 1,
+      "stt": 1,
+      "class_printed": "DKM1241",
+      "weeks_printed": "123456-890--------"
+    },
+    {
+      "course": "862101",
+      "group": "23",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 13,
+      "stt": 120,
+      "class_printed": "SGU_DEMO_CHUNG_862101_23",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "841021",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 1,
+      "stt": 8,
+      "class_printed": "DKP1261",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "843411",
+      "group": "02",
+      "source_pdf": "DLU.pdf",
+      "page": 2,
+      "stt": 43,
+      "class_printed": "DLU1242",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "862406",
+      "group": "12",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 17,
+      "stt": 187,
+      "class_printed": "SGU_DEMO_CHUNG_862406_12",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841408",
+      "group": "02",
+      "source_pdf": "DCT.pdf",
+      "page": 5,
+      "stt": 114,
+      "class_printed": "DCT1242",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "834218",
+      "group": "01",
+      "source_pdf": "DCM.pdf",
+      "page": 1,
+      "stt": 5,
+      "class_printed": "DCM1241",
+      "weeks_printed": "123456-890--------"
+    },
+    {
+      "course": "836310",
+      "group": "01",
+      "source_pdf": "DQV.pdf",
+      "page": 1,
+      "stt": 16,
+      "class_printed": "DQV1251",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "822305",
+      "group": "01",
+      "source_pdf": "DLD.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DLD1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "857438",
+      "group": "01",
+      "source_pdf": "DDL.pdf",
+      "page": 2,
+      "stt": 26,
+      "class_printed": "DDL1231",
+      "weeks_printed": "----567890123-----"
+    },
+    {
+      "course": "832009",
+      "group": "02",
+      "source_pdf": "DKE.pdf",
+      "page": 1,
+      "stt": 2,
+      "class_printed": "DKE1232",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "849404",
+      "group": "01",
+      "source_pdf": "DDE.pdf",
+      "page": 1,
+      "stt": 12,
+      "class_printed": "DDE1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "865001",
+      "group": "05",
+      "source_pdf": "DAN.pdf",
+      "page": 6,
+      "stt": 140,
+      "class_printed": "DAN1262",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "821428",
+      "group": "01",
+      "source_pdf": "DKH.pdf",
+      "page": 1,
+      "stt": 22,
+      "class_printed": "DKH1231",
+      "weeks_printed": "-23456789-1-------"
+    },
+    {
+      "course": "855501",
+      "group": "03",
+      "source_pdf": "DKQ.pdf",
+      "page": 3,
+      "stt": 68,
+      "class_printed": "DKQ1241",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "853509",
+      "group": "01",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 38,
+      "class_printed": "DTL1251",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "819088",
+      "group": "01",
+      "source_pdf": "DGM.pdf",
+      "page": 2,
+      "stt": 23,
+      "class_printed": "DGM1231",
+      "weeks_printed": "123-5678901234----"
+    },
+    {
+      "course": "836408",
+      "group": "02",
+      "source_pdf": "DQV.pdf",
+      "page": 2,
+      "stt": 24,
+      "class_printed": "DQV1241",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "813310",
+      "group": "04",
+      "source_pdf": "DAN.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DAN1244",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862101",
+      "group": "46",
+      "source_pdf": "DTN.pdf",
+      "page": 6,
+      "stt": 153,
+      "class_printed": "DTN1265",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "815021",
+      "group": "02",
+      "source_pdf": "DGT.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DGT1241",
+      "weeks_printed": "1-345678901-------"
+    },
+    {
+      "course": "866401",
+      "group": "20",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 77,
+      "stt": 458,
+      "class_printed": "SGU_DEMO_CHUNG_866401_20",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "842051",
+      "group": "01",
+      "source_pdf": "DTN.pdf",
+      "page": 3,
+      "stt": 79,
+      "class_printed": "DTN1233",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "820343",
+      "group": "01",
+      "source_pdf": "DGD.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DGD1261",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "841302",
+      "group": "07",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 87,
+      "class_printed": "DNT1261",
+      "weeks_printed": "***"
+    },
+    {
+      "course": "861304",
+      "group": "15",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 9,
+      "stt": 73,
+      "class_printed": "SGU_DEMO_CHUNG_861304_15",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "867510",
+      "group": "02",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 97,
+      "stt": 585,
+      "class_printed": "SGU_DEMO_CHUNG_867510_02",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "862101",
+      "group": "61",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 14,
+      "stt": 158,
+      "class_printed": "SGU_DEMO_CHUNG_862101_61",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "858006",
+      "group": "01",
+      "source_pdf": "DDU.pdf",
+      "page": 1,
+      "stt": 8,
+      "class_printed": "DDU1251",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "865006",
+      "group": "10",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 72,
+      "stt": 407,
+      "class_printed": "SGU_DEMO_CHUNG_865006_10",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "866402",
+      "group": "05",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 79,
+      "stt": 468,
+      "class_printed": "SGU_DEMO_CHUNG_866402_05",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "843049",
+      "group": "02",
+      "source_pdf": "DLU.pdf",
+      "page": 1,
+      "stt": 18,
+      "class_printed": "DLU1232",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "817056",
+      "group": "02",
+      "source_pdf": "DMI.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DMI1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832302",
+      "group": "04",
+      "source_pdf": "DKE.pdf",
+      "page": 3,
+      "stt": 80,
+      "class_printed": "DKE1244",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "867007",
+      "group": "12",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 92,
+      "stt": 555,
+      "class_printed": "SGU_DEMO_CHUNG_867007_12",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "846503",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 2,
+      "stt": 28,
+      "class_printed": "DQG1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862101",
+      "group": "41",
+      "source_pdf": "DTN.pdf",
+      "page": 6,
+      "stt": 145,
+      "class_printed": "DTN1262",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "866402",
+      "group": "16",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 80,
+      "stt": 480,
+      "class_printed": "SGU_DEMO_CHUNG_866402_16",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "855501",
+      "group": "02",
+      "source_pdf": "DKQ.pdf",
+      "page": 3,
+      "stt": 66,
+      "class_printed": "DKQ1242",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "867508",
+      "group": "09",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 95,
+      "stt": 579,
+      "class_printed": "SGU_DEMO_CHUNG_867508_09",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841417",
+      "group": "02",
+      "source_pdf": "DCT.pdf",
+      "page": 5,
+      "stt": 121,
+      "class_printed": "DCT1252",
+      "weeks_printed": "**********"
+    },
+    {
+      "course": "864004",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 60,
+      "stt": 345,
+      "class_printed": "SGU_DEMO_CHUNG_864004_01",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "813408",
+      "group": "03",
+      "source_pdf": "DAN.pdf",
+      "page": 3,
+      "stt": 60,
+      "class_printed": "DAN1263",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "819502",
+      "group": "04",
+      "source_pdf": "DGM.pdf",
+      "page": 5,
+      "stt": 91,
+      "class_printed": "DGM1261",
+      "weeks_printed": "1-3-5-7-9-1-------"
+    },
+    {
+      "course": "815407",
+      "group": "01",
+      "source_pdf": "DGT.pdf",
+      "page": 3,
+      "stt": 51,
+      "class_printed": "DGT1231",
+      "weeks_printed": "1-34567890--------"
+    },
+    {
+      "course": "813408",
+      "group": "08",
+      "source_pdf": "DSA.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DSA1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "817064",
+      "group": "01",
+      "source_pdf": "DMI.pdf",
+      "page": 1,
+      "stt": 24,
+      "class_printed": "DMI1241",
+      "weeks_printed": "--------9---------"
+    },
+    {
+      "course": "801501",
+      "group": "01",
+      "source_pdf": "DTU.pdf",
+      "page": 1,
+      "stt": 14,
+      "class_printed": "DTU1261",
+      "weeks_printed": "----------1-------"
+    },
+    {
+      "course": "803405",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 15,
+      "class_printed": "DHO1231",
+      "weeks_printed": "---------012345---"
+    },
+    {
+      "course": "841452",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 6,
+      "stt": 157,
+      "class_printed": "DCT1234",
+      "weeks_printed": "***************"
+    },
+    {
+      "course": "806060",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 5,
+      "class_printed": "DSI1261",
+      "weeks_printed": "-------89012------"
+    },
+    {
+      "course": "857515",
+      "group": "03",
+      "source_pdf": "DDL.pdf",
+      "page": 3,
+      "stt": 65,
+      "class_printed": "DDL1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "858013",
+      "group": "01",
+      "source_pdf": "DDU.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DDU1241",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "866403",
+      "group": "11",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 82,
+      "stt": 504,
+      "class_printed": "SGU_DEMO_CHUNG_866403_11",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "861301",
+      "group": "33",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 3,
+      "stt": 34,
+      "class_printed": "SGU_DEMO_CHUNG_861301_33",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "801409",
+      "group": "01",
+      "source_pdf": "DTO.pdf",
+      "page": 1,
+      "stt": 16,
+      "class_printed": "DTO1241",
+      "weeks_printed": "-2345678901-------"
+    },
+    {
+      "course": "832302",
+      "group": "03",
+      "source_pdf": "DKE.pdf",
+      "page": 3,
+      "stt": 79,
+      "class_printed": "DKE1243",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "853403",
+      "group": "02",
+      "source_pdf": "DTL.pdf",
+      "page": 2,
+      "stt": 25,
+      "class_printed": "DTL1242",
+      "weeks_printed": "1234567-901-------"
+    },
+    {
+      "course": "843557",
+      "group": "01",
+      "source_pdf": "DLU.pdf",
+      "page": 3,
+      "stt": 60,
+      "class_printed": "DLU1261",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "857515",
+      "group": "02",
+      "source_pdf": "DDL.pdf",
+      "page": 3,
+      "stt": 64,
+      "class_printed": "DDL1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "833357",
+      "group": "03",
+      "source_pdf": "DQK.pdf",
+      "page": 4,
+      "stt": 81,
+      "class_printed": "DQK1233",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "813404",
+      "group": "02",
+      "source_pdf": "DAN.pdf",
+      "page": 2,
+      "stt": 38,
+      "class_printed": "DAN1262",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "834215",
+      "group": "01",
+      "source_pdf": "DCM.pdf",
+      "page": 1,
+      "stt": 4,
+      "class_printed": "DCM1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "867007",
+      "group": "05",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 91,
+      "stt": 547,
+      "class_printed": "SGU_DEMO_CHUNG_867007_05",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "822317",
+      "group": "01",
+      "source_pdf": "DLD.pdf",
+      "page": 1,
+      "stt": 18,
+      "class_printed": "DLD1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "861305",
+      "group": "16",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 11,
+      "stt": 95,
+      "class_printed": "SGU_DEMO_CHUNG_861305_16",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "813310",
+      "group": "07",
+      "source_pdf": "DSA.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DSA1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841408",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 4,
+      "stt": 111,
+      "class_printed": "DCT1241",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "857421",
+      "group": "01",
+      "source_pdf": "DDL.pdf",
+      "page": 1,
+      "stt": 16,
+      "class_printed": "DDL1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "846318",
+      "group": "01",
+      "source_pdf": "DQG.pdf",
+      "page": 1,
+      "stt": 13,
+      "class_printed": "DQG1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813075",
+      "group": "03",
+      "source_pdf": "DAN.pdf",
+      "page": 1,
+      "stt": 7,
+      "class_printed": "DAN1233",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "843038",
+      "group": "01",
+      "source_pdf": "DLU.pdf",
+      "page": 1,
+      "stt": 14,
+      "class_printed": "DLU1241",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "862101",
+      "group": "62",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 14,
+      "stt": 159,
+      "class_printed": "SGU_DEMO_CHUNG_862101_62",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "806411",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 1,
+      "stt": 22,
+      "class_printed": "DSI1231",
+      "weeks_printed": "----------1234----"
+    },
+    {
+      "course": "863013",
+      "group": "02",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 51,
+      "stt": 327,
+      "class_printed": "SGU_DEMO_CHUNG_863013_02",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "834427",
+      "group": "01",
+      "source_pdf": "DKM.pdf",
+      "page": 1,
+      "stt": 17,
+      "class_printed": "DKM1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "864005",
+      "group": "03",
+      "source_pdf": "DDE.pdf",
+      "page": 2,
+      "stt": 51,
+      "class_printed": "DDE1261",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "813075",
+      "group": "09",
+      "source_pdf": "DAN.pdf",
+      "page": 1,
+      "stt": 13,
+      "class_printed": "DAN1244",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "854415",
+      "group": "02",
+      "source_pdf": "DQT.pdf",
+      "page": 1,
+      "stt": 18,
+      "class_printed": "DQT1231",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "859405",
+      "group": "01",
+      "source_pdf": "DHA.pdf",
+      "page": 1,
+      "stt": 13,
+      "class_printed": "DHA1231",
+      "weeks_printed": "--345678901-------"
+    },
+    {
+      "course": "865001",
+      "group": "07",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 67,
+      "stt": 381,
+      "class_printed": "SGU_DEMO_CHUNG_865001_07",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "866402",
+      "group": "04",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 79,
+      "stt": 467,
+      "class_printed": "SGU_DEMO_CHUNG_866402_04",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "861301",
+      "group": "21",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 2,
+      "stt": 22,
+      "class_printed": "SGU_DEMO_CHUNG_861301_21",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "806416",
+      "group": "01",
+      "source_pdf": "DSI.pdf",
+      "page": 2,
+      "stt": 23,
+      "class_printed": "DSI1241",
+      "weeks_printed": "-234567890--------"
+    },
+    {
+      "course": "832105",
+      "group": "01",
+      "source_pdf": "DKE.pdf",
+      "page": 3,
+      "stt": 64,
+      "class_printed": "DKE1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "839512",
+      "group": "01",
+      "source_pdf": "DTT.pdf",
+      "page": 2,
+      "stt": 34,
+      "class_printed": "DTT1251",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "836408",
+      "group": "02",
+      "source_pdf": "DQV.pdf",
+      "page": 1,
+      "stt": 23,
+      "class_printed": "DQV1241",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "865006",
+      "group": "28",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 73,
+      "stt": 426,
+      "class_printed": "SGU_DEMO_CHUNG_865006_28",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "838112",
+      "group": "02",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 88,
+      "class_printed": "DAN1232",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "838405",
+      "group": "03",
+      "source_pdf": "DAN.pdf",
+      "page": 5,
+      "stt": 117,
+      "class_printed": "DAN1243",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "838303",
+      "group": "03",
+      "source_pdf": "DAN.pdf",
+      "page": 4,
+      "stt": 94,
+      "class_printed": "DAN1253",
+      "weeks_printed": "12345678901-------"
+    },
+    {
+      "course": "863005",
+      "group": "04",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 50,
+      "stt": 319,
+      "class_printed": "SGU_DEMO_CHUNG_863005_04",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "833450",
+      "group": "03",
+      "source_pdf": "DKQ.pdf",
+      "page": 3,
+      "stt": 50,
+      "class_printed": "DKQ1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "810414",
+      "group": "01",
+      "source_pdf": "DSU.pdf",
+      "page": 1,
+      "stt": 12,
+      "class_printed": "DSU1251,DLS 1251",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "803420",
+      "group": "01",
+      "source_pdf": "DHO.pdf",
+      "page": 1,
+      "stt": 20,
+      "class_printed": "DHO1231",
+      "weeks_printed": "-234567890123456--"
+    },
+    {
+      "course": "849008",
+      "group": "01",
+      "source_pdf": "DDE.pdf",
+      "page": 1,
+      "stt": 2,
+      "class_printed": "DDE1251",
+      "weeks_printed": "123456789012------"
+    },
+    {
+      "course": "866401",
+      "group": "21",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 77,
+      "stt": 459,
+      "class_printed": "SGU_DEMO_CHUNG_866401_21",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "865001",
+      "group": "08",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 67,
+      "stt": 382,
+      "class_printed": "SGU_DEMO_CHUNG_865001_08",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "833104",
+      "group": "06",
+      "source_pdf": "DQK.pdf",
+      "page": 2,
+      "stt": 42,
+      "class_printed": "DQK1242,DQ K1241",
+      "weeks_printed": "1234---89012------"
+    },
+    {
+      "course": "861302",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 4,
+      "stt": 36,
+      "class_printed": "SGU_DEMO_CHUNG_861302_01",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "832024",
+      "group": "09",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DTN1265",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "861305",
+      "group": "01",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 10,
+      "stt": 80,
+      "class_printed": "SGU_DEMO_CHUNG_861305_01",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "811405",
+      "group": "01",
+      "source_pdf": "DDI.pdf",
+      "page": 1,
+      "stt": 13,
+      "class_printed": "DDI1261,DDH 1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "813408",
+      "group": "01",
+      "source_pdf": "DAN.pdf",
+      "page": 3,
+      "stt": 56,
+      "class_printed": "DAN1261",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "862101",
+      "group": "26",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 13,
+      "stt": 123,
+      "class_printed": "SGU_DEMO_CHUNG_862101_26",
+      "weeks_printed": "12345678----------"
+    },
+    {
+      "course": "835029",
+      "group": "01",
+      "source_pdf": "DVI.pdf",
+      "page": 1,
+      "stt": 6,
+      "class_printed": "DVI1251",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "841411",
+      "group": "01",
+      "source_pdf": "DCT.pdf",
+      "page": 5,
+      "stt": 119,
+      "class_printed": "DKP1242",
+      "weeks_printed": "***********"
+    },
+    {
+      "course": "850438",
+      "group": "01",
+      "source_pdf": "DCV.pdf",
+      "page": 3,
+      "stt": 58,
+      "class_printed": "DCV1221",
+      "weeks_printed": "123456789012345---"
+    },
+    {
+      "course": "841021",
+      "group": "06",
+      "source_pdf": "DCT.pdf",
+      "page": 1,
+      "stt": 11,
+      "class_printed": "DNT1261",
+      "weeks_printed": "*********"
+    },
+    {
+      "course": "832033",
+      "group": "04",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 9,
+      "class_printed": "DTN1252",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "857438",
+      "group": "03",
+      "source_pdf": "DDL.pdf",
+      "page": 2,
+      "stt": 30,
+      "class_printed": "DDL1241",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "866401",
+      "group": "10",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 76,
+      "stt": 447,
+      "class_printed": "SGU_DEMO_CHUNG_866401_10",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "832033",
+      "group": "07",
+      "source_pdf": "DTN.pdf",
+      "page": 1,
+      "stt": 15,
+      "class_printed": "DTN1255",
+      "weeks_printed": "123456789---------"
+    },
+    {
+      "course": "841302",
+      "group": "04",
+      "source_pdf": "DCT.pdf",
+      "page": 3,
+      "stt": 78,
+      "class_printed": "DCT1264",
+      "weeks_printed": "************"
+    },
+    {
+      "course": "862101",
+      "group": "13",
+      "source_pdf": "TKB_MONCHUNG.pdf",
+      "page": 12,
+      "stt": 110,
+      "class_printed": "SGU_DEMO_CHUNG_862101_13",
+      "weeks_printed": "1234567890--------"
+    },
+    {
+      "course": "801502",
+      "group": "02",
+      "source_pdf": "DTO.pdf",
+      "page": 2,
+      "stt": 29,
+      "class_printed": "DTO1261",
+      "weeks_printed": "12345678901-------"
+    }
+  ],
+  "assumptions": [
+    "Mã khoa SGU_DEMO_* và bộ môn SGU_DEMO_* là mã hệ thống; tên khoa lấy từ danh sách công khai, quan hệ ngành–khoa là suy luận mô phỏng.",
+    "Chu kỳ chương trình DEMO-2026, loại học phần CHUYEN_NGANH và loại CTĐT BAT_BUOC chưa được xác minh từ PDF lịch.",
+    "PDF môn chung không ghi số tín chỉ hoặc lớp hành chính; bản demo dùng 3 tín chỉ và mã lớp SGU_DEMO_CHUNG_* để hoàn thành mẫu nhập.",
+    "Tên lớp công khai dài quá giới hạn 30 ký tự của hệ thống được thay bằng mã SGU_DEMO_LOP_*; văn bản gốc giữ trong source_rows. Dòng có sĩ số trên 1000 bị loại khỏi workbook thử bộ giải.",
+    "Sức chứa phòng đặt bằng sĩ số lớn nhất đã công bố tại phòng đó: chỉ là cận dưới suy ra từ lịch, không phải sức chứa được trường xác nhận.",
+    "Loại phòng LyThuyet và trạng thái SanSang là giả định; PDF không cung cấp kiểm kê thiết bị/phòng.",
+    "Giảng viên–học phần suy từ phân công đã công bố, không phải hồ sơ chuyên môn chính thức. Khoa giảng viên suy từ ngành nguồn.",
+    "Một số quan hệ ngành–khoa và học phần chung–khoa là suy luận theo tên công khai nhằm phủ đủ 15 khoa; không phải xác nhận phân công của SGU.",
+    "Ngày cho phép 2–7 và việc không có khoảng thời gian bận là giả định để thử bộ giải.",
+    "Chuỗi dấu * của PDF chỉ cho biết số vị trí tuần đọc được; bộ nhập mô phỏng tuần 1–N, chưa xác nhận đúng vị trí tuần gốc.",
+    "Đây là nhu cầu suy ngược từ lịch đã công bố; kết quả bộ giải là phương án mới, không phải lịch chính thức của SGU."
+  ]
+}

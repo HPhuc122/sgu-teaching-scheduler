@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import random
 import re
 import sys
 from collections import defaultdict
@@ -69,7 +70,22 @@ PROGRAM_FACULTY = {
     "DKE": 12, "DKI": 12, "DTN": 12,
     "DTO": 13, "DTU": 13,
     "DDL": 14, "DHA": 14, "DVI": 14,
+    # Demo-only inference by public program title, not an SGU staffing record.
+    "DQG": 1, "DTL": 1,
+    "DDH": 6, "DDI": 6, "DLD": 6, "DLS": 6, "DMI": 6,
+    "DNH": 6, "DQT": 6, "DQV": 6, "DSU": 6, "DTT": 6, "DVA": 6,
 }
+
+
+def faculty_for_row(row):
+    if row["program"] != "TKB_MONCHUNG":
+        return PROGRAM_FACULTY.get(row["program"], -1)
+    name = row["name"].lower()
+    if "giáo dục thể chất" in name or "giáo dục quốc phòng" in name:
+        return 4
+    if "giáo dục học" in name or "tâm lý học" in name or "tâm lí học" in name:
+        return 1
+    return 6
 
 
 class PdfLinks(HTMLParser):
@@ -233,12 +249,13 @@ def write_book(path: Path, sheets: dict, rows: dict):
     book.save(path)
 
 
-def build(output: Path, programs: list[str], source_dir: Path):
+def build(output: Path, programs: list[str], source_dir: Path, *, semester=SEMESTER,
+          max_sessions=None, seed=42, raw_rows=None):
     source_manifest = json.loads((source_dir / "source_manifest.json").read_text(encoding="utf-8"))
     selected = [p for p in programs if p in source_manifest["files"]]
     if len(selected) != len(programs):
         raise ValueError("Mã ngành không có trong trang nguồn SGU")
-    raw = [row for code in selected for row in (
+    raw = raw_rows if raw_rows is not None else [row for code in selected for row in (
         parse_common_pdf(source_dir / f"{code}.pdf") if code == "TKB_MONCHUNG"
         else parse_specialized_pdf(source_dir / f"{code}.pdf", code))]
     # Cross-listed major PDFs may be byte-for-byte identical. A physical class
@@ -254,15 +271,65 @@ def build(output: Path, programs: list[str], source_dir: Path):
             eligible.append(row)
     if not eligible:
         raise ValueError("Không tìm được buổi có đủ trường công khai để dựng ví dụ")
+    if max_sessions is not None:
+        # Select faculty coverage before random fill. Prefer distinct source
+        # lecturers so that the timetable filter has data for all 15 faculties.
+        if max_sessions < len(FACULTIES):
+            raise ValueError("max_sessions phải >= số khoa")
+        rng = random.Random(seed)
+        by_faculty = defaultdict(list)
+        for row in eligible:
+            by_faculty[faculty_for_row(row)].append(row)
+        missing = [FACULTIES[idx] for idx in range(len(FACULTIES)) if not by_faculty[idx]]
+        if missing:
+            raise ValueError(f"Không có buổi nguồn cho các khoa: {missing}")
+        chosen = []
+        used_teachers = set()
+        for idx in range(len(FACULTIES)):
+            choices = by_faculty[idx]
+            rng.shuffle(choices)
+            representative = next((row for row in choices if row["employee"] not in used_teachers), choices[0])
+            chosen.append(representative)
+            used_teachers.add(representative["employee"])
+        chosen_ids = {id(row) for row in chosen}
+        remaining = [row for row in eligible if id(row) not in chosen_ids]
+        rng.shuffle(remaining)
+        teacher_count = defaultdict(int)
+        class_count = defaultdict(int)
+        group_count = defaultdict(int)
+        for row in chosen:
+            teacher_count[row["employee"]] += 1
+            class_count[row["class"]] += 1
+            group_count[(row["course"], row["group"], row["lab"])] += 1
+        teacher_cap = 2 if max_sessions <= 300 else 3 if max_sessions <= 500 else 5
+        class_cap = 3 if max_sessions <= 500 else 5
+        for row in remaining:
+            if len(chosen) >= max_sessions:
+                break
+            group_key = row["course"], row["group"], row["lab"]
+            if (teacher_count[row["employee"]] >= teacher_cap or
+                    class_count[row["class"]] >= class_cap or
+                    group_count[group_key] >= 2):
+                continue
+            chosen.append(row)
+            teacher_count[row["employee"]] += 1
+            class_count[row["class"]] += 1
+            group_count[group_key] += 1
+        if len(chosen) != max_sessions:
+            raise ValueError(f"Chỉ chọn được {len(chosen)}/{max_sessions} buổi với giới hạn tải")
+        eligible = chosen
     output.mkdir(parents=True, exist_ok=True)
     rows = {kind: {sheet: [] for sheet in sheets} for kind, sheets in HEADERS.items()}
     c, r, l = rows["courses"], rows["rooms"], rows["lecturers"]
     for index, name in enumerate(FACULTIES, 1):
         c["Khoa"].append((f"SGU_DEMO_K{index:02d}", name))
         c["BoMon"].append((f"SGU_DEMO_B{index:02d}", f"Đơn vị mô phỏng {name}", f"SGU_DEMO_K{index:02d}"))
-    c["Khoa"].append(("SGU_DEMO_K00", "Chưa xác định từ nguồn công khai"))
-    c["BoMon"].append(("SGU_DEMO_B00", "Bộ môn mô phỏng chưa xác định", "SGU_DEMO_K00"))
+    if any(code not in PROGRAM_FACULTY and code != "TKB_MONCHUNG" for code in selected):
+        c["Khoa"].append(("SGU_DEMO_K00", "Chưa xác định từ nguồn công khai"))
+        c["BoMon"].append(("SGU_DEMO_B00", "Bộ môn mô phỏng chưa xác định", "SGU_DEMO_K00"))
     for code in selected:
+        if code == "TKB_MONCHUNG":
+            continue  # Common subjects are not one degree program.
         faculty_index = PROGRAM_FACULTY.get(code, -1)
         faculty_code = f"SGU_DEMO_K{faculty_index + 1:02d}" if faculty_index >= 0 else "SGU_DEMO_K00"
         name = "Môn chung (chương trình sử dụng chưa xác định)" if code == "TKB_MONCHUNG" else source_manifest["files"][code]["name"]
@@ -287,18 +354,18 @@ def build(output: Path, programs: list[str], source_dir: Path):
                             "page": row["page"], "stt": row["stt"], "class_printed": row["class"],
                             "weeks_printed": row["weeks_raw"]})
     for code, row in sorted(courses.items()):
-        idx = PROGRAM_FACULTY.get(row["program"], -1)
+        idx = faculty_for_row(row)
         department = f"SGU_DEMO_B{idx + 1:02d}" if idx >= 0 else "SGU_DEMO_B00"
         kind = "CHUNG" if row["program"] == "TKB_MONCHUNG" else "CHUYEN_NGANH"
         c["HocPhan"].append((code, row["name"], int(row["credits"]), department, kind))
     linked = set()
     for row in raw:
         key = (row["course"], row["program"])
-        if row["course"] in courses and key not in linked:
+        if row["program"] != "TKB_MONCHUNG" and row["course"] in courses and key not in linked:
             linked.add(key)
             c["HocPhanChuongTrinh"].append((row["course"], row["program"], DEMO_CYCLE, "BAT_BUOC"))
     for key, row in sorted(groups.items()):
-        c["NhomHocPhan"].append((row["course"], SEMESTER, row["group"], row["lab"], int(row["size"]), demo_class_code(row["class"])))
+        c["NhomHocPhan"].append((row["course"], semester, row["group"], row["lab"], int(row["size"]), demo_class_code(row["class"])))
     counters = defaultdict(int)
     for row in eligible:
         key = (row["course"], row["group"], row["lab"])
@@ -310,7 +377,7 @@ def build(output: Path, programs: list[str], source_dir: Path):
         r["PhongHoc"].append((room, building, f"Cơ sở {building} (tên mô phỏng)", room,
                               capacities[room], "LyThuyet", "SanSang"))
     for employee, row in sorted(teachers.items()):
-        idx = PROGRAM_FACULTY.get(row["program"], -1)
+        idx = faculty_for_row(row)
         faculty = f"SGU_DEMO_K{idx + 1:02d}" if idx >= 0 else "SGU_DEMO_K00"
         department = f"SGU_DEMO_B{idx + 1:02d}" if idx >= 0 else "SGU_DEMO_B00"
         l["GiangVien"].append((employee, row["lecturer"], "", faculty, department, "DangCongTac"))
@@ -318,9 +385,10 @@ def build(output: Path, programs: list[str], source_dir: Path):
     for kind in HEADERS:
         write_book(output / f"{kind}.xlsx", HEADERS[kind], rows[kind])
     manifest = {
-        "dataset": "SGU public timetable derived demo", "semester": SEMESTER,
+        "dataset": "SGU public timetable derived demo", "semester": semester,
         "public_source_page": SOURCE_PAGE, "faculty_source_page": FACULTY_PAGE,
         "selected_programs": selected, "raw_rows": len(raw), "usable_distinct_sessions": len(eligible),
+        "sampling": {"max_sessions": max_sessions, "seed": seed},
         "excluded_or_duplicate_rows": len(raw) - len(eligible),
         "counts": {kind: {sheet: len(items) for sheet, items in book.items()} for kind, book in rows.items()},
         "source_files": {code: source_manifest["files"][code] for code in selected},
@@ -333,6 +401,7 @@ def build(output: Path, programs: list[str], source_dir: Path):
             "Sức chứa phòng đặt bằng sĩ số lớn nhất đã công bố tại phòng đó: chỉ là cận dưới suy ra từ lịch, không phải sức chứa được trường xác nhận.",
             "Loại phòng LyThuyet và trạng thái SanSang là giả định; PDF không cung cấp kiểm kê thiết bị/phòng.",
             "Giảng viên–học phần suy từ phân công đã công bố, không phải hồ sơ chuyên môn chính thức. Khoa giảng viên suy từ ngành nguồn.",
+            "Một số quan hệ ngành–khoa và học phần chung–khoa là suy luận theo tên công khai nhằm phủ đủ 15 khoa; không phải xác nhận phân công của SGU.",
             "Ngày cho phép 2–7 và việc không có khoảng thời gian bận là giả định để thử bộ giải.",
             "Chuỗi dấu * của PDF chỉ cho biết số vị trí tuần đọc được; bộ nhập mô phỏng tuần 1–N, chưa xác nhận đúng vị trí tuần gốc.",
             "Đây là nhu cầu suy ngược từ lịch đã công bố; kết quả bộ giải là phương án mới, không phải lịch chính thức của SGU.",

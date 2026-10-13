@@ -1,0 +1,26 @@
+[
+  {
+    "folder": "bo_01",
+    "semester": "SGU DEMO 15 khoa - BO_01",
+    "sessions": 240,
+    "faculties": 15,
+    "lecturers": 177,
+    "rooms": 144
+  },
+  {
+    "folder": "bo_02",
+    "semester": "SGU DEMO 15 khoa - BO_02",
+    "sessions": 480,
+    "faculties": 15,
+    "lecturers": 273,
+    "rooms": 176
+  },
+  {
+    "folder": "bo_03",
+    "semester": "SGU DEMO 15 khoa - BO_03",
+    "sessions": 960,
+    "faculties": 15,
+    "lecturers": 378,
+    "rooms": 191
+  }
+]
