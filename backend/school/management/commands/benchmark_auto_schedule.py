@@ -121,6 +121,7 @@ class Command(BaseCommand):
             "semester": semester.name, "expected_sessions": expected,
             "run_id": run.pk, "status": run.status, "scheduled_sessions": len(entries),
             "objective_before": run.objective_before, "objective_after": run.objective,
+            "optimization_trials": run.optimization_trials,
             "diagnostic_rows": len(run.diagnostics), "enqueue_seconds": enqueue_seconds,
             "worker_seconds": solve_seconds, "approval_seconds": approval_seconds,
             "export_rows": export_rows, "message": run.message,

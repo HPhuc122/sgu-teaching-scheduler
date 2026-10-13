@@ -3,6 +3,7 @@
 from collections import defaultdict
 from io import BytesIO
 from random import Random
+from time import monotonic
 
 from django.db import transaction
 from django.utils import timezone
@@ -40,6 +41,8 @@ AUTO_SHEETS = {
 MAX_BYTES = 10 * 1024 * 1024
 MAX_ROWS = 6000
 LARGE_RUN_SESSIONS = 500
+LOCAL_SEARCH_RESTARTS = 3
+LOCAL_SEARCH_BUDGET_SECONDS = 9
 ROOM_TYPES = {"LyThuyet", "MayTinh", "ThiNghiem", "HoiTruong"}
 
 
@@ -650,6 +653,35 @@ def _demand_snapshot(demands):
     } for demand in demands]
 
 
+def _best_local_search(semester, result, objective, room_map, teacher_map,
+                       room_blocks, teacher_blocks, allowed_pairs, preferences):
+    """Try independent Great Deluge paths within one shared time budget."""
+    best_result, best_score = result, objective
+    trials = []
+    deadline = monotonic() + LOCAL_SEARCH_BUDGET_SECONDS
+    for index in range(LOCAL_SEARCH_RESTARTS):
+        if best_score == 0:
+            break
+        remaining = deadline - monotonic()
+        if remaining <= 0:
+            break
+        seed = 42 + index
+        started = monotonic()
+        candidate, verified_before, candidate_score = improve(
+            semester, result, room_map, teacher_map, room_blocks, teacher_blocks,
+            allowed_pairs, preferences=preferences, seed=seed,
+            max_iterations=3000,
+            time_limit=min(5, remaining / (LOCAL_SEARCH_RESTARTS - index)),
+        )
+        if verified_before != objective:
+            raise ValueError("Điểm bộ giải và pha cải thiện không khớp; đã hủy lần chạy")
+        trials.append({"seed": seed, "score": candidate_score,
+                       "seconds": round(monotonic() - started, 3)})
+        if candidate_score < best_score:
+            best_result, best_score = candidate, candidate_score
+    return best_result, best_score, trials
+
+
 @transaction.atomic
 def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
     semester = Semester.objects.select_for_update().get(pk=semester_id)
@@ -708,15 +740,12 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
                                     "preferences_snapshot", "preferences_captured_at"])
         return run
     objective_before = objective
+    optimization_trials = []
     if status != "OPTIMAL" and objective > 0:
-        improved, verified_before, verified_after = improve(
-            semester, result, room_map, teacher_map, room_blocks, teacher_blocks, allowed_pairs,
-            preferences=preferences,
+        result, objective, optimization_trials = _best_local_search(
+            semester, result, objective, room_map, teacher_map, room_blocks,
+            teacher_blocks, allowed_pairs, preferences,
         )
-        if verified_before != objective:
-            raise ValueError("Điểm CP-SAT và pha cải thiện không khớp; đã hủy lần chạy")
-        if verified_after < objective:
-            result, objective = improved, verified_after
     audit_solution(semester, demands, result, room_map, teacher_map,
                    room_blocks, teacher_blocks, allowed_pairs, preferences=preferences)
     replaced = ScheduleEntry.objects.filter(group__semester=semester, source="ThuatToan", status="ChoDuyet")
@@ -728,6 +757,7 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         run = AlgorithmRun.objects.create(semester=semester, created_by=actor, status=status,
                                           objective=objective, objective_before=objective_before,
                                           entry_count=len(result),
+                                          optimization_trials=optimization_trials,
                                           preferences_snapshot=preferences_snapshot,
                                           preferences_captured_at=preferences_captured_at,
                                           demand_snapshot=_demand_snapshot(demands))
@@ -736,11 +766,12 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         run.status, run.objective, run.objective_before = status, objective, objective_before
         run.entry_count = len(result)
         run.message, run.diagnostics = "", []
+        run.optimization_trials = optimization_trials
         run.preferences_snapshot = preferences_snapshot
         run.preferences_captured_at = preferences_captured_at
         run.demand_snapshot = _demand_snapshot(demands)
         run.save(update_fields=["status", "objective", "objective_before", "entry_count",
-                                "message", "diagnostics", "preferences_snapshot",
+                                "message", "diagnostics", "optimization_trials", "preferences_snapshot",
                                 "preferences_captured_at", "demand_snapshot"])
     entries = [ScheduleEntry(
         group=demand["group"], lecturer=teacher, room=room, day=day,

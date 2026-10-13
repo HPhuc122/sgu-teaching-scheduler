@@ -15,7 +15,7 @@ from .models import (AlgorithmRun, Building, Cohort, Course, CourseGroup, Course
                      Semester, TeachingQualification)
 from .schedule_import import HEADERS
 from .catalog_import import SHEETS
-from .auto_schedule import AUTO_SHEETS, read_auto_workbook
+from .auto_schedule import AUTO_SHEETS, _best_local_search, read_auto_workbook
 from .great_deluge import improve
 from .schedule_queue import process_next_run
 from .sample_data import synthetic_rows, workbook_bytes
@@ -840,6 +840,19 @@ class ScheduleApiTests(TestCase):
         }).status_code, 200)
         entry.refresh_from_db()
         self.assertEqual(entry.status, "DaDuyet")
+
+    def test_local_search_keeps_best_of_three_seeded_trials(self):
+        initial = ["initial"]
+        with patch("school.auto_schedule.improve", side_effect=[
+            (["first"], 9, 8), (["second"], 9, 6), (["third"], 9, 7),
+        ]) as search:
+            best, score, trials = _best_local_search(
+                self.semester, initial, 9, {}, {}, [], [], set(), [],
+            )
+        self.assertEqual((best, score), (["second"], 6))
+        self.assertEqual([trial["seed"] for trial in trials], [42, 43, 44])
+        self.assertEqual([trial["score"] for trial in trials], [8, 6, 7])
+        self.assertTrue(all(call.kwargs["time_limit"] <= 5 for call in search.call_args_list))
 
     def test_synthetic_workbooks_are_reproducible_and_fit_import_limits(self):
         first = synthetic_rows(sessions=449, semester_name=self.semester.name, seed=42)

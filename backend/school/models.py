@@ -183,6 +183,7 @@ class AlgorithmRun(models.Model):
     objective = models.IntegerField(null=True, blank=True)
     objective_before = models.IntegerField(null=True, blank=True)
     entry_count = models.PositiveIntegerField(default=0)
+    optimization_trials = models.JSONField(default=list, blank=True)
     message = models.TextField(blank=True)
     diagnostics = models.JSONField(default=list, blank=True)
     preferences_snapshot = models.JSONField(default=list, blank=True)
