@@ -15,8 +15,8 @@
     .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;white-space:nowrap}th{background:#e9f2f7}
     .hint{color:#4c6270}a{color:#145e83}
   </style>
-</head>
-<body><main>
+{% include "school/ui_styles.html" %}</head>
+<body>{% include "school/ui_shell.html" %}<main>
   <p><a href="/admin/">← Quản trị</a></p>
   <h1>Nhập lịch giảng dạy từ Excel</h1>
   <p class="hint">Chọn học kỳ và tải file theo mẫu. Hệ thống kiểm tra toàn bộ file trước khi lưu. Lịch nhập có trạng thái chờ duyệt.</p>
@@ -40,4 +40,4 @@
     <tbody>{% for row in rows %}<tr><td>{{ row.line }}</td><td>{{ row.ma_mon_hoc }}</td><td>{{ row.nhom }}</td><td>{{ row.to_th }}</td><td>{{ row.ma_vien_chuc }}</td><td>{{ row.ma_phong }}</td><td>{{ row.thu }}</td><td>{{ row.tiet_bat_dau }}</td><td>{{ row.so_tiet }}</td><td>{{ row.tuan_hoc }}</td><td>{{ row.dia_diem_khac }}</td></tr>{% endfor %}</tbody></table></div>
     {% if not errors %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="semester" value="{{ selected_semester }}"><button type="submit">Xác nhận nhập {{ rows|length }} dòng</button></form>{% endif %}
   {% endif %}
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

@@ -10,4 +10,6 @@ Xem [hướng dẫn backend](backend/README.md) để cài đặt, chạy Django
 
 `samples/` chứa dữ liệu **giả lập** với seed cố định để tái hiện kiểm thử. Dữ liệu ITC 2019 gốc trong `data/`, cơ sở dữ liệu SQLite, môi trường Python và các kết quả sinh ra trong `outputs/` không được đưa vào Git. Có thể tái tạo dữ liệu và kết quả theo [hướng dẫn kiểm thử](docs/du_lieu_gia_lap_va_kiem_thu.md).
 
+Để trình diễn bằng thông tin đã công bố của SGU, dùng [bộ chuyển đổi PDF công khai sang ba workbook](docs/du_lieu_sgu_cong_khai.md). Mỗi bộ có `provenance.json` phân biệt trường lấy từ nguồn và giả định phục vụ bộ giải. Giao diện web dùng phong cách tham khảo cổng đào tạo SGU với bố cục riêng cho admin và giảng viên.
+
 Các quy trình nghiệp vụ và mẫu Excel xuất hiện tại là thiết kế của đề tài dựa trên nguồn công khai; chưa được xác nhận là biểu mẫu phân công nội bộ chính thức của trường.

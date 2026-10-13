@@ -17,12 +17,11 @@
     .table-wrap{overflow-x:auto}.muted{color:#637186}.message{padding:10px 13px;border-radius:6px;background:#e9f4eb;margin-bottom:16px}
     ul{padding-left:20px;line-height:1.7}@media(max-width:750px){.grid{grid-template-columns:1fr}header{padding:16px 20px}}
   </style>
-</head>
-<body>
-<header><strong>Quản lý giảng dạy SGU</strong><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button>Đăng xuất</button></form></header>
+{% include "school/ui_styles.html" %}</head>
+<body>{% include "school/ui_shell.html" %}
 <main>
   <h1>Thời khóa biểu của tôi</h1>
-  <p class="sub">{{ lecturer.name }} · Mã viên chức {{ lecturer.employee_code|default:"Chưa có" }} · {{ lecturer.department.name }} · {{ lecturer.email }}</p>
+  <p class="sub">{{ lecturer.name }} · Mã viên chức {{ lecturer.employee_code|default:"Chưa có" }} · {{ lecturer.department.name }} · Email: {{ lecturer.email|default:"Chưa cập nhật" }}</p>
   {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
   <section>
     <form method="get"><label for="semester">Học kỳ</label><select id="semester" name="semester" onchange="this.form.submit()">
@@ -45,4 +44,4 @@
     </form></section>
     <section><h2>Nguyện vọng đã gửi</h2><ul>{% for item in preferences %}<li>{{ item.get_kind_display|default:item.kind }}{% if item.day %} · Thứ {{ item.day }}{% endif %}{% if item.time_block %} · {{ item.time_block }}{% endif %}{% if item.note %} · {{ item.note }}{% endif %}</li>{% empty %}<li class="muted">Chưa có nguyện vọng cho học kỳ này.</li>{% endfor %}</ul></section>
   </div>
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

@@ -259,7 +259,7 @@ class ScheduleApiTests(TestCase):
 
     def test_admin_has_import_link_and_template_download(self):
         self.client.force_login(self.admin)
-        self.assertContains(self.client.get("/admin/"), "Chọn học kỳ và nhập file Excel")
+        self.assertContains(self.client.get("/admin/"), "Tải ba file Excel và tạo phương án")
         response = self.client.get("/admin/import-schedule/template/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content[:2], b"PK")

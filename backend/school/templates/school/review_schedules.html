@@ -11,7 +11,7 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 .hint{color:#4c6270}a{color:#145e83}.approve{margin:1rem 0}.pages{display:flex;gap:1rem;margin-top:1rem}
 .pref-summary{display:flex;flex-wrap:wrap;gap:.8rem;margin:.8rem 0}.pref-summary span{background:#e9f2f7;padding:.45rem .65rem;border-radius:6px}
 .pref-status{font-weight:600}.pref-status.met{color:#195a2b}.pref-status.partial{color:#8a5800}.pref-status.unmet{color:#a5271c}.pref-status.unassessed{color:#52677a}
-</style></head><body><main>
+</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
 <p><a href="/admin/">← Quản trị</a></p><h1>Rà soát lịch giảng dạy</h1>
 <p class="hint">Chọn học kỳ và lọc lịch. Chỉ các buổi chờ duyệt được chọn để duyệt; giảng viên chỉ xem được lịch đã duyệt.</p>
 {% for message in messages %}<div class="success">{{ message }}</div>{% endfor %}
@@ -55,4 +55,4 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 <p><button type="submit" {% if selected_semester.status == 'DaKhoa' %}disabled{% endif %}>Duyệt các buổi đã chọn trên trang này</button></p></form>
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
 {% endif %}
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

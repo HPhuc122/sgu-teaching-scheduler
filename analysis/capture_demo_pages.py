@@ -39,18 +39,22 @@ def main():
 
     admin = get_user_model().objects.get(username="synthetic_benchmark_admin")
     client = Client()
+    save(client, "/login/", output / "login.html")
     client.force_login(admin)
+    save(client, "/admin/", output / "admin_home.html")
     save(client, f"/admin/auto-schedule/?run={run.pk}", output / "admin_run.html")
     save(client, f"/admin/review-schedules/?semester={run.semester_id}&run={run.pk}",
          output / "admin_review.html")
 
-    teacher, _ = get_user_model().objects.get_or_create(
-        username="synthetic_demo_lecturer", defaults={"is_active": True}
-    )
-    teacher.set_unusable_password()
-    teacher.save(update_fields=["password"])
-    entry.lecturer.user = teacher
-    entry.lecturer.save(update_fields=["user"])
+    teacher = entry.lecturer.user
+    if teacher is None:
+        teacher, _ = get_user_model().objects.get_or_create(
+            username="synthetic_demo_lecturer", defaults={"is_active": True}
+        )
+        teacher.set_unusable_password()
+        teacher.save(update_fields=["password"])
+        entry.lecturer.user = teacher
+        entry.lecturer.save(update_fields=["user"])
     client.force_login(teacher)
     save(client, "/portal/", output / "lecturer_portal.html")
     print(output)

@@ -9,7 +9,7 @@ select,input,button{font:inherit;padding:.5rem;margin-right:.5rem}button{backgro
 .error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;margin:.4rem 0;border-radius:6px}.success{background:#e6f6e9;color:#195a2b;padding:.6rem 1rem;border-radius:6px}
 .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;white-space:nowrap}th{background:#e9f2f7}
 .hint{color:#4c6270}a{color:#145e83}
-</style></head><body><main>
+</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
 <p><a href="/admin/">← Quản trị</a></p>
 <h1>Nhập danh mục: {% if kind == 'courses' %}Học phần{% elif kind == 'rooms' %}Phòng học{% else %}Giảng viên{% endif %}</h1>
 <p class="hint">Đây là chuẩn nhập liệu đề xuất cho hệ thống, chưa phải biểu mẫu Excel chính thức của SGU. Dữ liệu cùng mã sẽ được cập nhật; file không xóa các bản ghi vắng mặt.</p>
@@ -26,4 +26,4 @@ select,input,button{font:inherit;padding:.5rem;margin-right:.5rem}button{backgro
 {% if rows %}<div class="table-wrap"><table><tbody>{% for row in rows %}{% if forloop.first %}<tr>{% for key,value in row.items %}<th>{{ key }}</th>{% endfor %}</tr>{% endif %}
 <tr>{% for key,value in row.items %}<td>{{ value }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endif %}{% endfor %}
 {% if data and not errors %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="semester" value="{{ selected_semester }}"><button type="submit">Xác nhận nhập danh mục</button></form>{% endif %}
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

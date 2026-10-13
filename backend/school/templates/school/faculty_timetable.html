@@ -8,7 +8,7 @@ button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}
 th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top;width:13%}th{background:#e9f2f7}th:first-child,td:first-child{width:9%;white-space:nowrap}
 .slot{background:#e8f3fa;border-left:3px solid #145e83;padding:.35rem;margin:.15rem 0;border-radius:3px}.continued{background:#f2f7fa;color:#52677a;border-left-color:#9cb5c4}
 .hint{color:#52677a}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}.pages{display:flex;gap:1rem;margin:1rem 0}a{color:#145e83}
-</style></head><body><main>
+</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
 <p><a href="/admin/">← Quản trị</a></p><h1>Thời khóa biểu giảng viên theo khoa</h1>
 <p class="hint">Hiển thị lịch đã duyệt theo khoa quản lý giảng viên và tuần học được chọn.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
@@ -31,4 +31,4 @@ th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top
 </tbody></table></div></section>{% empty %}<p>Chưa có giảng viên trong khoa này.</p>{% endfor %}
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
 {% endif %}
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

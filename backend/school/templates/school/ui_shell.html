@@ -1,0 +1,21 @@
+<div class="ui-backdrop" id="uiBackdrop"></div>
+<aside class="ui-sidebar" id="uiSidebar" aria-label="Điều hướng">
+  <a class="ui-brand" href="{% if request.user.is_staff %}{% url 'auto_schedule' %}{% else %}{% url 'portal' %}{% endif %}"><span class="ui-mark">SGU</span><span><strong>Giảng dạy số</strong><small>Không gian điều phối học kỳ</small></span></a>
+  <div class="ui-nav-label">Không gian làm việc</div>
+  <nav>
+    {% if request.user.is_staff %}
+    <a href="{% url 'auto_schedule' %}"><span class="ui-icon">▦</span>Xếp lịch tự động</a>
+    <a href="{% url 'review_schedules' %}"><span class="ui-icon">☑</span>Rà soát và duyệt</a>
+    <a href="{% url 'faculty_timetable' %}"><span class="ui-icon">▤</span>Thời khóa biểu khoa</a>
+    <a href="{% url 'export_assignments' %}"><span class="ui-icon">⇩</span>Xuất phân công</a>
+    <div class="ui-nav-label">Dữ liệu</div>
+    <a href="{% url 'import_catalog' 'courses' %}"><span class="ui-icon">▧</span>Nhập danh mục</a>
+    <a href="/admin/"><span class="ui-icon">⚙</span>Quản trị hệ thống</a>
+    {% else %}
+    <a href="{% url 'portal' %}"><span class="ui-icon">▤</span>Lịch dạy và nguyện vọng</a>
+    {% endif %}
+  </nav>
+  <div class="ui-side-note">Bản trình diễn nghiên cứu · Dữ liệu công khai và giả định mô phỏng được phân biệt trong tài liệu nguồn.</div>
+</aside>
+<div class="ui-workspace">
+  <div class="ui-topbar"><button class="ui-menu-toggle" id="uiMenuToggle" type="button" aria-label="Mở menu">☰</button><div><div class="ui-topbar-title">Hệ thống phân công giảng dạy</div><div class="ui-topbar-sub">Trường Đại học Sài Gòn · Bản mô phỏng đề tài</div></div><div class="ui-topbar-actions"><span class="ui-chip">{% if request.user.is_staff %}QUẢN TRỊ{% else %}GIẢNG VIÊN{% endif %}</span><button class="ui-theme-toggle" id="uiThemeToggle" type="button" aria-label="Đổi giao diện sáng tối">◐</button><form class="ui-logout" action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Đăng xuất</button></form></div></div>

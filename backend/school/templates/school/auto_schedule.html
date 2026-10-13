@@ -6,7 +6,7 @@ main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #1
 label{display:block;font-weight:600;margin:.8rem 0 .25rem}input,select,button{font:inherit;padding:.55rem;max-width:100%}input[type=file]{width:100%}
 button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer;margin-top:1rem}.hint{color:#52677a}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}.result{background:#e8f4eb;padding:1rem;border-radius:6px}
 table{border-collapse:collapse;width:100%;margin-top:1rem}th,td{border:1px solid #d3dfe7;padding:.5rem;text-align:left}th{background:#e9f2f7}a{color:#145e83}
-</style></head><body><main>
+</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
 <p><a href="/admin/">← Quản trị</a></p><h1>Xếp lịch giảng dạy tự động</h1>
 <p class="hint">Chọn học kỳ, tải đủ ba file Excel rồi nhấn Chạy. Tiến trình xếp lịch sẽ tự gán giảng viên, thứ, tiết và phòng; trang trạng thái tự cập nhật khi đang xử lý.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
@@ -30,4 +30,4 @@ table{border-collapse:collapse;width:100%;margin-top:1rem}th,td{border:1px solid
 </tbody></table></div>{% endif %}{% endif %}</div>{% endif %}
 <h2>Lần chạy gần đây</h2><table><thead><tr><th>Mã</th><th>Học kỳ</th><th>Thời điểm</th><th>Trạng thái</th><th>Số buổi</th></tr></thead><tbody>
 {% for item in recent %}<tr><td><a href="?run={{ item.pk }}">{{ item.pk }}</a></td><td>{{ item.semester.name }}</td><td>{{ item.created_at|date:'d/m/Y H:i' }}</td><td>{{ item.status }}</td><td>{{ item.entry_count }}</td></tr>{% empty %}<tr><td colspan="5">Chưa có lần chạy.</td></tr>{% endfor %}</tbody></table>
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

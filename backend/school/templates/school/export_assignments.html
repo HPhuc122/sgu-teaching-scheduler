@@ -8,7 +8,7 @@ form{display:flex;flex-wrap:wrap;align-items:end;gap:.8rem;margin:1rem 0}label{d
 button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #d3dfe7;padding:.5rem;text-align:left;vertical-align:top}th{background:#e9f2f7;white-space:nowrap}
 .hint{color:#4c6270}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}a{color:#145e83}
-</style></head><body><main>
+</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
 <p><a href="/admin/">← Quản trị</a></p><h1>Xuất bảng phân công giảng dạy</h1>
 <p class="hint">Mẫu xuất đề xuất dựa trên các trường thời khóa biểu công khai của SGU; chưa phải biểu mẫu phân công nội bộ đã xác minh. Khoa được xác định theo đơn vị quản lý giảng viên.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
@@ -34,4 +34,4 @@ th,td{border:1px solid #d3dfe7;padding:.5rem;text-align:left;vertical-align:top}
 {% for row in detail_rows %}<tr><td>{{ row.1 }}</td><td>{{ row.2 }}</td><td>{{ row.5 }}</td><td>{{ row.7 }}</td><td>{{ row.8 }}</td><td>{{ row.9 }}</td><td>{{ row.10 }}</td><td>{{ row.11 }}</td><td>{{ row.12 }}</td><td>{{ row.14 }}</td><td>{{ row.15 }}</td></tr>{% empty %}<tr><td colspan="11">Không có buổi đã duyệt phù hợp.</td></tr>{% endfor %}
 </tbody></table></div>
 {% endif %}
-</main></body></html>
+</main>{% include "school/ui_end.html" %}</body></html>

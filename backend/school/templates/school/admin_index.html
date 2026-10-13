@@ -1,18 +1,22 @@
 {% extends "admin/index.html" %}
+{% block extrastyle %}{{ block.super }}<style>
+:root{--primary:#0d587e;--secondary:#123c60;--accent:#27aeca}
+#header{background:linear-gradient(100deg,#102f56,#096c92)}#site-name a{font-weight:800}
+.sgu-admin-hero{background:linear-gradient(110deg,#10375f,#0d6c91);color:white;padding:24px;border-radius:14px;margin-bottom:18px;box-shadow:0 12px 30px #143d5a24}
+.sgu-admin-hero h2{color:white!important;font-size:22px;margin:0 0 5px}.sgu-admin-hero p{color:#d0e9f2;margin:0}
+.sgu-admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:13px;margin-bottom:22px}
+.sgu-admin-grid a{display:block;padding:17px;background:var(--body-bg,#fff);border:1px solid #d6e5ed;border-radius:12px;color:#173f5e;text-decoration:none;box-shadow:0 4px 16px #123c6010}
+.sgu-admin-grid a:hover{border-color:#17a9c4;box-shadow:0 8px 22px #123c6025}.sgu-admin-grid strong{display:block;font-size:15px;margin-bottom:5px}.sgu-admin-grid span{display:block;font-size:12px;color:#62798a;line-height:1.5}
+</style>{% endblock %}
 {% block content %}
-<div class="module" style="padding:1rem;margin-bottom:1rem">
-  <h2>Xếp lịch tự động</h2>
-  <p><a href="{% url 'auto_schedule' %}">Tải ba file Excel và chạy xếp lịch cho học kỳ</a></p>
-  <h2>Nhập danh mục từ Excel</h2>
-  <p><a href="{% url 'import_catalog' 'courses' %}">Học phần và nhóm học phần</a> · <a href="{% url 'import_catalog' 'rooms' %}">Phòng học</a> · <a href="{% url 'import_catalog' 'lecturers' %}">Giảng viên</a></p>
-  <h2>Nhập lịch giảng dạy</h2>
-  <p><a href="{% url 'import_schedule' %}">Chọn học kỳ và nhập file Excel</a></p>
-  <h2>Rà soát lịch</h2>
-  <p><a href="{% url 'review_schedules' %}">Xem, sửa và duyệt lịch theo học kỳ</a></p>
-  <h2>Xuất phân công giảng dạy</h2>
-  <p><a href="{% url 'export_assignments' %}">Chọn học kỳ, khoa và tải Excel lịch đã duyệt</a></p>
-  <h2>Thời khóa biểu giảng viên theo khoa</h2>
-  <p><a href="{% url 'faculty_timetable' %}">Xem lịch theo học kỳ, khoa và tuần</a></p>
+<div class="sgu-admin-hero"><h2>Không gian quản trị giảng dạy</h2><p>Chuẩn bị nguồn lực, xếp lịch, rà soát và xuất phân công theo học kỳ.</p></div>
+<div class="sgu-admin-grid">
+  <a href="{% url 'auto_schedule' %}"><strong>▦ Xếp lịch tự động</strong><span>Tải ba file Excel và tạo phương án trong một lần chạy.</span></a>
+  <a href="{% url 'review_schedules' %}"><strong>☑ Rà soát lịch</strong><span>Kiểm tra nguyện vọng, điều chỉnh và duyệt kết quả.</span></a>
+  <a href="{% url 'faculty_timetable' %}"><strong>▤ Thời khóa biểu khoa</strong><span>Xem lịch đã duyệt theo khoa, tuần và giảng viên.</span></a>
+  <a href="{% url 'export_assignments' %}"><strong>⇩ Xuất phân công</strong><span>Đối chiếu độ đầy đủ và tải workbook kết quả.</span></a>
+  <a href="{% url 'import_catalog' 'courses' %}"><strong>▧ Nhập danh mục</strong><span>Nhập học phần, phòng học hoặc giảng viên từ Excel.</span></a>
+  <a href="{% url 'import_schedule' %}"><strong>✎ Nhập lịch ngoại lệ</strong><span>Bổ sung lịch đã có hoặc điều chỉnh các trường hợp đặc biệt.</span></a>
 </div>
 {{ block.super }}
 {% endblock %}

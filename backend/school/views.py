@@ -321,6 +321,8 @@ from django.urls import reverse
 
 @login_required
 def portal(request):
+    if request.user.is_staff and not Lecturer.objects.filter(user=request.user).exists():
+        return redirect("auto_schedule")
     lecturer = Lecturer.objects.filter(user=request.user).select_related("department").first()
     if not lecturer:
         return render(request, "school/no_profile.html", status=403)
