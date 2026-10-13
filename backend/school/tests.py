@@ -831,8 +831,9 @@ class ScheduleApiTests(TestCase):
         self.assertEqual(run.entry_count, 1)
         entry = ScheduleEntry.objects.get(algorithm_run=run)
         self.assertEqual(entry.day, 3)
-        self.assertContains(self.client.get(f"/admin/auto-schedule/?run={run.pk}"),
-                            "Đã xếp bằng phương án khởi tạo")
+        response = self.client.get(f"/admin/auto-schedule/?run={run.pk}")
+        self.assertContains(response, "Đã xếp lịch")
+        self.assertNotContains(response, "HEURISTIC")
         self.assertEqual(self.client.post("/admin/auto-schedule/", {
             "action": "approve", "run_id": str(run.pk),
         }).status_code, 200)
