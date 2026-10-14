@@ -31,3 +31,40 @@ Các dòng thiếu trường tối thiểu, sĩ số quá giới hạn dữ li�
 Bộ CNTT (`DCT`) đọc được 220 dòng lịch, trong đó 210 buổi dùng được; tạo 36 học phần, 106 nhóm, 39 giảng viên và 57 mã phòng. Trên SQLite kiểm thử riêng, hệ thống xếp được 210/210 buổi bằng `HEURISTIC`, không có xung đột cứng sau bước kiểm tra độc lập.
 
 Bộ 43 ngành đọc 3.870 dòng, dựng 3.189 buổi khác nhau, 1.370 nhóm và 569 học phần. Ba workbook được bộ đọc hệ thống chấp nhận, nhưng lượt xếp lịch toàn trường trả `UNKNOWN` sau khoảng hai phút vì heuristic chưa tìm được lịch khởi tạo; **không được diễn giải là vô nghiệm**. Bộ môn chung riêng đọc 601 dòng và dựng 588 buổi; hệ thống xếp được 588/588 bằng `HEURISTIC`. Số liệu chi tiết và dòng bị loại xem trong `provenance.json` tương ứng. Cần thử nghiệm tiếp hoặc bổ sung dữ liệu nguồn lực xác thực trước khi đưa ra kết luận về tính khả thi ở toàn trường.
+
+## Lịch hiển thị trên web của 15 khoa (14/10/2026)
+
+Trong cơ sở dữ liệu trình diễn `outputs/sgu_public_demo_DCT/demo.sqlite3`, ba học kỳ `SGU DEMO 15 khoa` trống đã được xóa. Học kỳ `Học kỳ 1 - Năm học 2026 - 2027` giữ nguyên 210 buổi CNTT đã duyệt. Lệnh `import_sgu_public_timetable` nạp thêm 2.415 buổi từ PDF công khai để trang **Thời khóa biểu khoa** có lịch ở cả 15 khoa. Tổng số buổi là 2.625. Bộ kiểm tra độc lập không phát hiện trùng giảng viên, phòng, nhóm hoặc lớp theo tuần, thứ và tiết. Bản sao trước khi nhập được lưu tại `outputs/sgu_public_demo_DCT/demo_before_all_faculties_20261014.sqlite3`.
+
+| Khoa | Số buổi trên web |
+| --- | ---: |
+| Công nghệ Thông tin | 271 (gồm 210 buổi cũ) |
+| Giáo dục | 39 |
+| Giáo dục Chính trị | 43 |
+| Giáo dục Mầm non | 91 |
+| Giáo dục quốc phòng – An ninh – Giáo dục thể chất | 273 |
+| Giáo dục Tiểu học | 107 |
+| Khoa học Xã hội và Nghệ thuật | 383 |
+| Kỹ thuật và Công nghệ | 220 |
+| Luật | 81 |
+| Ngoại ngữ | 295 |
+| Quản trị Kinh doanh | 160 |
+| Sư phạm Khoa học Tự nhiên | 120 |
+| Tài chính – Kế toán | 299 |
+| Toán – Ứng dụng | 55 |
+| Văn hóa và Du lịch | 188 |
+
+Các học phần Giáo dục thể chất và Giáo dục quốc phòng xuất hiện lặp lại trong PDF của nhiều ngành. Bản mô phỏng gán năm học phần này cùng 27 giảng viên chỉ dạy các học phần đó về khoa phụ trách tương ứng; tổng số buổi, thời gian và phòng học không thay đổi. Đây là ánh xạ phục vụ giao diện nghiên cứu, chưa phải thông tin nhân sự được SGU xác nhận.
+
+Lệnh đọc 4.471 dòng từ 44 PDF; 216 dòng thiếu trường tối thiểu, 657 dòng thuộc nguồn CNTT được giữ ngoài lượt nhập mới, 616 dòng trùng do công bố chéo, 7 dòng thuộc nhóm CNTT đã có lịch và 560 dòng không còn khung hợp lệ theo các giả định hiện tại. Trong 2.415 buổi thêm mới, 492 buổi đổi thứ, tiết hoặc phòng để tránh xung đột. Báo cáo máy đọc chi tiết lưu ở `outputs/sgu_public_demo_DCT/live_import_report.json`. Vì thế, **lịch trên web là bộ dữ liệu mô phỏng có nguồn, chưa phải toàn bộ lịch chính thức** của nhà trường.
+
+Giờ bắt đầu/kết thúc của 13 tiết đã được chỉnh theo [phần chung sổ tay đăng ký môn học SGU](https://daotao.sgu.edu.vn/images/pdf/sotaydkmh/HK241/HK241_phanchung.pdf). Ranh giới ca tối chưa được tái cấu hình trong mô hình hiện tại để giữ nguyên 210 buổi CNTT đã duyệt: có 82 buổi trong bộ dữ liệu trình diễn kéo từ tiết 10 sang tiết 11. Đây là giới hạn phải giải quyết trước khi dùng lịch để vận hành thực tế. Những giả định tuần học, khoa giảng viên và phòng học nêu ở trên vẫn áp dụng.
+
+Tạo lại trên một cơ sở dữ liệu trình diễn có 210 buổi CNTT bằng:
+
+```powershell
+$env:UCTP_SQLITE_PATH = 'D:\uctp_project\outputs\sgu_public_demo_DCT\demo.sqlite3'
+& .\.venv\Scripts\python.exe backend\manage.py import_sgu_public_timetable --semester-id 1 --source-dir outputs\sgu_public_sources --report outputs\sgu_public_demo_DCT\live_import_report.json --apply
+```
+
+Lệnh từ chối chạy lại khi đã có lịch `SGUMoPhong` trong học kỳ để tránh nhân đôi dữ liệu. Bỏ `--apply` để chạy thử và tự hoàn tác giao dịch.

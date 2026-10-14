@@ -595,6 +595,8 @@ class ScheduleApiTests(TestCase):
         self.assertEqual(first_week.status_code, 200)
         self.assertContains(first_week, "Kiến trúc máy tính")
         self.assertNotContains(first_week, "Giảng viên ngoài khoa")
+        all_lecturers = self.client.get(base.split("&lecturer=")[0] + "&week=1")
+        self.assertEqual(all_lecturers.context["page"].paginator.count, 1)
         slots = first_week.context["timetable"][0]["rows"][0]["cells"][0]
         self.assertEqual(slots[0]["entry"].pk, approved.data["id"])
         self.assertTrue(slots[0]["is_start"])
@@ -656,6 +658,23 @@ class ScheduleApiTests(TestCase):
         self.assertEqual(run.status, "QUEUED")
         self.assertEqual(response["Location"], f"/admin/auto-schedule/?run={run.pk}")
         return run
+
+    def test_admin_creates_semester_from_schedule_page_and_selects_it(self):
+        self.client.force_login(self.admin)
+        payload = {"action": "create_semester", "name": "HK2 2026-2027",
+                   "academic_year": "2026-2027", "start_date": "2027-02-01",
+                   "end_date": "2027-06-01", "week_count": "16"}
+        response = self.client.post("/admin/auto-schedule/", payload)
+        created = Semester.objects.get(name="HK2 2026-2027")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], f"/admin/auto-schedule/?semester={created.pk}")
+        self.assertContains(self.client.get(response["Location"]), "HK2 2026-2027")
+        duplicate = self.client.post("/admin/auto-schedule/", payload)
+        self.assertEqual(duplicate.status_code, 400)
+        self.assertEqual(Semester.objects.filter(name="HK2 2026-2027").count(), 1)
+        payload.update({"name": "HK3 2026-2027", "end_date": "2027-01-01"})
+        self.assertEqual(self.client.post("/admin/auto-schedule/", payload).status_code, 400)
+        self.assertFalse(Semester.objects.filter(name="HK3 2026-2027").exists())
 
     def test_upload_reports_multiple_files_sheets_and_rows_before_queueing(self):
         data = self.auto_data()

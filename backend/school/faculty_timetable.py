@@ -43,7 +43,17 @@ def faculty_timetable(request):
 
     page = None
     timetable = []
+    public_demo_count = 0
     if semester and faculty and not errors:
+        public_demo_count = ScheduleEntry.objects.filter(
+            group__semester=semester, lecturer__department__faculty=faculty,
+            source="SGUMoPhong", status="DaDuyet").count()
+        if not lecturer_id:
+            # The faculty may have many catalog-only lecturers. Show those who
+            # actually teach in the selected week before paginating.
+            lecturers = lecturers.filter(scheduleentry__group__semester=semester,
+                                         scheduleentry__schedule_weeks__week=week,
+                                         scheduleentry__status="DaDuyet").distinct()
         page = Paginator(lecturers, 10).get_page(request.GET.get("page"))
         periods = list(Period.objects.order_by("pk"))
         entries = (ScheduleEntry.objects.filter(
@@ -67,6 +77,7 @@ def faculty_timetable(request):
         "lecturer_id": lecturer_id, "lecturers": Lecturer.objects.filter(department__faculty=faculty).order_by("name")
         if faculty else Lecturer.objects.none(),
         "week": week, "weeks": range(1, semester.week_count + 1) if semester else [],
+        "public_demo_count": public_demo_count,
         "days": DAYS, "page": page, "timetable": timetable, "errors": errors,
         "query_prefix": urlencode({"semester": semester_id, "faculty": faculty_id,
                                    "lecturer": lecturer_id, "week": week}),

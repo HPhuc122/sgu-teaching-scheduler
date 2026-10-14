@@ -1,5 +1,6 @@
 """Single-screen three-workbook automatic scheduling workflow."""
 
+from django import forms
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -13,6 +14,27 @@ from .schedule_queue import enqueue_schedule
 from .services import ScheduleConflictError
 
 
+class NewSemesterForm(forms.ModelForm):
+    class Meta:
+        model = Semester
+        fields = ("name", "academic_year", "start_date", "end_date", "week_count")
+        widgets = {"start_date": forms.DateInput(attrs={"type": "date"}),
+                   "end_date": forms.DateInput(attrs={"type": "date"})}
+        labels = {"name": "Tên học kỳ", "academic_year": "Năm học",
+                  "start_date": "Ngày bắt đầu", "end_date": "Ngày kết thúc",
+                  "week_count": "Số tuần học"}
+
+    def clean(self):
+        data = super().clean()
+        if data.get("start_date") and data.get("end_date") and data["end_date"] < data["start_date"]:
+            self.add_error("end_date", "Ngày kết thúc phải sau ngày bắt đầu")
+        name = data.get("name", "").strip()
+        year = data.get("academic_year", "").strip()
+        if name and year and Semester.objects.filter(name__iexact=name, academic_year__iexact=year).exists():
+            self.add_error("name", "Học kỳ này đã tồn tại")
+        return data
+
+
 @staff_member_required
 def auto_schedule(request):
     semesters = Semester.objects.all().order_by("-start_date")
@@ -20,10 +42,16 @@ def auto_schedule(request):
     input_issues = []
     input_issue_count = 0
     run = None
-    selected = request.POST.get("semester", "") if request.method == "POST" else ""
+    selected = request.POST.get("semester", "") if request.method == "POST" else request.GET.get("semester", "")
+    semester_form = NewSemesterForm(request.POST if request.method == "POST" and
+                                    request.POST.get("action") == "create_semester" else None)
     if request.method == "POST":
         action = request.POST.get("action")
-        if action == "approve":
+        if action == "create_semester":
+            if semester_form.is_valid():
+                created = semester_form.save()
+                return redirect(f"/admin/auto-schedule/?semester={created.pk}")
+        elif action == "approve":
             run_id = request.POST.get("run_id", "")
             if not run_id.isdigit():
                 errors.append("Mã lần chạy không hợp lệ")
@@ -65,7 +93,8 @@ def auto_schedule(request):
         "input_issue_count": input_issue_count,
         "run": run, "recent": recent, "can_approve": can_approve,
         "approved_count": approved_count, "hard_conflicts": hard_conflicts,
-    }, status=400 if errors or input_issues else 200)
+        "semester_form": semester_form,
+    }, status=400 if errors or input_issues or semester_form.errors else 200)
 
 
 @staff_member_required

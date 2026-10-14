@@ -8,7 +8,7 @@ Mỗi thư mục `bo_01`, `bo_02`, `bo_03` có đúng ba tệp để tải lên 
 | `bo_02` | `SGU DEMO 15 khoa - BO_02` | 480 |
 | `bo_03` | `SGU DEMO 15 khoa - BO_03` | 960 |
 
-Sau khi chạy thành công, quản trị viên xem kết quả chờ duyệt, duyệt lịch rồi mới xem tại **Thời khóa biểu khoa**. Dữ liệu đang chạy ở địa chỉ `127.0.0.1:8010` đã được tạo sẵn ba học kỳ này. Nếu dùng cơ sở dữ liệu khác, hãy tạo ba học kỳ tương ứng với 16 tuần trước khi tải file.
+Sau khi chạy thành công, quản trị viên xem kết quả chờ duyệt, duyệt lịch rồi mới xem tại **Thời khóa biểu khoa**. Ba học kỳ `SGU DEMO` không được tạo sẵn trên giao diện nữa. Nếu muốn thử một bộ, dùng nút **+ Tạo học kỳ mới** và nhập đúng tên học kỳ trong bảng với 16 tuần trước khi tải file. Không tải trực tiếp vào học kỳ HK1 2026–2027 đang có lịch, vì các nhóm học phần đã duyệt có thể trùng.
 
 Kiểm thử ngày 13/10/2026 trên ba cơ sở dữ liệu SQLite tách biệt: bộ giải xếp đủ lần lượt 240/240, 480/480, 960/960 buổi; bộ kiểm tra độc lập không thấy trùng phòng, giảng viên, nhóm hoặc lớp theo tuần và tiết. Mỗi kết quả có giảng viên thuộc đủ 15 khoa. Trạng thái thuật toán là `HEURISTIC`, tức có lịch hợp lệ nhưng chưa chứng minh tối ưu. Bộ 240 còn được thử duyệt 240/240 buổi thành công. Lần chạy trên máy khác có thể khác về thời gian hoặc phương án.
 

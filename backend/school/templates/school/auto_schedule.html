@@ -6,17 +6,22 @@ main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #1
 label{display:block;font-weight:600;margin:.8rem 0 .25rem}input,select,button{font:inherit;padding:.55rem;max-width:100%}input[type=file]{width:100%}
 button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer;margin-top:1rem}.hint{color:#52677a}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}.result{background:#e8f4eb;padding:1rem;border-radius:6px}
 table{border-collapse:collapse;width:100%;margin-top:1rem}th,td{border:1px solid #d3dfe7;padding:.5rem;text-align:left}th{background:#e9f2f7}a{color:#145e83}
+.semester-create{border:1px solid #d3dfe7;border-radius:9px;padding:.75rem 1rem;margin:1rem 0;background:#f8fbfe}.semester-create summary{cursor:pointer;font-weight:700;color:#145e83}.semester-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem 1rem}.semester-fields input{box-sizing:border-box;width:100%}.field-error{color:#8d261a;font-size:.9rem}
 </style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
 <p><a href="/admin/">← Quản trị</a></p><h1>Xếp lịch giảng dạy tự động</h1>
 <p class="hint">Chọn học kỳ, tải đủ ba file Excel rồi nhấn Chạy. Tiến trình xếp lịch sẽ tự gán giảng viên, thứ, tiết và phòng; trang trạng thái tự cập nhật khi đang xử lý.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
 {% if input_issues %}<div class="error"><strong>Phát hiện {{ input_issue_count }} lỗi trong ba file. Hãy sửa rồi tải lại:</strong><div style="overflow-x:auto"><table><thead><tr><th>File</th><th>Sheet</th><th>Dòng</th><th>Lỗi</th></tr></thead><tbody>{% for item in input_issues %}<tr><td>{{ item.file }}</td><td>{{ item.sheet|default:"—" }}</td><td>{{ item.line|default:"—" }}</td><td>{{ item.message }}</td></tr>{% endfor %}</tbody></table></div></div>{% endif %}
+<details class="semester-create" {% if semester_form.errors %}open{% endif %}><summary>+ Tạo học kỳ mới</summary>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="create_semester">
+<div class="semester-fields">{% for field in semester_form %}<div><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>{% endfor %}</div>
+<button type="submit">Lưu và chọn học kỳ</button></form></details>
 <form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="run">
 <label for="semester">Học kỳ</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>{% for item in semesters %}<option value="{{ item.pk }}" {% if selected == item.pk|stringformat:'s' %}selected{% endif %}>{{ item.name }} ({{ item.academic_year }})</option>{% endfor %}</select>
 <label for="courses">File Học phần</label><input type="file" id="courses" name="courses" accept=".xlsx" required><a href="{% url 'auto_template' 'courses' %}">Tải mẫu Học phần</a>
 <label for="rooms">File Phòng học</label><input type="file" id="rooms" name="rooms" accept=".xlsx" required><a href="{% url 'auto_template' 'rooms' %}">Tải mẫu Phòng học</a>
 <label for="lecturers">File Giảng viên</label><input type="file" id="lecturers" name="lecturers" accept=".xlsx" required><a href="{% url 'auto_template' 'lecturers' %}">Tải mẫu Giảng viên</a>
-<p class="hint">File Học phần cần sheet BuoiHocYeuCau: mỗi dòng là một buổi cần xếp, có số tiết và tuần học. File Phòng học và Giảng viên có thể để trống các sheet thời gian không khả dụng. Mỗi file tối đa 6.000 dòng dữ liệu và 10 MB. Học kỳ và cấu hình tiết học được tạo một lần trong quản trị.</p>
+<p class="hint">File Học phần cần sheet BuoiHocYeuCau: mỗi dòng là một buổi cần xếp, có số tiết và tuần học. File Phòng học và Giảng viên có thể để trống các sheet thời gian không khả dụng. Mỗi file tối đa 6.000 dòng dữ liệu và 10 MB. Có thể tạo học kỳ mới ở ngay phía trên; cấu hình tiết học được quản lý trong trang quản trị.</p>
 <button type="submit">Chạy xếp lịch</button></form>
 {% if run %}<div class="{% if run.entry_count %}result{% elif run.status == 'QUEUED' or run.status == 'RUNNING' %}result{% else %}error{% endif %}"><strong>Lần chạy #{{ run.pk }}: {% include "school/auto_run_status.html" with item=run %}</strong><br>
 {% if run.entry_count %}Đã tự xếp {{ run.entry_count }} buổi. Điểm phạt trước cải thiện: {{ run.objective_before|default_if_none:"—" }}; sau cải thiện: {{ run.objective }}. <a href="{% url 'review_schedules' %}?semester={{ run.semester_id }}&run={{ run.pk }}">Xem kết quả</a> · <a href="{% url 'review_schedules' %}?semester={{ run.semester_id }}&run={{ run.pk }}#nguyen-vong">Xem mức đáp ứng nguyện vọng</a>
