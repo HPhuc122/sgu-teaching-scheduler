@@ -56,4 +56,4 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 <p><button type="submit" {% if selected_semester.status == 'DaKhoa' %}disabled{% endif %}>Duyệt các buổi đã chọn trên trang này</button></p></form>
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
 {% endif %}
-</main>{% include "school/ui_end.html" %}<script>document.getElementById('faculty').addEventListener('change',function(){document.getElementById('lecturer').value='';});</script></body></html>
+</main>{% include "school/ui_end.html" %}<script>document.getElementById('faculty').addEventListener('change',function(){document.getElementById('lecturer').value='';this.form.requestSubmit();});</script></body></html>
