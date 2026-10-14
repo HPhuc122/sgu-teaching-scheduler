@@ -43,7 +43,7 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 <form method="post" class="approve">{% csrf_token %}<input type="hidden" name="action" value="approve"><input type="hidden" name="semester" value="{{ selected_semester.pk }}">{% for key, value in filters.items %}{% if value %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}
 <div class="table-wrap"><table><thead><tr><th>Chọn</th><th>Môn học</th><th>Nhóm / Tổ TH</th><th>Giảng viên</th><th>Phòng / địa điểm</th><th>Thứ</th><th>Tiết</th><th>Tuần</th><th>Trạng thái</th><th>Người duyệt</th><th>Thao tác</th></tr></thead><tbody>
 {% for entry in page %}<tr>
-<td>{% if entry.status == 'ChoDuyet' and selected_semester.status != 'DaKhoa' %}<input type="checkbox" name="entry_ids" value="{{ entry.pk }}" aria-label="Chọn buổi {{ entry.pk }}">{% endif %}</td>
+<td>{% if entry.status == 'DaDuyet' %}<input type="checkbox" checked disabled aria-label="Buổi {{ entry.pk }} đã duyệt">{% elif selected_semester.status != 'DaKhoa' %}<input type="checkbox" name="entry_ids" value="{{ entry.pk }}" aria-label="Chọn buổi {{ entry.pk }} để duyệt">{% else %}<input type="checkbox" disabled aria-label="Buổi {{ entry.pk }} chưa duyệt; học kỳ đã khóa">{% endif %}</td>
 <td>{{ entry.group.course.code }}<br>{{ entry.group.course.name }}</td><td>{{ entry.group.group }}{% if entry.group.lab_group %} / {{ entry.group.lab_group }}{% endif %}</td>
 <td>{{ entry.lecturer.employee_code|default:'—' }}<br>{{ entry.lecturer.name|default:'Chưa phân công' }}</td>
 <td>{% if entry.room %}{{ entry.room.code }}{% else %}{{ entry.other_location|default:'—' }}{% endif %}</td><td>{{ entry.day }}</td><td>Tiết {{ entry.start_period_id }} ({{ entry.period_count }} tiết)</td>
