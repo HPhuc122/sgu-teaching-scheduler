@@ -68,8 +68,31 @@ def faculty_timetable(request):
                 )
         for lecturer in page.object_list:
             rows = [{"period": period,
-                     "cells": [grid.get((lecturer.pk, period.pk, day), []) for day, _ in DAYS]}
+                     "cells": [{"slots": grid.get((lecturer.pk, period.pk, day), []),
+                                "rowspan": 1} for day, _ in DAYS]}
                     for period in periods]
+            for day_index, _ in enumerate(DAYS):
+                index = 0
+                while index < len(periods):
+                    cell = rows[index]["cells"][day_index]
+                    slots = cell["slots"]
+                    if len(slots) == 1 and slots[0]["is_start"]:
+                        entry = slots[0]["entry"]
+                        span = entry.period_count
+                        if (span > 1 and index + span <= len(periods)
+                                and all(periods[index + offset].pk == entry.start_period_id + offset
+                                        and len(grid.get((lecturer.pk, entry.start_period_id + offset,
+                                                          DAYS[day_index][0]), [])) == 1
+                                        and grid[(lecturer.pk, entry.start_period_id + offset,
+                                                  DAYS[day_index][0])][0]["entry"].pk == entry.pk
+                                        for offset in range(span))):
+                            cell["rowspan"] = span
+                            cell["end_period"] = entry.start_period_id + span - 1
+                            for offset in range(1, span):
+                                rows[index + offset]["cells"][day_index] = None
+                            index += span
+                            continue
+                    index += 1
             timetable.append({"lecturer": lecturer, "rows": rows})
     context = {
         "semesters": semesters, "faculties": faculties, "selected_semester": semester,

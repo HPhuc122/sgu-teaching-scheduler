@@ -6,7 +6,7 @@ main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #1
 form{display:flex;flex-wrap:wrap;gap:.8rem;align-items:end;margin:1rem 0}label{display:block;font-weight:600}select,button{font:inherit;padding:.5rem}
 button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1000px;font-size:.88rem}
 th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top;width:13%}th{background:#e9f2f7}th:first-child,td:first-child{width:9%;white-space:nowrap}
-.slot{background:#e8f3fa;border-left:4px solid #145e83;padding:.45rem;min-height:5.5rem;box-sizing:border-box}.slot.practical{background:#fff1df;border-left-color:#cf7518}.slot+.slot{margin-top:.25rem}
+.table-wrap td.occupied{background:#e8f3fa;border-left:4px solid #145e83}.table-wrap td.occupied.practical-cell{background:#fff1df;border-left-color:#cf7518}.slot{padding:.35rem;box-sizing:border-box}.slot+.slot{margin-top:.4rem;border-top:1px solid #b8cbd8}
 .hint{color:#52677a}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}.pages{display:flex;gap:1rem;margin:1rem 0}a{color:#145e83}
 .demo-note{background:#fff8e8;border:1px solid #e6ca8d;border-radius:8px;padding:.7rem 1rem;margin:1rem 0}
 .legend{display:flex;flex-wrap:wrap;gap:1rem;color:#52677a}.legend-swatch{display:inline-block;width:.8rem;height:.8rem;margin-right:.3rem;vertical-align:middle;background:#e8f3fa;border-left:4px solid #145e83}.legend-swatch.practical{background:#fff1df;border-left-color:#cf7518}
@@ -27,11 +27,11 @@ th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top
 {% for block in timetable %}<section><h2>{{ block.lecturer.name }} <small class="hint">({{ block.lecturer.employee_code|default:'chưa có mã' }})</small></h2>
 <div class="table-wrap"><table><thead><tr><th>Tiết</th>{% for day, label in days %}<th>{{ label }}</th>{% endfor %}</tr></thead><tbody>
 {% for row in block.rows %}<tr><th>Tiết {{ row.period.pk }}<br><small>{{ row.period.start_time|time:'H:i' }}–{{ row.period.end_time|time:'H:i' }}</small></th>
-{% for cell in row.cells %}<td>{% for slot in cell %}<div class="slot{% if slot.entry.group.lab_group %} practical{% endif %}">
+{% for cell in row.cells %}{% if cell %}<td rowspan="{{ cell.rowspan }}"{% if cell.slots %} class="occupied{% if cell.slots.0.entry.group.lab_group %} practical-cell{% endif %}"{% endif %}>{% for slot in cell.slots %}<div class="slot">
 <strong>{{ slot.entry.group.course.code }} · {{ slot.entry.group.course.name }}</strong><br>Nhóm {{ slot.entry.group.group }}{% if slot.entry.group.lab_group %} / Tổ TH {{ slot.entry.group.lab_group }}{% endif %}<br>
-{{ slot.entry.period_count }} tiết · {% if slot.entry.room %}{{ slot.entry.room.code }}{% else %}{{ slot.entry.other_location|default:'Chưa có địa điểm' }}{% endif %}<br>
+Tiết {{ slot.entry.start_period_id }}{% if cell.end_period %}–{{ cell.end_period }}{% endif %} · {% if slot.entry.room %}{{ slot.entry.room.code }}{% else %}{{ slot.entry.other_location|default:'Chưa có địa điểm' }}{% endif %}<br>
 <a href="{% url 'edit_schedule' slot.entry.pk %}">Xem buổi dạy</a>
-</div>{% endfor %}</td>{% endfor %}</tr>{% empty %}<tr><td colspan="8">Chưa cấu hình tiết học.</td></tr>{% endfor %}
+</div>{% endfor %}</td>{% endif %}{% endfor %}</tr>{% empty %}<tr><td colspan="8">Chưa cấu hình tiết học.</td></tr>{% endfor %}
 </tbody></table></div></section>{% empty %}<p>Chưa có lịch đã duyệt ở tuần này. Hãy chọn tuần khác hoặc một giảng viên cụ thể để xem lịch trống.</p>{% endfor %}
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
 {% endif %}

@@ -640,12 +640,16 @@ class ScheduleApiTests(TestCase):
         self.assertNotContains(first_week, "Giảng viên ngoài khoa")
         all_lecturers = self.client.get(base.split("&lecturer=")[0] + "&week=1")
         self.assertEqual(all_lecturers.context["page"].paginator.count, 1)
-        slots = first_week.context["timetable"][0]["rows"][0]["cells"][0]
+        first_cell = first_week.context["timetable"][0]["rows"][0]["cells"][0]
+        slots = first_cell["slots"]
         self.assertEqual(slots[0]["entry"].pk, approved.data["id"])
         self.assertTrue(slots[0]["is_start"])
+        self.assertEqual(first_cell["rowspan"], 3)
+        self.assertIsNone(first_week.context["timetable"][0]["rows"][1]["cells"][0])
+        self.assertContains(first_week, 'rowspan="3"')
         second_week = self.client.get(base + "&week=2")
         self.assertEqual(second_week.status_code, 200)
-        self.assertFalse(any(cell for row in second_week.context["timetable"][0]["rows"]
+        self.assertFalse(any(cell and cell["slots"] for row in second_week.context["timetable"][0]["rows"]
                              for cell in row["cells"]))
         third_week = self.client.get(base + "&week=3")
         self.assertEqual(third_week.status_code, 200)
