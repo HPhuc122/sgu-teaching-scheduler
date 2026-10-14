@@ -10,10 +10,13 @@
 
 Từ thư mục gốc `D:\uctp_project`:
 
+Để mở bản demo trên máy hiện tại với CSS/JavaScript của Django Admin, chạy `& .\start_local_demo.ps1`. Lệnh này dùng cơ sở dữ liệu `outputs\sgu_public_demo_DCT\demo.sqlite3`, bật `UCTP_DEBUG=1` chỉ cho máy chủ cục bộ `127.0.0.1:8010`. Có thể đổi cổng bằng `-Port 8011`. Chỉ dùng cấu hình này khi phát triển cục bộ.
+
 ```powershell
 & .\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 & .\.venv\Scripts\python.exe backend\manage.py migrate
 & .\.venv\Scripts\python.exe backend\manage.py createsuperuser
+$env:UCTP_DEBUG = '1' # chi dung khi phat trien cuc bo de Django phuc vu static
 & .\.venv\Scripts\python.exe backend\manage.py runserver
 ```
 
