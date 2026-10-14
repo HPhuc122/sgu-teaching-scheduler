@@ -10,23 +10,27 @@ from django.urls import reverse
 from rest_framework.exceptions import ValidationError
 
 from .forms import ScheduleReviewForm
-from .models import AlgorithmRun, Course, Lecturer, Room, ScheduleEntry, Semester
+from .models import AlgorithmRun, Course, Faculty, Lecturer, Room, ScheduleEntry, Semester
 from .preference_report import preference_report
 from .services import ScheduleConflictError, approve_schedule_entries, save_schedule_entry
 
 
-def _review_context(request, semester, errors):
-    semesters = Semester.objects.all().order_by("-start_date")
-    context = {"semesters": semesters, "selected_semester": semester,
-               "errors": errors, "courses": Course.objects.all().order_by("code"),
-               "lecturers": Lecturer.objects.all().order_by("name"),
-               "rooms": Room.objects.all().order_by("code")}
-    filters = {key: request.GET.get(key, "").strip()
-               for key in ("course", "group", "lecturer", "room", "status", "run")}
-    context["filters"] = filters
+FILTER_KEYS = ("faculty", "course", "group", "lecturer", "room", "status", "run")
+
+
+def _review_filters(request):
+    source = request.POST if request.method == "POST" else request.GET
+    return {key: source.get(key, "").strip() for key in FILTER_KEYS}
+
+
+def _review_entries(semester, filters):
+    if semester is None:
+        return ScheduleEntry.objects.none()
     qs = (ScheduleEntry.objects.filter(group__semester=semester)
           .select_related("group__course", "lecturer", "room", "approved_by")
-          .prefetch_related("schedule_weeks").order_by("day", "start_period_id", "pk")) if semester else ScheduleEntry.objects.none()
+          .prefetch_related("schedule_weeks").order_by("day", "start_period_id", "pk"))
+    if filters["faculty"]:
+        qs = qs.filter(lecturer__department__faculty_id=filters["faculty"])
     if filters["course"].isdigit():
         qs = qs.filter(group__course_id=filters["course"])
     if filters["group"]:
@@ -39,6 +43,20 @@ def _review_context(request, semester, errors):
         qs = qs.filter(status=filters["status"])
     if filters["run"].isdigit():
         qs = qs.filter(algorithm_run_id=filters["run"])
+    return qs
+
+
+def _review_context(request, semester, errors, filters, faculty):
+    semesters = Semester.objects.all().order_by("-start_date")
+    context = {"semesters": semesters, "selected_semester": semester,
+               "errors": errors, "courses": Course.objects.all().order_by("code"),
+               "faculties": Faculty.objects.all().order_by("name"),
+               "selected_faculty": faculty,
+               "lecturers": (Lecturer.objects.filter(department__faculty=faculty)
+                             if faculty else Lecturer.objects.all()).order_by("name"),
+               "rooms": Room.objects.all().order_by("code")}
+    context["filters"] = filters
+    qs = _review_entries(semester, filters) if not errors else ScheduleEntry.objects.none()
     context["count"] = qs.count()
     context["page"] = Paginator(qs, 50).get_page(request.GET.get("page"))
     context["query_prefix"] = urlencode({"semester": semester.pk if semester else "",
@@ -56,6 +74,7 @@ def _review_context(request, semester, errors):
 
 @staff_member_required
 def review_schedules(request):
+    filters = _review_filters(request)
     semester_id = request.POST.get("semester") if request.method == "POST" else request.GET.get("semester")
     if semester_id and semester_id.isdigit():
         semester = Semester.objects.filter(pk=semester_id).first()
@@ -66,23 +85,37 @@ def review_schedules(request):
     errors = []
     if semester_id and semester is None:
         errors.append("Học kỳ không hợp lệ")
+    faculty = (Faculty.objects.filter(pk=filters["faculty"]).first()
+               if filters["faculty"].isdigit() else None)
+    if filters["faculty"] and faculty is None:
+        errors.append("Khoa không hợp lệ")
+    if filters["lecturer"] and (not filters["lecturer"].isdigit() or
+                                not Lecturer.objects.filter(pk=filters["lecturer"],
+                                                            **({"department__faculty": faculty}
+                                                               if faculty else {})).exists()):
+        errors.append("Giảng viên không thuộc khoa đã chọn" if faculty else "Giảng viên không hợp lệ")
     if request.method == "POST":
         if semester is None:
             errors.append("Hãy chọn học kỳ")
         elif request.POST.get("action") != "approve":
             errors.append("Thao tác không hợp lệ")
-        else:
+        elif not errors:
             raw_ids = request.POST.getlist("entry_ids")
             if any(not raw.isdigit() for raw in raw_ids):
                 errors.append("Mã buổi dạy không hợp lệ")
             else:
                 try:
-                    count = approve_schedule_entries(semester.pk, [int(raw) for raw in raw_ids], actor=request.user)
+                    ids = [int(raw) for raw in raw_ids]
+                    if _review_entries(semester, filters).filter(pk__in=ids).count() != len(set(ids)):
+                        raise ValidationError("Có buổi dạy nằm ngoài bộ lọc đang chọn")
+                    count = approve_schedule_entries(semester.pk, ids, actor=request.user)
                     messages.success(request, f"Đã duyệt {count} buổi dạy.")
-                    return redirect(f"{reverse('review_schedules')}?semester={semester.pk}")
+                    query = urlencode({"semester": semester.pk,
+                                       **{key: value for key, value in filters.items() if value}})
+                    return redirect(f"{reverse('review_schedules')}?{query}")
                 except (ValidationError, ScheduleConflictError) as exc:
                     errors.append(f"Không thể duyệt; dữ liệu chưa được thay đổi: {exc}")
-    return render(request, "school/review_schedules.html", _review_context(request, semester, errors),
+    return render(request, "school/review_schedules.html", _review_context(request, semester, errors, filters, faculty),
                   status=400 if errors else 200)
 
 

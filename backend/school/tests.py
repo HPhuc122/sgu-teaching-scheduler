@@ -409,6 +409,49 @@ class ScheduleApiTests(TestCase):
         self.client.force_login(self.teacher_user)
         self.assertEqual(len(self.client.get("/api/me/schedule/").data), 1)
 
+    def test_review_filters_faculty_lecturers_and_approval_scope(self):
+        other_faculty = Faculty.objects.create(code="TOAN", name="Khoa Toán")
+        other_department = Department.objects.create(faculty=other_faculty, code="TUD", name="Toán ứng dụng")
+        other_lecturer = Lecturer.objects.create(department=other_department, employee_code="20001",
+                                                 name="Giảng viên khoa Toán")
+        TeachingQualification.objects.create(lecturer=other_lecturer, course=self.group2.course)
+        first_payload = self.payload(self.group1, self.teacher, [1])
+        first_payload["status"] = "ChoDuyet"
+        second_payload = self.payload(self.group2, other_lecturer, [2])
+        second_payload["status"] = "ChoDuyet"
+        first = self.client.post("/api/schedules/", first_payload, format="json")
+        second = self.client.post("/api/schedules/", second_payload, format="json")
+        self.assertEqual((first.status_code, second.status_code), (201, 201))
+        self.client.force_login(self.admin)
+        url = (f"/admin/review-schedules/?semester={self.semester.pk}"
+               f"&faculty={self.teacher.department.faculty_id}&status=ChoDuyet")
+        page = self.client.get(url)
+        self.assertEqual(page.context["count"], 1)
+        self.assertEqual(list(page.context["lecturers"]), [self.teacher, self.other_teacher])
+        self.assertNotContains(page, "Giảng viên khoa Toán")
+        self.assertContains(page, "Tất cả khoa")
+        wrong = self.client.post("/admin/review-schedules/", {
+            "action": "approve", "semester": str(self.semester.pk),
+            "faculty": str(self.teacher.department.faculty_id), "status": "ChoDuyet",
+            "entry_ids": [str(second.data["id"])],
+        })
+        self.assertContains(wrong, "ngoài bộ lọc", status_code=400)
+        self.assertEqual(ScheduleEntry.objects.filter(status="DaDuyet").count(), 0)
+        self.assertEqual(self.client.get(
+            url + f"&lecturer={other_lecturer.pk}").status_code, 400)
+        approved = self.client.post("/admin/review-schedules/", {
+            "action": "approve", "semester": str(self.semester.pk),
+            "faculty": str(self.teacher.department.faculty_id), "status": "ChoDuyet",
+            "entry_ids": [str(first.data["id"])],
+        })
+        self.assertEqual(approved.status_code, 302)
+        self.assertIn(f"faculty={self.teacher.department.faculty_id}", approved["Location"])
+        self.assertEqual(ScheduleEntry.objects.get(pk=first.data["id"]).status, "DaDuyet")
+        self.assertEqual(ScheduleEntry.objects.get(pk=second.data["id"]).status, "ChoDuyet")
+        all_faculties = self.client.get(f"/admin/review-schedules/?semester={self.semester.pk}")
+        self.assertEqual(all_faculties.context["count"], 2)
+        self.assertIn(other_lecturer, all_faculties.context["lecturers"])
+
     def test_bulk_approval_is_atomic_when_one_entry_becomes_invalid(self):
         first_payload = self.payload(self.group1, self.teacher, [1])
         first_payload["status"] = "ChoDuyet"

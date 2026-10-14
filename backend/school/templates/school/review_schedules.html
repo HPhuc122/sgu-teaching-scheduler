@@ -19,6 +19,7 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 <form class="filters" method="get">{% if filters.run %}<input type="hidden" name="run" value="{{ filters.run }}">{% endif %}
 <div><label for="semester">Học kỳ</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>
 {% for semester in semesters %}<option value="{{ semester.pk }}" {% if selected_semester.pk == semester.pk %}selected{% endif %}>{{ semester.name }} ({{ semester.academic_year }})</option>{% endfor %}</select></div>
+<div><label for="faculty">Khoa</label><select id="faculty" name="faculty"><option value="">Tất cả khoa</option>{% for faculty in faculties %}<option value="{{ faculty.pk }}" {% if filters.faculty == faculty.pk|stringformat:'s' %}selected{% endif %}>{{ faculty.name }}</option>{% endfor %}</select></div>
 <div><label for="course">Môn học</label><select id="course" name="course"><option value="">Tất cả</option>{% for course in courses %}<option value="{{ course.pk }}" {% if filters.course == course.pk|stringformat:'s' %}selected{% endif %}>{{ course.code }} – {{ course.name }}</option>{% endfor %}</select></div>
 <div><label for="group">Nhóm</label><input id="group" name="group" value="{{ filters.group }}" size="8"></div>
 <div><label for="lecturer">Giảng viên</label><select id="lecturer" name="lecturer"><option value="">Tất cả</option>{% for lecturer in lecturers %}<option value="{{ lecturer.pk }}" {% if filters.lecturer == lecturer.pk|stringformat:'s' %}selected{% endif %}>{{ lecturer.employee_code }} – {{ lecturer.name }}</option>{% endfor %}</select></div>
@@ -27,7 +28,7 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 <button type="submit">Lọc lịch</button></form>
 {% if selected_semester %}<p>{% if filters.run %}Lần chạy #{{ filters.run }} · {% endif %}<strong>{{ count }}</strong> buổi phù hợp. {% if selected_semester.status == 'DaKhoa' %}<span class="hint">Học kỳ đã khóa; không thể sửa hoặc duyệt.</span>{% endif %}</p>
 <section id="nguyen-vong"><h2>Mức đáp ứng nguyện vọng giảng viên</h2>
-<p class="hint">Đánh giá theo {% if filters.run %}các buổi của lần chạy #{{ filters.run }}{% else %}các buổi đang lưu trong học kỳ{% endif %}, không theo bộ lọc môn/phòng hoặc trang hiện tại. Mỗi buổi định kỳ được tính một lần. Nguyện vọng ngày không thể dạy là ràng buộc cứng; ưu tiên hoặc tránh khung giờ là nguyện vọng mềm. Kết quả dùng nguyện vọng hiện đang lưu; nếu nguyện vọng được gửi sau lần xếp lịch, hãy chạy lại để bộ giải áp dụng. Đây chưa phải đánh giá theo quy định nội bộ SGU.</p>
+<p class="hint">Đánh giá theo {% if filters.run %}các buổi của lần chạy #{{ filters.run }}{% else %}các buổi đang lưu trong học kỳ{% endif %}, không theo bộ lọc khoa, môn, phòng hoặc trang hiện tại. Mỗi buổi định kỳ được tính một lần. Nguyện vọng ngày không thể dạy là ràng buộc cứng; ưu tiên hoặc tránh khung giờ là nguyện vọng mềm. Kết quả dùng nguyện vọng hiện đang lưu; nếu nguyện vọng được gửi sau lần xếp lịch, hãy chạy lại để bộ giải áp dụng. Đây chưa phải đánh giá theo quy định nội bộ SGU.</p>
 {% if selected_run and selected_run.preferences_captured_at %}<p class="hint">Ảnh chụp nguyện vọng dùng khi xếp lịch: {{ selected_run.preferences_captured_at|date:'d/m/Y H:i:s' }}. Có khi chạy, chưa sửa: {{ preference_report.snapshot_totals.unchanged }}; gửi sau: {{ preference_report.snapshot_totals.added }}; sửa sau: {{ preference_report.snapshot_totals.changed }}; xóa sau: {{ preference_report.snapshot_totals.removed }}.</p>
 {% elif selected_run %}<p class="hint">Lần chạy này chưa có ảnh chụp nguyện vọng; không thể xác định nguyện vọng được gửi hoặc sửa sau khi chạy.</p>{% endif %}
 <div class="pref-summary"><span>Đáp ứng: {{ preference_report.totals.met }}</span><span>Một phần: {{ preference_report.totals.partial }}</span><span>Chưa đáp ứng: {{ preference_report.totals.unmet }}</span><span>Chưa đánh giá: {{ preference_report.totals.unassessed }}</span></div>
@@ -39,7 +40,7 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 </tbody></table></div>
 {% if preference_report.removed_preferences %}<p><strong>Nguyện vọng đã xóa sau lần chạy:</strong>
 {% for item in preference_report.removed_preferences %}{{ item.employee_code }} – {{ item.lecturer_name }} ({{ item.kind }}{% if item.day %}, thứ {{ item.day }}{% endif %}{% if item.time_block %}, {{ item.time_block }}{% endif %}){% if not forloop.last %}; {% endif %}{% endfor %}</p>{% endif %}</section>
-<form method="post" class="approve">{% csrf_token %}<input type="hidden" name="action" value="approve"><input type="hidden" name="semester" value="{{ selected_semester.pk }}">
+<form method="post" class="approve">{% csrf_token %}<input type="hidden" name="action" value="approve"><input type="hidden" name="semester" value="{{ selected_semester.pk }}">{% for key, value in filters.items %}{% if value %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}
 <div class="table-wrap"><table><thead><tr><th>Chọn</th><th>Môn học</th><th>Nhóm / Tổ TH</th><th>Giảng viên</th><th>Phòng / địa điểm</th><th>Thứ</th><th>Tiết</th><th>Tuần</th><th>Trạng thái</th><th>Người duyệt</th><th>Thao tác</th></tr></thead><tbody>
 {% for entry in page %}<tr>
 <td>{% if entry.status == 'ChoDuyet' and selected_semester.status != 'DaKhoa' %}<input type="checkbox" name="entry_ids" value="{{ entry.pk }}" aria-label="Chọn buổi {{ entry.pk }}">{% endif %}</td>
@@ -55,4 +56,4 @@ label{display:block;font-size:.9rem;font-weight:600}select,input,button{font:inh
 <p><button type="submit" {% if selected_semester.status == 'DaKhoa' %}disabled{% endif %}>Duyệt các buổi đã chọn trên trang này</button></p></form>
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
 {% endif %}
-</main>{% include "school/ui_end.html" %}</body></html>
+</main>{% include "school/ui_end.html" %}<script>document.getElementById('faculty').addEventListener('change',function(){document.getElementById('lecturer').value='';});</script></body></html>
