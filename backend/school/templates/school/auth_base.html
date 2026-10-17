@@ -1,0 +1,6 @@
+<!doctype html><html lang="vi"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Đăng nhập{% endblock %} · SGU Teaching Scheduler</title>{% include 'school/ui_styles.html' %}{% block extrahead %}{% endblock %}
+</head><body class="sgu-app auth-page">
+<section class="auth-intro"><div class="auth-brand"><span class="ui-mark">SGU</span><span>Teaching Scheduler</span></div><div><span class="eyebrow">Điều phối giảng dạy</span><h2>Một học kỳ.<br>Mọi nguồn lực.<br>Cùng một kế hoạch.</h2><p>Kết nối học phần, giảng viên và phòng học để xây dựng lịch giảng dạy rõ ràng cho từng khoa.</p></div><small>Trường Đại học Sài Gòn · Bản trình diễn nghiên cứu</small></section>
+<div class="auth-form-side"><main class="auth-card" id="content-start">{% block auth_content %}{% endblock %}</main></div>
+</body></html>

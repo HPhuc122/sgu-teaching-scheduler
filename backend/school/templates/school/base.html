@@ -1,0 +1,14 @@
+{% load static %}<!doctype html>
+<html lang="vi"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}SGU Teaching Scheduler{% endblock %} · SGU</title>
+  {% include "school/ui_styles.html" %}{% block extrahead %}{% endblock %}
+</head><body class="sgu-app custom-page">
+  <a class="skip-to-content-link" href="#content-start">Chuyển đến nội dung</a>
+  {% include "school/ui_shell.html" %}
+  <div class="ui-workspace"><main id="content-start" tabindex="-1">
+    <nav class="breadcrumbs" aria-label="Đường dẫn"><a href="{% if request.user.is_staff %}{% url 'admin:index' %}{% else %}{% url 'portal' %}{% endif %}">Trang chủ</a><span aria-hidden="true"> / </span><span>{% block breadcrumb %}Không gian làm việc{% endblock %}</span></nav>
+    {% block content %}{% endblock %}
+    <footer class="ui-footer">SGU Teaching Scheduler <span>Trường Đại học Sài Gòn · Hệ thống hỗ trợ phân công giảng dạy</span></footer>
+  </main></div>{% block scripts %}{% endblock %}
+</body></html>

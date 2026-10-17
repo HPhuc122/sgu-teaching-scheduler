@@ -1,0 +1,5 @@
+{% load school_ui %}
+<details data-filter-title="{{ title }}" open>
+  <summary>{{ spec|filter_title }}</summary>
+  <ul>{% for choice in choices %}<li{% if choice.selected %} class="selected"{% endif %}><a href="{{ choice.query_string|iriencode }}"{% if choice.selected %} aria-current="true"{% endif %}>{{ choice.display|status_label }}</a></li>{% endfor %}</ul>
+</details>

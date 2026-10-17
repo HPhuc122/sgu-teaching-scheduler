@@ -1,17 +1,14 @@
-<!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sửa lịch giảng dạy</title>
-<style>
-body{font:16px/1.5 system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem;color:#183047;background:#f5f8fb}
-main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #172f4212}h1{margin-top:0}
-form{display:grid;gap:.8rem}label{display:block;font-weight:600}input,select,button{font:inherit;padding:.55rem;width:100%;box-sizing:border-box}button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}
-.hint{color:#4c6270}.errorlist{color:#8d261a}a{color:#145e83}
-</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
+{% extends "school/base.html" %}{% load school_ui %}
+{% block title %}Sửa lịch giảng dạy{% endblock %}
+{% block breadcrumb %}Sửa lịch giảng dạy{% endblock %}
+
+{% block content %}
 <p><a href="{% url 'review_schedules' %}?semester={{ entry.group.semester_id }}">← Danh sách lịch</a></p>
 <h1>Sửa buổi dạy</h1>
 <p><strong>{{ entry.group.course.code }} – {{ entry.group.course.name }}</strong><br>Nhóm {{ entry.group.group }}{% if entry.group.lab_group %}, tổ TH {{ entry.group.lab_group }}{% endif %} · {{ entry.group.semester.name }}</p>
 {% if entry.status == 'DaDuyet' %}<p class="hint">Sửa lịch đã duyệt sẽ đưa buổi dạy về trạng thái chờ duyệt. Giảng viên chỉ thấy lại sau khi được duyệt.</p>{% endif %}
 {% if entry.group.semester.status == 'DaKhoa' %}<p class="hint">Học kỳ đã khóa; không thể sửa lịch.</p>{% else %}
-<form method="post">{% csrf_token %}{{ form.non_field_errors }}
+<form method="post"><div class="form-grid">{% csrf_token %}{{ form.non_field_errors }}
 {% for field in form %}<div><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}{% if field.help_text %}<small class="hint">{{ field.help_text }}</small>{% endif %}</div>{% endfor %}
-<button type="submit">Lưu và chuyển về chờ duyệt</button></form>{% endif %}
-</main>{% include "school/ui_end.html" %}</body></html>
+</div><div class="actions-row"><button type="submit">Lưu và chuyển về chờ duyệt</button><a class="button secondary" href="{% url 'review_schedules' %}?semester={{ entry.group.semester_id }}">Hủy</a></div></form>{% endif %}
+{% endblock %}

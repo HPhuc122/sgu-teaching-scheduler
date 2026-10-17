@@ -1,21 +1,35 @@
-<div class="ui-backdrop" id="uiBackdrop"></div>
-<aside class="ui-sidebar" id="uiSidebar" aria-label="Điều hướng">
-  <a class="ui-brand" href="{% if request.user.is_staff %}{% url 'auto_schedule' %}{% else %}{% url 'portal' %}{% endif %}"><span class="ui-mark">SGU</span><span><strong>Giảng dạy số</strong><small>Không gian điều phối học kỳ</small></span></a>
-  <div class="ui-nav-label">Không gian làm việc</div>
+{% load school_ui %}{% ui_navigation as navigation %}
+<div class="ui-backdrop" id="uiBackdrop" hidden></div>
+<aside class="ui-sidebar" id="uiSidebar" aria-label="Điều hướng chính">
+  <a class="ui-brand" href="{% if request.user.is_staff %}{% url 'admin:index' %}{% else %}{% url 'portal' %}{% endif %}"><span class="ui-mark">SGU</span><span class="ui-brand-text"><strong>Teaching Scheduler</strong><small>ĐIỀU PHỐI GIẢNG DẠY</small></span></a>
   <nav>
     {% if request.user.is_staff %}
-    <a href="{% url 'auto_schedule' %}"><span class="ui-icon">▦</span>Xếp lịch tự động</a>
-    <a href="{% url 'review_schedules' %}"><span class="ui-icon">☑</span>Rà soát và duyệt</a>
-    <a href="{% url 'faculty_timetable' %}"><span class="ui-icon">▤</span>Thời khóa biểu khoa</a>
-    <a href="{% url 'export_assignments' %}"><span class="ui-icon">⇩</span>Xuất phân công</a>
-    <div class="ui-nav-label">Dữ liệu</div>
-    <a href="{% url 'import_catalog' 'courses' %}"><span class="ui-icon">▧</span>Nhập danh mục</a>
-    <a href="/admin/"><span class="ui-icon">⚙</span>Quản trị hệ thống</a>
+      <div class="ui-nav-label">Không gian làm việc</div>
+      <a href="{% url 'admin:index' %}" title="Tổng quan"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='dashboard' %}</span><span class="ui-nav-text">Tổng quan</span></a>
+      <a href="{% url 'auto_schedule' %}" title="Xếp lịch tự động"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Xếp lịch tự động</span></a>
+      <a href="{% url 'review_schedules' %}" title="Rà soát và duyệt"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='check' %}</span><span class="ui-nav-text">Rà soát và duyệt</span></a>
+      <a href="{% url 'faculty_timetable' %}" title="Thời khóa biểu khoa"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Thời khóa biểu khoa</span></a>
+      <a href="{% url 'export_assignments' %}" title="Xuất phân công"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='download' %}</span><span class="ui-nav-text">Xuất phân công</span></a>
+      <div class="ui-nav-label">Nhập dữ liệu Excel</div>
+      <a href="{% url 'import_catalog' 'courses' %}" title="Nhập danh mục"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='upload' %}</span><span class="ui-nav-text">Nhập danh mục</span></a>
+      <a href="{% url 'import_schedule' %}" title="Nhập lịch ngoại lệ"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='upload' %}</span><span class="ui-nav-text">Nhập lịch ngoại lệ</span></a>
+      {% for section in navigation %}<div class="ui-nav-label">{{ section.label }}</div>{% for link in section.links %}<a href="{{ link.url }}" title="{{ link.label }}"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='data' %}</span><span class="ui-nav-text">{{ link.label }}</span></a>{% endfor %}{% endfor %}
     {% else %}
-    <a href="{% url 'portal' %}"><span class="ui-icon">▤</span>Lịch dạy và nguyện vọng</a>
+      <div class="ui-nav-label">Không gian giảng viên</div>
+      <a href="{% url 'portal' %}" title="Lịch dạy và nguyện vọng"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Lịch dạy và nguyện vọng</span></a>
     {% endif %}
   </nav>
-  <div class="ui-side-note">Bản trình diễn nghiên cứu · Dữ liệu công khai và giả định mô phỏng được phân biệt trong tài liệu nguồn.</div>
+  <div class="ui-side-note"><span class="ui-nav-text">Trường Đại học Sài Gòn<br><small>Bản trình diễn nghiên cứu</small></span></div>
 </aside>
-<div class="ui-workspace">
-  <div class="ui-topbar"><button class="ui-menu-toggle" id="uiMenuToggle" type="button" aria-label="Mở menu">☰</button><div><div class="ui-topbar-title">Hệ thống phân công giảng dạy</div><div class="ui-topbar-sub">Trường Đại học Sài Gòn · Bản mô phỏng đề tài</div></div><div class="ui-topbar-actions"><span class="ui-chip">{% if request.user.is_staff %}QUẢN TRỊ{% else %}GIẢNG VIÊN{% endif %}</span><button class="ui-theme-toggle" id="uiThemeToggle" type="button" aria-label="Đổi giao diện sáng tối">◐</button><form class="ui-logout" action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Đăng xuất</button></form></div></div>
+<header class="ui-topbar">
+  <button class="ui-icon-button" id="uiMenuToggle" type="button" aria-label="Thu gọn thanh điều hướng" aria-controls="uiSidebar" aria-expanded="true">{% include 'school/icon.html' with icon='menu' %}</button>
+  <div class="ui-topbar-heading"><strong id="uiPageTitle">{% firstof title 'Không gian làm việc' %}</strong><small>SGU Teaching Scheduler</small></div>
+  <div class="ui-topbar-actions">
+    <button class="ui-icon-button" id="uiThemeToggle" type="button" aria-label="Bật giao diện tối" aria-pressed="false">{% include 'school/icon.html' with icon='theme' %}</button>
+    <details class="ui-account"><summary><span class="ui-avatar" aria-hidden="true">{{ request.user.get_username|first|upper }}</span><span class="ui-account-name">{% firstof request.user.get_short_name request.user.get_username %}<small>{% if request.user.is_staff %}Quản trị viên{% else %}Giảng viên{% endif %}</small></span><span aria-hidden="true">⌄</span></summary><div class="ui-account-menu">
+      <strong>{% firstof request.user.get_full_name request.user.get_username %}</strong>
+      {% if request.user.is_staff and request.user.has_usable_password %}<a href="{% url 'admin:password_change' %}">Đổi mật khẩu</a>{% endif %}
+      <form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Đăng xuất</button></form>
+    </div></details>
+  </div>
+</header>

@@ -342,7 +342,7 @@ def portal(request):
         preferences = preferences.filter(semester_id=semester_id)
     return render(request, "school/portal.html", {
         "lecturer": lecturer, "semesters": semesters, "selected_semester": str(semester_id or ""),
-        "entries": entries, "preferences": preferences, "form": PreferenceForm(),
+        "entries": entries, "preferences": preferences, "form": PreferenceForm(initial={"semester": semester_id}),
     })
 
 
@@ -363,5 +363,6 @@ def submit_preference(request):
     else:
         for field, errors in form.errors.items():
             for error in errors:
-                messages.error(request, f"{field}: {error}")
+                label = form.fields[field].label if field in form.fields else "Biểu mẫu"
+                messages.error(request, f"{label}: {error}")
     return redirect("portal")

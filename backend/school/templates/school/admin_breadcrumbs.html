@@ -1,0 +1,2 @@
+{% load school_ui admin_urls %}
+<div class="breadcrumbs"><a href="{% url 'admin:index' %}">Tổng quan</a>{% if opts %}<span aria-hidden="true"> / </span>{% url opts|admin_urlname:'changelist' as list_url %}{% if has_view_permission or cl %}<a href="{{ list_url }}">{{ opts|model_label }}</a>{% else %}{{ opts|model_label }}{% endif %}{% endif %}{% if title %}<span aria-hidden="true"> / </span>{{ title }}{% endif %}</div>

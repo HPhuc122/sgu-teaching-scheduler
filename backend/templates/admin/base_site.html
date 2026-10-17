@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}{% load static %}
+{% block title %}{{ title }} · SGU Teaching Scheduler{% endblock %}
+{% block dark-mode-vars %}{% endblock %}
+{% block bodyclass %}{{ block.super }} sgu-app sgu-admin{% endblock %}
+{% block extrahead %}{{ block.super }}{% include "school/ui_styles.html" %}<link rel="stylesheet" href="{% static 'school/css/admin.css' %}">{% endblock %}
+{% block header %}{% if has_permission %}{% include "school/ui_shell.html" %}{% endif %}{% endblock %}
+{% block nav-sidebar %}{% endblock %}
+{% block nav-breadcrumbs %}<nav aria-label="Đường dẫn">{% include "school/admin_breadcrumbs.html" %}</nav>{% endblock %}
+{% block footer %}<div class="ui-footer">SGU Teaching Scheduler <span>Trường Đại học Sài Gòn · Bản trình diễn nghiên cứu</span></div>{% endblock %}

@@ -1,35 +1,20 @@
-<!doctype html>
-<html lang="vi">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nhập lịch giảng dạy từ Excel</title>
-  <style>
-    body{font:16px/1.5 system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#183047;background:#f5f8fb}
-    main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #172f4212}
-    h1{margin-top:0} form{margin:1rem 0;padding:1rem;border:1px solid #d3dfe7;border-radius:8px}
-    label{display:block;margin-bottom:.4rem;font-weight:600} select,input,button{font:inherit;padding:.5rem;margin-right:.5rem}
-    button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}button:disabled{background:#94a5ae;cursor:not-allowed}
-    .error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;margin:.4rem 0;border-radius:6px}
-    .success{background:#e6f6e9;color:#195a2b;padding:.6rem 1rem;border-radius:6px}
-    .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;white-space:nowrap}th{background:#e9f2f7}
-    .hint{color:#4c6270}a{color:#145e83}
-  </style>
-{% include "school/ui_styles.html" %}</head>
-<body>{% include "school/ui_shell.html" %}<main>
-  <p><a href="/admin/">← Quản trị</a></p>
-  <h1>Nhập lịch giảng dạy từ Excel</h1>
+{% extends "school/base.html" %}{% load school_ui %}
+{% block title %}Nhập lịch giảng dạy từ Excel{% endblock %}
+{% block breadcrumb %}Nhập lịch giảng dạy từ Excel{% endblock %}
+
+{% block content %}
+<h1>Nhập lịch giảng dạy từ Excel</h1>
   <p class="hint">Chọn học kỳ và tải file theo mẫu. Hệ thống kiểm tra toàn bộ file trước khi lưu. Lịch nhập có trạng thái chờ duyệt.</p>
   <p><a href="{% url 'import_schedule_template' %}">Tải mẫu Excel</a> · Tối đa 500 dòng, 2 MB.</p>
-  {% for message in messages %}<div class="success">{{ message }}</div>{% endfor %}
-  <form method="post" enctype="multipart/form-data">
+  {% for message in messages %}<div class="message {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}
+  <form method="post" enctype="multipart/form-data" data-busy="Đang kiểm tra dữ liệu…">
     {% csrf_token %}<input type="hidden" name="action" value="preview">
     <label for="semester">Học kỳ</label>
     <select name="semester" id="semester" required>
       <option value="">Chọn học kỳ</option>
       {% for semester in semesters %}<option value="{{ semester.pk }}" {% if selected_semester == semester.pk|stringformat:'s' %}selected{% endif %}>{{ semester.name }} ({{ semester.academic_year }})</option>{% endfor %}
     </select>
-    <label for="file">File Excel (.xlsx)</label>
+    <h2 class="step-heading"><span>01</span> Chọn file và kiểm tra</h2><label for="file">File Excel (.xlsx)</label>
     <input id="file" type="file" name="file" accept=".xlsx" required>
     <button type="submit">Xem trước và kiểm tra</button>
   </form>
@@ -38,6 +23,6 @@
     <h2>Bản xem trước: {{ rows|length }} dòng</h2>
     <div class="table-wrap"><table><thead><tr><th>Dòng</th><th>Mã môn</th><th>Nhóm</th><th>Tổ TH</th><th>Mã viên chức</th><th>Phòng</th><th>Thứ</th><th>Tiết bắt đầu</th><th>Số tiết</th><th>Tuần học</th><th>Địa điểm khác</th></tr></thead>
     <tbody>{% for row in rows %}<tr><td>{{ row.line }}</td><td>{{ row.ma_mon_hoc }}</td><td>{{ row.nhom }}</td><td>{{ row.to_th }}</td><td>{{ row.ma_vien_chuc }}</td><td>{{ row.ma_phong }}</td><td>{{ row.thu }}</td><td>{{ row.tiet_bat_dau }}</td><td>{{ row.so_tiet }}</td><td>{{ row.tuan_hoc }}</td><td>{{ row.dia_diem_khac }}</td></tr>{% endfor %}</tbody></table></div>
-    {% if not errors %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="semester" value="{{ selected_semester }}"><button type="submit">Xác nhận nhập {{ rows|length }} dòng</button></form>{% endif %}
+    {% if not errors %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="semester" value="{{ selected_semester }}"><p class="success" role="status">Dữ liệu xem trước hợp lệ. Kiểm tra nội dung bên trên trước khi xác nhận lưu.</p><button type="submit">Xác nhận nhập {{ rows|length }} dòng</button></form>{% endif %}
   {% endif %}
-</main>{% include "school/ui_end.html" %}</body></html>
+{% endblock %}

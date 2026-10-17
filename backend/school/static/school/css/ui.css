@@ -1,0 +1,230 @@
+/* Shared presentation tokens. Django widget internals are styled in admin.css. */
+:root {
+  color-scheme: light;
+  --canvas:#f4f6fa; --surface:#fff; --surface-alt:#f8fafc; --ink:#182c46;
+  --muted:#5e6e82; --line:#dfe5ee; --blue:#185cbd; --blue-hover:#124a9b;
+  --teal:#087b76; --tint:#eaf2ff; --success:#14634b; --success-bg:#edf8f2;
+  --danger:#ae3037; --danger-bg:#fff0f0; --warning:#865712; --warning-bg:#fff7e8;
+  --sidebar-width:264px; --radius:12px; --shadow:0 3px 14px #152c4810;
+}
+html[data-theme="dark"] {
+  color-scheme:dark; --canvas:#101b2b; --surface:#19283b; --surface-alt:#1e3046;
+  --ink:#ebf2fc; --muted:#acbbcf; --line:#35465e; --blue:#91baff;
+  --blue-hover:#b6d0ff; --teal:#7ad6cd; --tint:#263e60; --success:#8ee0b9;
+  --success-bg:#193b32; --danger:#ffb0b5; --danger-bg:#422932;
+  --warning:#f2cc82; --warning-bg:#3d3424; --shadow:0 3px 14px #0002;
+}
+.sgu-app,.sgu-app * {box-sizing:border-box}
+body.sgu-app {margin:0; padding:0; min-height:100vh; background:var(--canvas); color:var(--ink); font:14px/1.6 "Segoe UI",system-ui,-apple-system,sans-serif}
+.sgu-app a {color:var(--blue); text-decoration:none}
+.sgu-app a:hover {text-decoration:underline; text-underline-offset:3px}
+.sgu-app :focus-visible {outline:3px solid var(--teal); outline-offset:3px}
+.sgu-app h1,.sgu-app h2,.sgu-app h3 {color:var(--ink); font-weight:650; line-height:1.3}
+.sgu-app h1 {font-size:clamp(24px,2.3vw,32px); letter-spacing:-.035em; margin:0 0 10px}
+.sgu-app h2 {font-size:19px; letter-spacing:-.02em; margin:26px 0 14px}
+.sgu-app h3 {font-size:15px; margin:20px 0 10px}
+.sgu-app p {margin:10px 0 18px}
+.sgu-app .hint,.sgu-app .sub,.sgu-app .muted {color:var(--muted)}
+.sgu-app .skip-to-content-link {position:fixed; z-index:100; top:-100px; left:16px; background:var(--surface); color:var(--ink); border:2px solid var(--teal); padding:12px 18px; border-radius:8px}
+.sgu-app .skip-to-content-link:focus {top:12px}
+.ui-sidebar {position:fixed; inset:0 auto 0 0; width:var(--sidebar-width); z-index:60; display:flex; flex-direction:column; background:#132b49; color:#d8e4f3; border-right:1px solid #28405e}
+.sgu-app .ui-brand {display:flex; align-items:center; gap:11px; min-height:88px; padding:20px; color:#fff; text-decoration:none}
+.ui-mark {display:grid; place-items:center; flex-shrink:0; width:42px; height:42px; border-radius:10px; background:#fff; color:#163e68; font-size:15px; font-weight:800; letter-spacing:-.07em}
+.ui-brand-text strong {display:block; font-size:15px; font-weight:650; letter-spacing:-.03em}
+.ui-brand-text small {display:block; font-size:9px; color:#a2b8d1; letter-spacing:.12em; margin-top:2px}
+.ui-sidebar nav {flex:1; overflow-y:auto; overflow-x:hidden; padding:0 12px 18px; scrollbar-width:thin; scrollbar-color:#4a6381 transparent}
+.ui-nav-label {color:#a5bad3; font-size:10px; font-weight:650; letter-spacing:.08em; text-transform:uppercase; padding:22px 12px 9px; white-space:nowrap}
+.sgu-app .ui-sidebar nav a {display:flex; gap:11px; align-items:center; min-height:40px; padding:9px 12px; color:#d3dfef; border-radius:7px; font-size:12px; margin:2px 0; text-decoration:none; border-left:3px solid transparent; transition:background .15s}
+.sgu-app .ui-sidebar nav a:hover {background:#203e60; color:#fff}
+.sgu-app .ui-sidebar nav a.active {background:#234767; color:#fff; border-left-color:#5bd6c4; font-weight:650}
+.ui-icon {display:flex; align-items:center; flex:0 0 19px}
+.ui-icon svg {width:18px; height:18px}
+.ui-side-note {padding:16px 24px; border-top:1px solid #2b4260; font-size:11px; color:#d0dcec}
+.ui-side-note small {font-size:10px; color:#a5bad3}
+.ui-topbar {height:76px; margin-left:var(--sidebar-width); padding:0 32px; display:flex; align-items:center; gap:16px; background:var(--surface); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:40}
+.ui-topbar-heading {min-width:0}
+.ui-topbar-heading strong {display:block; font-size:14px; max-width:50vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--ink)}
+.ui-topbar-heading small {display:block; font-size:11px; color:var(--muted)}
+.ui-topbar-actions {margin-left:auto; display:flex; align-items:center; gap:16px}
+.sgu-app .ui-icon-button {display:grid; place-items:center; flex-shrink:0; width:36px; height:36px; padding:0; margin:0; background:transparent; border:1px solid var(--line); border-radius:8px; color:var(--muted); box-shadow:none; cursor:pointer}
+.sgu-app .ui-icon-button:hover {background:var(--tint); color:var(--blue); border-color:var(--blue)}
+.ui-account {position:relative; color:var(--ink)}
+.ui-account summary {display:flex; align-items:center; gap:9px; cursor:pointer; list-style:none; padding:5px 0; font-size:12px}
+.ui-account summary::-webkit-details-marker {display:none}
+.ui-avatar {width:34px; height:34px; display:grid; place-items:center; border-radius:50%; background:var(--tint); color:var(--blue); font-size:14px; font-weight:700}
+.ui-account-name {max-width:170px; overflow:hidden; text-overflow:ellipsis}
+.ui-account-name small {display:block; font-size:10px; color:var(--muted)}
+.ui-account-menu {position:absolute; right:0; top:calc(100% + 8px); width:228px; max-width:calc(100vw - 28px); background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px; box-shadow:0 12px 36px #0002}
+.ui-account-menu>strong {display:block; padding:8px; font-size:12px; overflow-wrap:anywhere}
+.sgu-app .ui-account-menu a,.sgu-app .ui-account-menu button {display:block; padding:9px; width:100%; margin:0; background:transparent; color:var(--ink); border:0; border-radius:6px; text-align:left; font-size:13px; font-weight:400; box-shadow:none; text-decoration:none}
+.sgu-app .ui-account-menu a:hover,.sgu-app .ui-account-menu button:hover {background:var(--tint)}
+.ui-workspace {margin-left:var(--sidebar-width); min-width:0}
+.ui-workspace main {max-width:1640px; margin:0 auto; padding:22px 32px 32px; min-width:0}
+.sgu-app .breadcrumbs {padding:0; margin:0 0 25px; color:var(--muted); background:transparent; font-size:11px; line-height:1.8}
+.sgu-app .breadcrumbs a {color:var(--muted)}
+.sgu-app .breadcrumbs a:hover {color:var(--blue)}
+.ui-footer {display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; padding:24px 0 0; margin-top:40px; border-top:1px solid var(--line); color:var(--muted); font-size:10px}
+.ui-footer span {font-size:10px}
+.sgu-app.custom-page section,.sgu-app.custom-page main>form,.sgu-app .panel {background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin:20px 0; box-shadow:var(--shadow); min-width:0}
+.sgu-app.custom-page section>h2:first-child,.sgu-app .panel>h2:first-child {margin-top:0}
+.sgu-app .grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px}
+.sgu-app .grid section {margin:0}
+.sgu-app label {display:block; color:var(--ink); font-size:12px; font-weight:600; margin:14px 0 6px}
+.sgu-app input,.sgu-app select,.sgu-app textarea,.sgu-app button {font-family:inherit; font-size:13px; max-width:100%}
+.sgu-app input::placeholder,.sgu-app textarea::placeholder {color:var(--muted); opacity:1}
+.sgu-app.custom-page input:not([type=hidden]):not([type=checkbox]):not([type=radio]),.sgu-app.custom-page select,.sgu-app.custom-page textarea {border:1px solid var(--line); border-radius:7px; padding:10px 12px; min-height:41px; background:var(--surface); color:var(--ink); transition:border-color .15s; width:100%}
+.sgu-app.custom-page input:hover,.sgu-app.custom-page select:hover {border-color:var(--muted)}
+.sgu-app.custom-page input:focus,.sgu-app.custom-page select:focus,.sgu-app.custom-page textarea:focus {border-color:var(--blue)}
+.sgu-app input[type=checkbox],.sgu-app input[type=radio] {width:17px; height:17px; accent-color:var(--blue); vertical-align:middle; cursor:pointer}
+.sgu-app.custom-page main button,.sgu-app .button {display:inline-flex; align-items:center; justify-content:center; gap:8px; background:#185cbd; color:#fff; padding:10px 17px; border:1px solid #185cbd; border-radius:7px; font-size:13px; font-weight:600; line-height:1.5; cursor:pointer; text-decoration:none; min-height:40px; transition:background .15s}
+.sgu-app.custom-page main button[type=submit] {margin-top:16px}
+.sgu-app.custom-page main button:hover,.sgu-app .button:hover {background:#124a9b; border-color:#124a9b}
+.sgu-app .button.secondary {background:var(--surface); color:var(--blue); border-color:var(--line)}
+.sgu-app .button.secondary:hover {background:var(--tint); border-color:var(--blue)}
+.sgu-app button:disabled,.sgu-app input:disabled {opacity:.55; cursor:not-allowed; box-shadow:none}
+.sgu-app .actions-row {display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:18px}
+.sgu-app .empty-state .actions-row {justify-content:center}
+.sgu-app input[type=file] {display:block; padding:10px; border:1px dashed var(--line); background:var(--surface-alt); border-radius:8px; width:100%}
+.sgu-app input[type=file]::file-selector-button {padding:7px 10px; margin-right:10px; border:1px solid var(--line); border-radius:5px; background:var(--surface); color:var(--blue); font:inherit; cursor:pointer}
+.sgu-app .file-feedback {display:block; color:var(--teal); font-size:11px; margin:6px 0; overflow-wrap:anywhere}
+.sgu-app .filters {display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end}
+.sgu-app .filters>div {flex:1 1 180px; min-width:0; max-width:100%}
+.sgu-app .filters label {margin-top:0}
+.sgu-app .filters button[type=submit] {margin-top:0}
+.sgu-app .error,.sgu-app .success,.sgu-app .message,.sgu-app .result,.sgu-app .demo-note {padding:15px 18px; border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:8px; background:var(--surface); margin:16px 0; overflow-wrap:anywhere}
+.sgu-app .error,.sgu-app .message.error {color:var(--danger); background:var(--danger-bg); border-color:var(--danger)}
+.sgu-app .success,.sgu-app .message.success {color:var(--success); background:var(--success-bg); border-color:var(--success)}
+.sgu-app .result {background:var(--success-bg); border-left-color:var(--success)}
+.sgu-app .result.pending {background:var(--tint); border-left-color:var(--blue)}
+.sgu-app .demo-note {background:var(--warning-bg); color:var(--warning); border-left-color:var(--warning)}
+.sgu-app .errorlist,.sgu-app .field-error {color:var(--danger); font-size:12px}
+.sgu-app .errorlist {padding-left:20px}
+.sgu-app .table-wrap {max-width:100%; overflow:auto; border:1px solid var(--line); border-radius:10px; background:var(--surface); margin:18px 0; scrollbar-width:thin}
+.sgu-app.custom-page table {width:100%; border-spacing:0; border-collapse:separate; font-size:12px; text-align:left}
+.sgu-app.custom-page th,.sgu-app.custom-page td {padding:13px 15px; border:0; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink); min-width:80px}
+.sgu-app.custom-page th {background:var(--surface-alt); font-weight:600; font-size:11px; white-space:nowrap}
+.sgu-app.custom-page thead th {position:sticky; top:0; z-index:1}
+.sgu-app.custom-page tbody tr:last-child td {border-bottom:0}
+.sgu-app.custom-page tbody tr:hover td {background:var(--surface-alt)}
+.sgu-app .empty-state {padding:35px 20px; text-align:center; color:var(--muted); background:var(--surface); border:1px dashed var(--line); border-radius:10px; margin:20px 0}
+.sgu-app .empty-state strong {display:block; color:var(--ink); font-size:16px; margin-bottom:7px}
+.sgu-app td[colspan] {padding:28px 18px; text-align:center; color:var(--muted)}
+.sgu-app .badge,.sgu-app .pref-status {display:inline-block; padding:3px 9px; border-radius:5px; background:var(--tint); color:var(--blue); font-size:11px; font-weight:600; white-space:nowrap}
+.sgu-app .badge.success,.sgu-app .pref-status.met {background:var(--success-bg); color:var(--success); border:0; margin:0}
+.sgu-app .badge.warning,.sgu-app .pref-status.partial {background:var(--warning-bg); color:var(--warning)}
+.sgu-app .badge.danger,.sgu-app .pref-status.unmet {background:var(--danger-bg); color:var(--danger)}
+.sgu-app .pref-status.unassessed {background:var(--surface-alt); color:var(--muted)}
+.sgu-app .pref-summary {display:flex; flex-wrap:wrap; gap:10px; margin:15px 0}
+.sgu-app .pref-summary span {padding:8px 12px; border:1px solid var(--line); background:var(--surface-alt); border-radius:7px; font-size:12px}
+.sgu-app .pages {display:flex; justify-content:center; gap:18px; flex-wrap:wrap; align-items:center; margin:22px 0; font-size:12px}
+.sgu-app .pages a {padding:7px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface)}
+.sgu-app .semester-create {padding:16px 20px; border:1px solid var(--line); border-radius:9px; background:var(--surface); margin:20px 0}
+.sgu-app summary {cursor:pointer}
+.sgu-app .semester-create summary {font-size:12px; font-weight:600; color:var(--blue)}
+.sgu-app .semester-fields,.sgu-app .form-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 20px}
+.sgu-app .workflow {display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); list-style:none; margin:25px 0; padding:0; border:1px solid var(--line); border-radius:10px; background:var(--surface); overflow:hidden; counter-reset:step}
+.sgu-app .workflow li {padding:16px 12px; font-size:11px; color:var(--muted); border-right:1px solid var(--line); counter-increment:step}
+.sgu-app .workflow li:last-child {border-right:0}
+.sgu-app .workflow li::before {content:counter(step,decimal-leading-zero); display:block; color:var(--teal); font-weight:700; font-size:16px; margin-bottom:4px}
+.sgu-app .step-heading {display:flex; align-items:center; gap:10px; margin:24px 0 14px; font-size:16px}
+.sgu-app form>.step-heading:first-of-type,.sgu-app .parameters>.step-heading {margin-top:0}
+.step-heading span {display:grid; place-items:center; min-width:26px; height:26px; padding:0 6px; flex-shrink:0; white-space:nowrap; border-radius:6px; background:var(--tint); color:var(--blue); font-size:11px}
+.sgu-app .upload-grid {display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:16px 0 24px}
+.sgu-app .upload-card {border:1px solid var(--line); background:var(--surface-alt); border-radius:9px; padding:18px; min-width:0}
+.sgu-app .upload-card label {margin-top:0; font-size:13px}
+.sgu-app .upload-card p {font-size:11px; color:var(--muted); min-height:36px}
+.sgu-app .upload-card a {display:inline-block; font-size:11px; margin-top:9px}
+.sgu-app .parameters {padding:16px 20px; background:var(--surface-alt); border:1px solid var(--line); border-radius:8px; margin:20px 0}
+.sgu-app .parameters p {font-size:12px; margin:8px 0 0}
+.sgu-app .section-heading {display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin:25px 0 14px}
+.sgu-app .section-heading h2 {margin:0}
+.sgu-app .eyebrow {display:block; color:var(--teal); font-size:10px; text-transform:uppercase; font-weight:700; letter-spacing:.13em; margin-bottom:10px}
+.sgu-app .dashboard-welcome {display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; padding:25px 0 28px}
+.sgu-app .dashboard-welcome p {margin:8px 0 0; color:var(--muted); max-width:650px}
+.sgu-app .stat-grid {display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:16px; margin:0 0 28px}
+.sgu-app .stat-card {padding:20px; border:1px solid var(--line); border-radius:10px; background:var(--surface); box-shadow:var(--shadow); text-decoration:none; color:var(--ink)}
+.sgu-app a.stat-card:hover {border-color:var(--blue); text-decoration:none}
+.stat-card span {font-size:11px; color:var(--muted)}
+.stat-card strong {display:block; font-size:31px; line-height:1.3; font-weight:650; letter-spacing:-.04em; margin:10px 0 5px; color:var(--ink)}
+.stat-card small {font-size:10px; color:var(--muted)}
+.sgu-app .quick-grid {display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px}
+.sgu-app .quick-card {display:flex; align-items:flex-start; gap:14px; padding:20px; border:1px solid var(--line); border-radius:10px; background:var(--surface); color:var(--ink); text-decoration:none; transition:border-color .15s,box-shadow .15s}
+.sgu-app .quick-card:hover {border-color:var(--teal); box-shadow:var(--shadow)}
+.quick-card .quick-icon {display:grid; place-items:center; width:36px; height:36px; flex-shrink:0; border-radius:8px; background:var(--tint); color:var(--blue)}
+.quick-card strong {display:block; font-size:13px; margin-bottom:5px; color:var(--ink)}
+.quick-card small {display:block; color:var(--muted); font-size:11px; line-height:1.6}
+.sgu-app .catalog-tabs {display:flex; flex-wrap:wrap; gap:6px; margin:20px 0}
+.sgu-app .catalog-tabs a {padding:8px 16px; border:1px solid var(--line); border-radius:7px; background:var(--surface); color:var(--muted); font-size:12px}
+.sgu-app .catalog-tabs a[aria-current] {color:var(--blue); background:var(--tint); border-color:var(--blue); font-weight:650}
+.sgu-app .timetable-table {min-width:1060px; table-layout:fixed}
+.sgu-app .timetable-table th:first-child {width:95px}
+.sgu-app .timetable-table tbody th {border-bottom:1px solid var(--line)}
+.sgu-app .timetable-table td {border-left:1px solid var(--line); height:56px; padding:6px}
+.sgu-app .timetable-table td.occupied {background:var(--tint); border-left:3px solid var(--blue)}
+.sgu-app .timetable-table td.practical-cell {background:var(--warning-bg); border-left-color:var(--warning)}
+.slot {padding:9px; font-size:11px; line-height:1.8}
+.slot+.slot {border-top:1px solid var(--line); margin-top:8px}
+.sgu-app .legend {display:flex; flex-wrap:wrap; gap:16px; color:var(--muted); font-size:11px}
+.legend-swatch {display:inline-block; width:12px; height:12px; margin-right:5px; background:var(--tint); border-left:3px solid var(--blue); vertical-align:middle}
+.legend-swatch.practical {background:var(--warning-bg); border-left-color:var(--warning)}
+/* Login is shared by the public login endpoint and Admin authentication. */
+.sgu-app.auth-page {display:grid; grid-template-columns:minmax(0,1.1fr) minmax(380px,.9fr)}
+.auth-intro {background:#132b49; color:#fff; min-height:100vh; padding:48px clamp(30px,6vw,90px); display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden}
+.auth-intro::after {content:""; position:absolute; width:480px; height:480px; border:1px solid #ffffff15; border-radius:50%; bottom:-250px; right:-160px; box-shadow:0 0 0 60px #ffffff04,0 0 0 120px #ffffff04; pointer-events:none}
+.auth-brand {display:flex; align-items:center; gap:13px; font-size:15px; font-weight:650}
+.sgu-app .auth-intro h2 {color:#fff; font-size:clamp(32px,3.7vw,52px); letter-spacing:-.04em; max-width:560px; line-height:1.2; margin:20px 0}
+.auth-intro .eyebrow {color:#7fe1ce}
+.auth-intro p {color:#b4c7de; max-width:450px; font-size:14px; line-height:1.8}
+.auth-intro>small {color:#b4c7de; font-size:11px; position:relative; z-index:1}
+.auth-form-side {display:grid; place-items:center; padding:36px}
+.auth-card {width:100%; max-width:400px}
+.sgu-app .auth-card h1 {font-size:28px}
+.auth-card>p {color:var(--muted); margin-bottom:30px}
+.sgu-app .auth-card form button {width:100%; margin-top:24px}
+.sgu-app .auth-card input {width:100%; padding:12px; min-height:46px; border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:7px}
+.auth-footnote {display:block; margin-top:30px; text-align:center; font-size:10px; color:var(--muted)}
+.auth-error {color:var(--danger); background:var(--danger-bg); border:1px solid var(--danger); border-radius:7px; padding:12px 16px; margin:16px 0}
+@media(min-width:1001px) {
+  .sgu-app.nav-collapsed {--sidebar-width:76px}
+  .nav-collapsed .ui-brand {padding:20px 17px}
+  .nav-collapsed .ui-brand-text,.nav-collapsed .ui-nav-text,.nav-collapsed .ui-nav-label {display:none}
+  .nav-collapsed .ui-sidebar nav {padding-top:14px}
+  .nav-collapsed .ui-sidebar nav a {padding:11px 13px; justify-content:center; margin:5px 0}
+  .nav-collapsed .ui-side-note {padding:10px}
+}
+@media(max-width:1200px) {
+  .sgu-app .stat-grid {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sgu-app .quick-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sgu-app .upload-grid {grid-template-columns:1fr}
+  .sgu-app .upload-card p {min-height:0}
+}
+@media(max-width:1000px) {
+  .ui-sidebar {transform:translateX(-100%); visibility:hidden}
+  .sgu-app.nav-open .ui-sidebar {transform:translateX(0); visibility:visible}
+  .ui-topbar,.ui-workspace {margin-left:0}
+  .sgu-app.nav-open .ui-backdrop {display:block; position:fixed; inset:0; z-index:50; background:#081b30a6}
+  .sgu-app.nav-open {overflow:hidden}
+  .sgu-app .workflow {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sgu-app .workflow li {border-bottom:1px solid var(--line)}
+}
+@media(max-width:650px) {
+  .ui-topbar {height:66px; padding:0 16px; gap:12px}
+  .ui-topbar-heading strong {max-width:43vw; font-size:12px}
+  .ui-topbar-heading small,.ui-account-name {display:none}
+  .ui-topbar-actions {gap:8px}
+  .ui-workspace main {padding:20px 16px}
+  .sgu-app.custom-page section,.sgu-app.custom-page main>form,.sgu-app .panel {padding:18px}
+  .sgu-app .grid,.sgu-app .form-grid,.sgu-app .semester-fields {grid-template-columns:1fr}
+  .sgu-app .quick-grid {grid-template-columns:1fr}
+  .sgu-app .stat-grid {grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+  .sgu-app .stat-card {padding:15px}
+  .stat-card strong {font-size:26px}
+  .sgu-app .filters>div {flex-basis:100%}
+  .sgu-app.auth-page {grid-template-columns:1fr; grid-template-rows:auto 1fr}
+  .auth-intro {min-height:0; padding:23px}
+  .auth-intro>div:not(.auth-brand),.auth-intro>small {display:none}
+  .auth-form-side {padding:35px 24px}
+  .sgu-app .workflow li {font-size:10px; padding:13px 10px}
+}
+@media(prefers-reduced-motion:reduce) {.sgu-app * {scroll-behavior:auto; transition:none; animation:none}}
+@media print {.ui-sidebar,.ui-topbar,.ui-footer,.breadcrumbs,.sgu-app form.filters,.ui-backdrop {display:none} .ui-workspace {margin:0} .sgu-app .table-wrap {overflow:visible} .sgu-app.custom-page .timetable-table {min-width:0; font-size:8px}}

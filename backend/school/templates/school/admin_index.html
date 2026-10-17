@@ -1,22 +1,20 @@
-{% extends "admin/index.html" %}
-{% block extrastyle %}{{ block.super }}<style>
-:root{--primary:#0d587e;--secondary:#123c60;--accent:#27aeca}
-#header{background:linear-gradient(100deg,#102f56,#096c92)}#site-name a{font-weight:800}
-.sgu-admin-hero{background:linear-gradient(110deg,#10375f,#0d6c91);color:white;padding:24px;border-radius:14px;margin-bottom:18px;box-shadow:0 12px 30px #143d5a24}
-.sgu-admin-hero h2{color:white!important;font-size:22px;margin:0 0 5px}.sgu-admin-hero p{color:#d0e9f2;margin:0}
-.sgu-admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:13px;margin-bottom:22px}
-.sgu-admin-grid a{display:block;padding:17px;background:var(--body-bg,#fff);border:1px solid #d6e5ed;border-radius:12px;color:#173f5e;text-decoration:none;box-shadow:0 4px 16px #123c6010}
-.sgu-admin-grid a:hover{border-color:#17a9c4;box-shadow:0 8px 22px #123c6025}.sgu-admin-grid strong{display:block;font-size:15px;margin-bottom:5px}.sgu-admin-grid span{display:block;font-size:12px;color:#62798a;line-height:1.5}
-</style>{% endblock %}
-{% block content %}
-<div class="sgu-admin-hero"><h2>Không gian quản trị giảng dạy</h2><p>Chuẩn bị nguồn lực, xếp lịch, rà soát và xuất phân công theo học kỳ.</p></div>
-<div class="sgu-admin-grid">
-  <a href="{% url 'auto_schedule' %}"><strong>▦ Xếp lịch tự động</strong><span>Tải ba file Excel và tạo phương án trong một lần chạy.</span></a>
-  <a href="{% url 'review_schedules' %}"><strong>☑ Rà soát lịch</strong><span>Kiểm tra nguyện vọng, điều chỉnh và duyệt kết quả.</span></a>
-  <a href="{% url 'faculty_timetable' %}"><strong>▤ Thời khóa biểu khoa</strong><span>Xem lịch đã duyệt theo khoa, tuần và giảng viên.</span></a>
-  <a href="{% url 'export_assignments' %}"><strong>⇩ Xuất phân công</strong><span>Đối chiếu độ đầy đủ và tải workbook kết quả.</span></a>
-  <a href="{% url 'import_catalog' 'courses' %}"><strong>▧ Nhập danh mục</strong><span>Nhập học phần, phòng học hoặc giảng viên từ Excel.</span></a>
-  <a href="{% url 'import_schedule' %}"><strong>✎ Nhập lịch ngoại lệ</strong><span>Bổ sung lịch đã có hoặc điều chỉnh các trường hợp đặc biệt.</span></a>
+{% extends "admin/index.html" %}{% load school_ui %}
+{% block content_title %}{% endblock %}
+{% block content %}{% dashboard_data as dashboard %}
+<div class="dashboard-welcome"><div><span class="eyebrow">Không gian điều phối học kỳ</span><h1>Tổng quan giảng dạy</h1><p>Theo dõi nguồn lực và quản lý phân công giảng dạy của các khoa trên cùng một không gian làm việc.</p></div><a class="button" href="{% url 'auto_schedule' %}">{% include 'school/icon.html' with icon='calendar' %} Xếp lịch tự động</a></div>
+<div class="stat-grid">{% for stat in dashboard.stats %}<a class="stat-card" href="{{ stat.url }}"><span>{{ stat.label }}</span><strong>{{ stat.count }}</strong><small>{% if stat.count %}Xem danh mục →{% else %}Chưa có dữ liệu · Mở danh mục →{% endif %}</small></a>{% endfor %}<a class="stat-card" href="{% url 'auto_schedule' %}"><span>Phiên xếp lịch</span><strong>{{ dashboard.run_count }}</strong><small>{% if dashboard.run_count %}Xem lịch sử chạy →{% else %}Chưa có phiên xếp lịch{% endif %}</small></a></div>
+<div class="section-heading"><h2>Bắt đầu công việc</h2><span class="hint">Chuẩn bị · Xếp lịch · Rà soát · Xuất kết quả</span></div>
+<div class="quick-grid">
+  <a class="quick-card" href="{% url 'auto_schedule' %}"><span class="quick-icon">{% include 'school/icon.html' with icon='calendar' %}</span><span><strong>Xếp lịch tự động</strong><small>Tải ba file Excel và tạo phương án phân công theo học kỳ.</small></span></a>
+  <a class="quick-card" href="{% url 'review_schedules' %}"><span class="quick-icon">{% include 'school/icon.html' with icon='check' %}</span><span><strong>Rà soát và duyệt</strong><small>Kiểm tra nguyện vọng, điều chỉnh các buổi dạy và duyệt lịch.</small></span></a>
+  <a class="quick-card" href="{% url 'faculty_timetable' %}"><span class="quick-icon">{% include 'school/icon.html' with icon='calendar' %}</span><span><strong>Thời khóa biểu khoa</strong><small>Xem lịch đã duyệt theo giảng viên, khoa và tuần học.</small></span></a>
+  <a class="quick-card" href="{% url 'import_catalog' 'courses' %}"><span class="quick-icon">{% include 'school/icon.html' with icon='upload' %}</span><span><strong>Nhập danh mục</strong><small>Cập nhật học phần, phòng học và giảng viên từ Excel.</small></span></a>
+  <a class="quick-card" href="{% url 'export_assignments' %}"><span class="quick-icon">{% include 'school/icon.html' with icon='download' %}</span><span><strong>Xuất phân công</strong><small>Đối chiếu độ đầy đủ và tải bảng phân công đã duyệt.</small></span></a>
+  <a class="quick-card" href="{% url 'import_schedule' %}"><span class="quick-icon">{% include 'school/icon.html' with icon='upload' %}</span><span><strong>Nhập lịch ngoại lệ</strong><small>Xem trước và kiểm tra các buổi dạy bổ sung từ Excel.</small></span></a>
 </div>
-{{ block.super }}
+<div class="section-heading"><h2>Phiên xếp lịch gần đây</h2><a href="{% url 'auto_schedule' %}" class="hint">Xem lịch sử →</a></div>
+{% if dashboard.recent_runs %}<div class="table-wrap"><table class="dashboard-runs"><thead><tr><th scope="col">Phiên chạy</th><th scope="col">Học kỳ</th><th scope="col">Thời điểm</th><th scope="col">Trạng thái</th><th scope="col">Số buổi</th></tr></thead><tbody>{% for item in dashboard.recent_runs %}<tr><td><a href="{% url 'auto_schedule' %}?run={{ item.pk }}">#{{ item.pk }}</a></td><td>{{ item.semester.name }}</td><td>{{ item.created_at|date:'d/m/Y H:i' }}</td><td>{% include 'school/auto_run_status.html' with item=item %}</td><td>{{ item.entry_count }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><strong>Chưa có phiên xếp lịch</strong>Chuẩn bị học kỳ và ba file Excel để bắt đầu.<div class="actions-row"><a class="button secondary" href="{% url 'auto_schedule' %}">Tạo phiên xếp lịch đầu tiên</a></div></div>{% endif %}
+<div class="section-heading"><h2>Quản lý danh mục</h2><span class="hint">Các danh mục được hiển thị theo quyền tài khoản</span></div>
+<div class="sgu-dashboard-catalog">{% include "admin/app_list.html" with app_list=app_list %}</div>
 {% endblock %}
+{% block sidebar %}{% endblock %}

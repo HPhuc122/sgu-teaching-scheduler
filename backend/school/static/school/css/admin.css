@@ -1,0 +1,147 @@
+/* Scoped overrides preserve Django's widget layout and JS hooks. */
+.sgu-admin {
+  --body-fg:var(--ink); --body-bg:var(--canvas); --body-quiet-color:var(--muted);
+  --body-loud-color:var(--ink); --primary:#185cbd; --secondary:#183b63;
+  --accent:#fff; --primary-fg:#fff; --header-bg:var(--surface); --header-color:var(--ink);
+  --header-branding-color:var(--ink); --header-link-color:#fff;
+  --breadcrumbs-fg:var(--ink); --breadcrumbs-bg:var(--surface);
+  --link-fg:var(--blue); --link-hover-color:var(--blue-hover); --link-selected-fg:var(--blue);
+  --hairline-color:var(--line); --border-color:var(--line); --darkened-bg:var(--surface-alt);
+  --selected-bg:var(--tint); --selected-row:var(--tint); --close-button-bg:#5e6e82;
+  --button-bg:#185cbd; --button-hover-bg:#124a9b; --default-button-bg:#185cbd;
+  --default-button-hover-bg:#124a9b; --delete-button-bg:#ae3037; --delete-button-hover-bg:#90242b;
+  --message-success-bg:var(--success-bg); --message-warning-bg:var(--warning-bg);
+  --message-error-bg:var(--danger-bg); --error-fg:var(--danger); --object-tools-bg:#185cbd;
+  --object-tools-hover-bg:#124a9b;
+}
+.sgu-admin #container {display:block; min-width:0; width:auto; margin-left:var(--sidebar-width)}
+.sgu-admin .ui-topbar {margin-left:0}
+.sgu-admin #container>nav {padding:20px 32px 0; max-width:1640px; margin:auto}
+.sgu-admin #container>nav .breadcrumbs {margin-bottom:0}
+.sgu-admin #main {display:block; min-width:0}
+.sgu-admin #content-start {display:block; min-width:0}
+.sgu-admin #content {padding:24px 32px; max-width:1640px; margin:0 auto; width:auto; min-width:0}
+.sgu-admin #content>h1 {margin:0 0 24px; font-size:27px; font-weight:650}
+.sgu-admin #content>h2 {font-size:14px; color:var(--muted); margin-top:-10px; overflow-wrap:anywhere}
+.sgu-admin #footer {padding:0 32px 20px; max-width:1640px; margin:auto}
+.sgu-admin .colMS {margin-right:0}
+.sgu-admin.dashboard #content {width:auto}
+.sgu-admin.dashboard #content-main {float:none; width:100%}
+.sgu-admin.dashboard #content-related {float:none; width:auto; margin:0; background:transparent}
+.sgu-admin .sgu-dashboard-catalog {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin:20px 0; align-items:start}
+.sgu-admin .module {background:var(--surface); border:1px solid var(--line); border-radius:10px; margin-bottom:20px; overflow:hidden; box-shadow:var(--shadow)}
+.sgu-admin .module h2,.sgu-admin .inline-group h2 {background:var(--surface-alt); color:var(--ink); padding:15px 20px; margin:0; font-size:14px; font-weight:650; border-bottom:1px solid var(--line); text-transform:none; letter-spacing:0}
+.sgu-admin .module table {width:100%; border-collapse:collapse; background:var(--surface)}
+.sgu-admin .module td,.sgu-admin .module th {padding:12px 16px; border-color:var(--line); color:var(--ink); font-size:12px; line-height:1.6; overflow-wrap:anywhere}
+.sgu-admin .sgu-model-module {margin:0}
+.sgu-admin .sgu-model-module th {font-weight:500}
+.sgu-admin .sgu-model-module thead th {font-size:10px; color:var(--muted); background:var(--surface-alt)}
+.sgu-admin .sgu-model-module td {text-align:right; white-space:nowrap}
+.sgu-admin .sgu-add-link {font-size:11px}
+.sgu-admin .dashboard-runs {width:100%; border-collapse:collapse; background:var(--surface); font-size:12px}
+.sgu-admin .dashboard-runs th,.sgu-admin .dashboard-runs td {padding:13px 16px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap}
+.sgu-admin .dashboard-runs th {background:var(--surface-alt); color:var(--muted); font-size:11px}
+.sgu-admin #changelist {display:flex; flex-direction:row; align-items:stretch; overflow:visible; border:0; border-radius:0; background:transparent; box-shadow:none; gap:20px; width:100%; min-width:0}
+.sgu-admin #changelist .changelist-form-container {flex:1 1 auto; min-width:0; width:100%; max-width:100%; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; box-shadow:var(--shadow)}
+.sgu-admin #changelist-form {width:100%}
+.sgu-admin #changelist .results {width:100%; overflow:auto; max-height:70vh; scrollbar-width:thin}
+.sgu-admin #changelist table {width:100%; background:var(--surface)}
+.sgu-admin #changelist td,.sgu-admin #changelist th {padding:13px 16px; border-bottom:1px solid var(--line); min-width:100px; background:var(--surface); color:var(--ink); font-size:12px}
+.sgu-admin #changelist td.action-checkbox,.sgu-admin #changelist th.action-checkbox-column {min-width:40px; width:40px; padding:12px}
+.sgu-admin #changelist thead th {position:sticky; top:0; z-index:1; background:var(--surface-alt); font-size:11px}
+.sgu-admin #changelist thead th .text a {padding:0; color:var(--muted)}
+.sgu-admin #changelist tbody tr:hover td,.sgu-admin #changelist tbody tr:hover th {background:var(--surface-alt)}
+.sgu-admin #changelist tr.selected td,.sgu-admin #changelist tr.selected th {background:var(--tint)}
+.sgu-admin #toolbar {padding:18px; background:var(--surface); border:0; border-bottom:1px solid var(--line)}
+.sgu-admin #toolbar form {display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.sgu-admin #toolbar #searchbar {height:38px; min-width:160px; max-width:100%; flex:1; padding:8px 12px; border:1px solid var(--line); border-radius:7px; background:var(--surface); color:var(--ink)}
+.sgu-admin #toolbar input[type=submit] {border:1px solid var(--line); color:var(--blue); background:var(--surface-alt); padding:8px 14px; border-radius:6px; box-shadow:none}
+.sgu-admin #changelist .actions {display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:12px 18px; background:var(--surface-alt); border-bottom:1px solid var(--line)}
+.sgu-admin #changelist .actions label {display:flex; align-items:center; gap:8px; margin:0; float:none; font-size:11px}
+.sgu-admin #changelist .actions select {height:34px; border-radius:6px; max-width:100%; color:var(--ink); background:var(--surface); border:1px solid var(--line)}
+.sgu-admin #changelist .actions .button {min-height:32px; height:auto; padding:5px 12px; margin:0; border:0; background:#185cbd; color:#fff; border-radius:5px}
+.sgu-admin #changelist .actions span {font-size:10px; color:var(--muted)}
+.sgu-admin #changelist-filter {flex:0 0 220px; position:static; width:220px; margin:0; border:1px solid var(--line); border-radius:10px; background:var(--surface); overflow:hidden; align-self:flex-start}
+.sgu-admin #changelist-filter h2 {background:var(--surface-alt); color:var(--ink); font-size:13px; padding:15px 18px}
+.sgu-admin #changelist-filter h3 {font-size:11px; margin:16px 18px 8px; color:var(--muted)}
+.sgu-admin #changelist-filter details {padding:14px 18px; border-top:1px solid var(--line)}
+.sgu-admin #changelist-filter details summary {font-size:12px; color:var(--ink)}
+.sgu-admin #changelist-filter ul {padding:4px 0 0; margin:0}
+.sgu-admin #changelist-filter li {padding:5px 0; overflow-wrap:anywhere; font-size:11px}
+.sgu-admin #changelist-filter li.selected {border:0; background:var(--tint); border-radius:5px; padding:5px 8px; margin-left:-8px}
+.sgu-admin #changelist-filter li.selected a {color:var(--blue); font-weight:650}
+.sgu-admin #changelist .paginator {border:0; border-top:1px solid var(--line); padding:17px; background:var(--surface); color:var(--muted); font-size:12px; width:100%}
+.sgu-admin .paginator a,.sgu-admin .paginator .this-page {padding:5px 9px; border-radius:5px; background:var(--surface-alt); color:var(--blue)}
+.sgu-admin .object-tools {margin:0 0 20px; float:none; display:flex; gap:8px; justify-content:flex-end; padding:0; min-height:0}
+.sgu-admin .object-tools li {height:auto; padding:0; margin:0; float:none}
+.sgu-admin .object-tools a {display:block; padding:10px 16px; border-radius:7px; font-size:11px; text-transform:none; letter-spacing:0; background:#185cbd; color:#fff}
+.sgu-admin .object-tools a.addlink {padding-right:30px}
+.sgu-admin .aligned label {color:var(--ink); font-size:12px; margin:0; padding-top:10px; width:180px; min-width:180px; flex-shrink:0}
+.sgu-admin .aligned .form-row {padding:16px 20px; border-bottom:1px solid var(--line); overflow:visible; background:var(--surface)}
+.sgu-admin .aligned .form-row:last-child {border-bottom:0}
+.sgu-admin .aligned .form-row>div {min-width:0}
+.sgu-admin .aligned .form-multiline {display:flex; gap:16px; flex-wrap:wrap}
+.sgu-admin .aligned input:not([type=checkbox]):not([type=radio]),.sgu-admin .aligned select,.sgu-admin .aligned textarea {padding:9px 11px; min-height:38px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); font:13px "Segoe UI",system-ui,sans-serif; max-width:100%}
+.sgu-admin .aligned .vTextField,.sgu-admin .aligned .vLargeTextField {width:min(560px,100%)}
+.sgu-admin .aligned textarea {min-height:100px}
+.sgu-admin .aligned select:not([multiple]) {max-width:560px}
+.sgu-admin .aligned .related-widget-wrapper {float:none; display:flex; align-items:center; gap:5px; flex-wrap:wrap; min-width:0; max-width:100%}
+.sgu-admin .aligned .related-widget-wrapper>select {flex:1; min-width:140px; max-width:560px}
+.sgu-admin .aligned .related-widget-wrapper-link {padding:5px}
+.sgu-admin .aligned p.help,.sgu-admin .aligned div.help {margin:8px 0 0 180px; padding:0; color:var(--muted); font-size:11px; max-width:700px}
+.sgu-admin .aligned .readonly {font-size:13px; color:var(--ink); padding:9px 0; overflow-wrap:anywhere}
+.sgu-admin .aligned .checkbox-row {display:flex; align-items:center; gap:10px}
+.sgu-admin .aligned .checkbox-row label {width:auto; padding:0}
+.sgu-admin .submit-row {display:flex; flex-direction:row; flex-wrap:wrap; align-items:center; gap:10px; justify-content:flex-start; padding:18px 20px; border:1px solid var(--line); border-radius:10px; background:var(--surface); margin:24px 0; overflow:visible}
+.sgu-admin .submit-row input,.sgu-admin .submit-row a {float:none; margin:0; padding:10px 15px; border-radius:6px; font-size:12px; height:auto; line-height:1.5; text-align:center}
+.sgu-admin .submit-row input {border:1px solid var(--line); background:var(--surface); color:var(--blue); font-weight:600}
+.sgu-admin .submit-row input.default {background:#185cbd; color:#fff; border-color:#185cbd}
+.sgu-admin .submit-row a.closelink {background:var(--surface-alt); color:var(--muted)}
+.sgu-admin .submit-row a.deletelink {margin-left:auto; background:var(--danger-bg); color:var(--danger)}
+.sgu-admin .delete-confirmation #content-main,.sgu-admin.delete-confirmation form {background:var(--surface); border:1px solid var(--line); padding:22px; border-radius:10px}
+.sgu-admin .errornote {background:var(--danger-bg); color:var(--danger); border:1px solid var(--danger); border-radius:8px; padding:14px 18px; font-size:12px}
+.sgu-admin ul.errorlist {color:var(--danger); background:var(--danger-bg); font-size:12px}
+.sgu-admin ul.messagelist {padding:20px 32px 0; margin:0}
+.sgu-admin ul.messagelist li {border:1px solid var(--line); border-radius:8px; padding:14px 20px 14px 42px; margin-bottom:8px; color:var(--ink)}
+/* Keep Django's searchable dual lists and their keyboard behavior. */
+.sgu-admin .aligned .selector {display:grid; grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr); gap:12px; width:min(100%,900px); flex:1; min-width:0; float:none}
+.sgu-admin .selector-available,.sgu-admin .selector-chosen {width:auto; min-width:0; float:none}
+.sgu-admin .selector select {width:100%; max-width:100%; min-height:220px; height:250px; font-size:11px; padding:8px; border-radius:0 0 6px 6px}
+.sgu-admin .selector select option {padding:6px 4px; font-size:11px}
+.sgu-admin .selector .selector-filter {background:var(--surface-alt); display:flex; gap:5px; padding:8px}
+.sgu-admin .selector .selector-filter input {min-width:0; width:100%; font-size:12px}
+.sgu-admin .selector .selector-filter label {width:18px; padding:0; margin-top:8px}
+.sgu-admin .selector .selector-available-title label,.sgu-admin .selector .selector-chosen-title label {float:none; width:auto; max-width:100%; color:inherit; padding:0; font-size:11px}
+.sgu-admin .selector-available-title {padding:12px; background:var(--surface-alt); color:var(--ink)}
+.sgu-admin .selector-chosen-title {padding:12px; background:#183b63; color:#fff}
+.sgu-admin .selector ul.selector-chooser {margin:0; padding:4px 0; align-self:center; width:30px; background:var(--surface-alt)}
+.sgu-admin .selector a.selector-chooseall,.sgu-admin .selector a.selector-clearall {font-size:11px; margin:8px auto; color:var(--blue)}
+.sgu-admin .selector button.selector-chooseall,.sgu-admin .selector button.selector-clearall {font:600 11px/1.5 "Segoe UI",system-ui,sans-serif; color:var(--blue); background:var(--surface-alt); border:1px solid var(--line); padding:7px 10px; border-radius:6px; margin:6px 0; min-height:34px; cursor:pointer}
+.sgu-admin .selector .helptext {margin:5px 0 0; font-size:10px; line-height:1.6}
+.sgu-admin .calendarbox,.sgu-admin .clockbox {background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); z-index:80}
+.sgu-admin.popup #container {margin-left:0}
+.sgu-admin.popup #content {padding:20px}
+@media(max-width:1200px) {.sgu-admin #changelist {flex-wrap:wrap}.sgu-admin #changelist-filter {flex:1 1 100%; width:100%; order:-1}.sgu-admin #changelist-filter details {display:inline-block; vertical-align:top; width:230px; max-width:100%}}
+@media(max-width:1000px) {.sgu-admin #container {margin-left:0}}
+@media(max-width:767px) {
+  .sgu-admin #content {padding:20px 16px}
+  .sgu-admin #container>nav {padding:18px 16px 0}
+  .sgu-admin #footer {padding:0 16px 16px}
+  .sgu-admin .sgu-dashboard-catalog {grid-template-columns:1fr}
+  .sgu-admin .aligned .form-row {padding:14px 16px}
+  .sgu-admin .aligned .form-row>div,.sgu-admin .aligned .form-row .flex-container {width:100%; max-width:100%; min-width:0}
+  .sgu-admin .aligned label {float:none; display:block; width:auto; min-width:0; padding:0 0 6px}
+  .sgu-admin .aligned .flex-container:not(.checkbox-row) {flex-direction:column; align-items:stretch}
+  .sgu-admin .aligned .selector .selector-filter label {min-width:18px}
+  .sgu-admin .aligned p.help,.sgu-admin .aligned div.help {margin:8px 0 0}
+  .sgu-admin .aligned .selector {grid-template-columns:1fr; gap:8px; width:100%}
+  .sgu-admin .selector ul.selector-chooser {justify-self:center; display:flex; width:auto; gap:12px; transform:none}
+  .sgu-admin .selector select {height:200px; min-height:170px}
+  .sgu-admin .submit-row {padding:14px; gap:8px}
+  .sgu-admin .submit-row input,.sgu-admin .submit-row a {flex:1 1 150px; width:auto; white-space:normal}
+  .sgu-admin .submit-row a.deletelink {margin:0}
+  .sgu-admin ul.messagelist {padding:16px 16px 0}
+  .sgu-admin #changelist .actions label {flex:1 1 100%; flex-wrap:wrap; width:100%; min-width:0; max-width:100%}
+  .sgu-admin #changelist .actions select {flex:1 1 100%; min-width:0; width:100%; margin:0}
+}
+@media print {.sgu-admin #container {margin:0}.sgu-admin .object-tools,.sgu-admin .submit-row {display:none}.sgu-admin #changelist .results {max-height:none; overflow:visible}}

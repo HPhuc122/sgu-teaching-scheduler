@@ -4,6 +4,8 @@
 
 Đây là backend Django của hệ thống. Luồng chính: admin chọn học kỳ, tải ba file Học phần, Phòng học và Giảng viên, rồi chạy xếp lịch tự động. Hệ thống tạo lịch chờ duyệt, admin xem/duyệt và xuất Excel; giảng viên xem lịch đã duyệt và gửi nguyện vọng. Các API và màn hình nhập lịch từng buổi vẫn phục vụ điều chỉnh ngoại lệ.
 
+Giao diện Admin và các màn hình nghiệp vụ dùng chung layout, sidebar theo quyền và chế độ sáng/tối. Xem [báo cáo thiết kế lại giao diện, kiểm thử và ảnh trước/sau](../docs/ui-redesign.md). Không cần cài thêm thư viện frontend hay chạy migration cho thay đổi giao diện.
+
 [Bộ trình diễn từ thời khóa biểu công khai SGU](../docs/du_lieu_sgu_cong_khai.md) tạo đúng ba workbook đầu vào, kèm nguồn từng buổi và danh sách giả định cho các trường không có trong tài liệu công khai. Bộ sinh ngẫu nhiên chỉ dùng cho kiểm thử thuật toán.
 
 ## Chạy cục bộ

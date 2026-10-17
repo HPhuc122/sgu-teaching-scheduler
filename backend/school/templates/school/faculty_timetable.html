@@ -1,22 +1,14 @@
-<!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Thời khóa biểu giảng viên theo khoa</title>
-<style>
-body{font:16px/1.45 system-ui,sans-serif;max-width:1500px;margin:2rem auto;padding:0 1rem;color:#183047;background:#f5f8fb}
-main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #172f4212}h1{margin-top:0}
-form{display:flex;flex-wrap:wrap;gap:.8rem;align-items:end;margin:1rem 0}label{display:block;font-weight:600}select,button{font:inherit;padding:.5rem}
-button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1000px;font-size:.88rem}
-th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top;width:13%}th{background:#e9f2f7}th:first-child,td:first-child{width:9%;white-space:nowrap}
-.table-wrap td.occupied{position:relative;padding:.7rem}.table-wrap td.occupied::before{content:"";position:absolute;inset:4px;border-radius:10px;background:linear-gradient(150deg,#d9edf9 0%,#f2f9fd 60%,#cde6f6 100%);border-left:4px solid #145e83;box-shadow:0 2px 7px #16496b1c;pointer-events:none}.table-wrap td.occupied.practical-cell::before{background:linear-gradient(150deg,#ffe3bd 0%,#fff7eb 60%,#ffddb0 100%);border-left-color:#cf7518;box-shadow:0 2px 7px #a35c191c}.slot{position:relative;padding:.25rem;box-sizing:border-box}.slot+.slot{margin-top:.4rem;border-top:1px solid #b8cbd8}
-.hint{color:#52677a}.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;border-radius:6px}.pages{display:flex;gap:1rem;margin:1rem 0}a{color:#145e83}
-.demo-note{background:#fff8e8;border:1px solid #e6ca8d;border-radius:8px;padding:.7rem 1rem;margin:1rem 0}
-.legend{display:flex;flex-wrap:wrap;gap:1rem;color:#52677a}.legend-swatch{display:inline-block;width:.8rem;height:.8rem;margin-right:.3rem;vertical-align:middle;background:#e8f3fa;border-left:4px solid #145e83}.legend-swatch.practical{background:#fff1df;border-left-color:#cf7518}
-</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
-<p><a href="/admin/">← Quản trị</a></p><h1>Thời khóa biểu giảng viên theo khoa</h1>
+{% extends "school/base.html" %}{% load school_ui %}
+{% block title %}Thời khóa biểu giảng viên theo khoa{% endblock %}
+{% block breadcrumb %}Thời khóa biểu giảng viên theo khoa{% endblock %}
+
+{% block content %}
+<h1>Thời khóa biểu giảng viên theo khoa</h1>
 <p class="hint">Hiển thị lịch đã duyệt theo khoa quản lý giảng viên và tuần học được chọn.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
-<form method="get">
+<form class="filters" method="get">
 <div><label for="semester">Học kỳ</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>{% for item in semesters %}<option value="{{ item.pk }}" {% if selected_semester.pk == item.pk %}selected{% endif %}>{{ item.name }} ({{ item.academic_year }})</option>{% endfor %}</select></div>
-<div><label for="faculty">Khoa</label><select id="faculty" name="faculty" required><option value="">Chọn khoa</option>{% for item in faculties %}<option value="{{ item.pk }}" {% if selected_faculty.pk == item.pk %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></div>
+<div><label for="faculty">Khoa</label><select data-reset-lecturer id="faculty" name="faculty" required><option value="">Chọn khoa</option>{% for item in faculties %}<option value="{{ item.pk }}" {% if selected_faculty.pk == item.pk %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></div>
 <div><label for="week">Tuần</label><select id="week" name="week">{% for item in weeks %}<option value="{{ item }}" {% if week == item %}selected{% endif %}>Tuần {{ item }}</option>{% endfor %}</select></div>
 <div><label for="lecturer">Giảng viên</label><select id="lecturer" name="lecturer"><option value="">Tất cả</option>{% for item in lecturers %}<option value="{{ item.pk }}" {% if lecturer_id == item.pk|stringformat:'s' %}selected{% endif %}>{{ item.employee_code|default:'—' }} · {{ item.name }}</option>{% endfor %}</select></div>
 <button type="submit">Xem lịch</button></form>
@@ -25,7 +17,7 @@ th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;vertical-align:top
 <p><strong>{{ page.paginator.count }}</strong> giảng viên{% if not lecturer_id %} có lịch đã duyệt{% endif %} · Tuần {{ week }} · Tối đa 10 giảng viên mỗi trang.</p>
 <p class="legend"><span><i class="legend-swatch" aria-hidden="true"></i>Buổi không có Tổ TH</span><span><i class="legend-swatch practical" aria-hidden="true"></i>Buổi có Tổ TH</span></p>
 {% for block in timetable %}<section><h2>{{ block.lecturer.name }} <small class="hint">({{ block.lecturer.employee_code|default:'chưa có mã' }})</small></h2>
-<div class="table-wrap"><table><thead><tr><th>Tiết</th>{% for day, label in days %}<th>{{ label }}</th>{% endfor %}</tr></thead><tbody>
+<div class="table-wrap"><table class="timetable-table"><thead><tr><th>Tiết</th>{% for day, label in days %}<th>{{ label }}</th>{% endfor %}</tr></thead><tbody>
 {% for row in block.rows %}<tr><th>Tiết {{ row.period.pk }}<br><small>{{ row.period.start_time|time:'H:i' }}–{{ row.period.end_time|time:'H:i' }}</small></th>
 {% for cell in row.cells %}{% if cell %}<td rowspan="{{ cell.rowspan }}"{% if cell.slots %} class="occupied{% if cell.slots.0.entry.group.lab_group %} practical-cell{% endif %}"{% endif %}>{% for slot in cell.slots %}<div class="slot">
 <strong>{{ slot.entry.group.course.code }} · {{ slot.entry.group.course.name }}</strong><br>Nhóm {{ slot.entry.group.group }}{% if slot.entry.group.lab_group %} / Tổ TH {{ slot.entry.group.lab_group }}{% endif %}<br>
@@ -35,4 +27,5 @@ Tiết {{ slot.entry.start_period_id }}{% if cell.end_period %}–{{ cell.end_pe
 </tbody></table></div></section>{% empty %}<p>Chưa có lịch đã duyệt ở tuần này. Hãy chọn tuần khác hoặc một giảng viên cụ thể để xem lịch trống.</p>{% endfor %}
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>
 {% endif %}
-</main>{% include "school/ui_end.html" %}<script>document.getElementById('faculty').addEventListener('change',function(){document.getElementById('lecturer').value='';if(this.value)this.form.requestSubmit();});</script></body></html>
+{% if not selected_semester or not selected_faculty %}<div class="empty-state"><strong>Chọn học kỳ và khoa để xem lịch</strong>Lịch đã duyệt được hiển thị theo tuần, thứ và tiết học.</div>{% endif %}
+{% endblock %}

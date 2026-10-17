@@ -1,12 +1,1 @@
-</div>
-<script>
-(function(){
-  var side=document.getElementById('uiSidebar'),back=document.getElementById('uiBackdrop');
-  var menu=document.getElementById('uiMenuToggle'),theme=document.getElementById('uiThemeToggle');
-  if(menu){menu.addEventListener('click',function(){side.classList.toggle('open');back.classList.toggle('open')})}
-  if(back){back.addEventListener('click',function(){side.classList.remove('open');back.classList.remove('open')})}
-  document.querySelectorAll('.ui-sidebar nav a').forEach(function(link){if(link.pathname===location.pathname){link.classList.add('active')}});
-  try{if(localStorage.getItem('uctp-theme')==='dark')document.body.classList.add('ui-dark')}catch(e){}
-  if(theme){theme.addEventListener('click',function(){document.body.classList.toggle('ui-dark');try{localStorage.setItem('uctp-theme',document.body.classList.contains('ui-dark')?'dark':'light')}catch(e){}})}
-})();
-</script>
+{# Compatibility partial. Shared behavior is loaded by ui_styles.html. #}

@@ -1,29 +1,21 @@
-<!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nhập danh mục Excel</title>
-<style>
-body{font:16px/1.5 system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#183047;background:#f5f8fb}
-main{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 12px #172f4212}h1{margin-top:0}
-form{margin:1rem 0;padding:1rem;border:1px solid #d3dfe7;border-radius:8px}label{display:block;margin-bottom:.4rem;font-weight:600}
-select,input,button{font:inherit;padding:.5rem;margin-right:.5rem}button{background:#145e83;color:white;border:0;border-radius:6px;cursor:pointer}
-.error{background:#fff1ef;color:#8d261a;padding:.6rem 1rem;margin:.4rem 0;border-radius:6px}.success{background:#e6f6e9;color:#195a2b;padding:.6rem 1rem;border-radius:6px}
-.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #d3dfe7;padding:.45rem;text-align:left;white-space:nowrap}th{background:#e9f2f7}
-.hint{color:#4c6270}a{color:#145e83}
-</style>{% include "school/ui_styles.html" %}</head><body>{% include "school/ui_shell.html" %}<main>
-<p><a href="/admin/">← Quản trị</a></p>
+{% extends "school/base.html" %}{% load school_ui %}
+{% block title %}Nhập danh mục Excel{% endblock %}
+{% block breadcrumb %}Nhập danh mục Excel{% endblock %}
+
+{% block content %}
 <h1>Nhập danh mục: {% if kind == 'courses' %}Học phần{% elif kind == 'rooms' %}Phòng học{% else %}Giảng viên{% endif %}</h1>
-<p class="hint">Đây là chuẩn nhập liệu đề xuất cho hệ thống, chưa phải biểu mẫu Excel chính thức của SGU. Dữ liệu cùng mã sẽ được cập nhật; file không xóa các bản ghi vắng mặt.</p>
+<nav class="catalog-tabs" aria-label="Loại danh mục"><a href="{% url 'import_catalog' 'courses' %}" {% if kind == 'courses' %}aria-current="page"{% endif %}>Học phần</a><a href="{% url 'import_catalog' 'rooms' %}" {% if kind == 'rooms' %}aria-current="page"{% endif %}>Phòng học</a><a href="{% url 'import_catalog' 'lecturers' %}" {% if kind == 'lecturers' %}aria-current="page"{% endif %}>Giảng viên</a></nav><p class="hint">Đây là chuẩn nhập liệu đề xuất cho hệ thống, chưa phải biểu mẫu Excel chính thức của SGU. Dữ liệu cùng mã sẽ được cập nhật; file không xóa các bản ghi vắng mặt.</p>
 <p><a href="{% url 'import_catalog_template' kind %}">Tải mẫu Excel</a> · Tối đa 1000 dòng, 2 MB.</p>
 {% if kind == 'courses' or kind == 'lecturers' %}<p class="hint">Mã khoa và mã bộ môn phải có trong danh mục quản trị. {% if kind == 'lecturers' %}Nhập học phần trước giảng viên để gắn chuyên môn.{% endif %}</p>{% endif %}
-{% for message in messages %}<div class="success">{{ message }}</div>{% endfor %}
-<form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="preview">
+{% for message in messages %}<div class="message {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}
+<form method="post" enctype="multipart/form-data" data-busy="Đang kiểm tra dữ liệu…">{% csrf_token %}<input type="hidden" name="action" value="preview">
 {% if kind == 'courses' %}<label for="semester">Học kỳ của sheet NhomHocPhan</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>
 {% for semester in semesters %}<option value="{{ semester.pk }}" {% if selected_semester == semester.pk|stringformat:'s' %}selected{% endif %}>{{ semester.name }} ({{ semester.academic_year }})</option>{% endfor %}</select>{% endif %}
-<label for="file">File Excel (.xlsx)</label><input id="file" type="file" name="file" accept=".xlsx" required>
+<h2 class="step-heading"><span>01</span> Chọn file và kiểm tra</h2><label for="file">File Excel (.xlsx)</label><input id="file" type="file" name="file" accept=".xlsx" required>
 <button type="submit">Xem trước và kiểm tra</button></form>
 {% for error in errors %}<div class="error">{% if error.sheet %}{{ error.sheet }}{% if error.line %}, dòng {{ error.line }}{% endif %}: {% endif %}{{ error.message }}</div>{% endfor %}
 {% for name, rows in data.items %}<h2>{{ name }}: {{ rows|length }} dòng</h2>
-{% if rows %}<div class="table-wrap"><table><tbody>{% for row in rows %}{% if forloop.first %}<tr>{% for key,value in row.items %}<th>{{ key }}</th>{% endfor %}</tr>{% endif %}
+{% if rows %}<div class="table-wrap"><table><thead><tr>{% for key,value in rows.0.items %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead><tbody>{% for row in rows %}
 <tr>{% for key,value in row.items %}<td>{{ value }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endif %}{% endfor %}
-{% if data and not errors %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="semester" value="{{ selected_semester }}"><button type="submit">Xác nhận nhập danh mục</button></form>{% endif %}
-</main>{% include "school/ui_end.html" %}</body></html>
+{% if data and not errors %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="semester" value="{{ selected_semester }}"><p class="success" role="status">Dữ liệu xem trước hợp lệ. Kiểm tra nội dung bên trên trước khi xác nhận lưu.</p><button type="submit">Xác nhận nhập danh mục</button></form>{% endif %}
+{% endblock %}
