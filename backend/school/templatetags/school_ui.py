@@ -9,6 +9,17 @@ from school.ui import FIELD_LABELS, MODEL_LABELS, STATUS_LABELS
 register = template.Library()
 
 
+@register.simple_tag(takes_context=True)
+def ui_capabilities(context):
+    from school.access import global_action
+    user = context["request"].user
+    return {
+        "run": user.is_staff and global_action(user, "run"),
+        "import": user.is_staff and global_action(user, "change"),
+        "runs": user.is_staff and global_action(user),
+    }
+
+
 @register.filter
 def model_label(value):
     name = getattr(value, "model_name", str(value)).lower()

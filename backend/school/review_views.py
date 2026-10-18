@@ -64,6 +64,18 @@ def _review_context(request, semester, errors, filters, faculty):
     qs = scoped(_review_entries(semester, filters), request.user) if not errors else ScheduleEntry.objects.none()
     context["count"] = qs.count()
     context["page"] = Paginator(qs, 50).get_page(request.GET.get("page"))
+    page_entries = list(context["page"].object_list)
+    page_ids = [entry.pk for entry in page_entries]
+    unlocked = semester is not None and semester.status != "DaKhoa"
+    editable = set(scoped(ScheduleEntry.objects.filter(pk__in=page_ids), request.user, "change")
+                   .values_list("pk", flat=True)) if unlocked else set()
+    approvable = set(scoped(ScheduleEntry.objects.filter(pk__in=page_ids, status="ChoDuyet"),
+                           request.user, "approve").values_list("pk", flat=True)) if unlocked else set()
+    for entry in page_entries:
+        entry.can_edit = entry.pk in editable
+        entry.can_approve = entry.pk in approvable
+    context["page"].object_list = page_entries
+    context["can_approve_entries"] = bool(approvable)
     context["query_prefix"] = urlencode({"semester": semester.pk if semester else "",
                                           **{key: value for key, value in filters.items() if value}})
     selected_run = (AlgorithmRun.objects.filter(pk=filters["run"], semester=semester).first()
@@ -74,6 +86,10 @@ def _review_context(request, semester, errors, filters, faculty):
         snapshot=(selected_run.preferences_snapshot if selected_run.preferences_captured_at else None)
         if selected_run else None,
     ) if semester and global_action(request.user) else None)
+    violation_ids = [entry.pk for entry in context["preference_report"]["violations"]] if context["preference_report"] else []
+    context["editable_violation_ids"] = set(scoped(
+        ScheduleEntry.objects.filter(pk__in=violation_ids), request.user, "change"
+    ).values_list("pk", flat=True)) if unlocked and context["preference_report"] else set()
     return context
 
 

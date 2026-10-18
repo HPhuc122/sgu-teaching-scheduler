@@ -1,0 +1,7 @@
+{% extends "school/base.html" %}
+{% block title %}Không có quyền truy cập{% endblock %}
+{% block content %}
+<h1>Không có quyền truy cập</h1>
+<p>Tài khoản hiện tại không được thực hiện thao tác hoặc truy cập phạm vi này.</p>
+<a class="button" href="{% if request.user.is_staff %}{% url 'admin:index' %}{% else %}{% url 'portal' %}{% endif %}">Về không gian làm việc</a>
+{% endblock %}

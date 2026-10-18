@@ -1,6 +1,24 @@
 """Hard lecturer availability checks shared by every approval path."""
 
-from .models import LecturerPreference
+from .models import LecturerPreference, ScheduleEntry
+
+
+def approved_preference_conflicts(preference):
+    if preference.kind != "NgayNghi":
+        return ScheduleEntry.objects.none()
+    return ScheduleEntry.objects.filter(
+        group__semester=preference.semester, lecturer=preference.lecturer,
+        day=preference.day, status="DaDuyet",
+    )
+
+
+def late_preference_warning(preference):
+    count = approved_preference_conflicts(preference).count()
+    if count:
+        return (f"Nguyện vọng trùng với {count} buổi đã duyệt. Lịch hiện tại vẫn có hiệu lực. "
+                "Hãy liên hệ bộ phận phụ trách để sửa các buổi bị ảnh hưởng và duyệt lại; "
+                "không chạy lại ba tệp Excel cho nhóm đã có lịch duyệt.")
+    return ""
 
 
 def day_off_violations(semester_id, entries):

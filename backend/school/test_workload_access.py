@@ -384,6 +384,105 @@ class UnitAuthorizationTests(QualityFixture):
         book=load_workbook(BytesIO(response.content))
         self.assertEqual(book["PhanCong"].max_row,2)
 
+    def test_role_screens_hide_actions_the_user_cannot_perform(self):
+        review_url = f"/admin/review-schedules/?semester={self.semester.pk}"
+        for user, can_edit, can_approve in ((self.viewer, False, False),
+                                           (self.head, True, False),
+                                           (self.faculty_user, True, False),
+                                           (self.training, True, True)):
+            with self.subTest(user=user.username):
+                self.client.force_login(user)
+                for url in ("/admin/", review_url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    for href in ('href="/admin/auto-schedule/', 'href="/admin/import-catalog/',
+                                 'href="/admin/import-schedule/'):
+                        self.assertNotContains(response, href)
+                response = self.client.get(review_url)
+                self.assertEqual(response.context["can_approve_entries"], can_approve)
+                edit_link = f'href="/admin/review-schedules/{self.own_entry.pk}/edit/"'
+                if can_edit:
+                    self.assertContains(response, edit_link)
+                else:
+                    self.assertNotContains(response, edit_link)
+                self.assertEqual('name="entry_ids"' in response.content.decode(), can_approve)
+                self.assertEqual('class="approve"' in response.content.decode(), can_approve)
+        self.semester.status = "DaKhoa"
+        self.semester.save()
+        response = self.client.get(review_url)
+        self.assertNotContains(response, 'name="entry_ids"')
+        self.assertNotContains(response, f'href="/admin/review-schedules/{self.own_entry.pk}/edit/"')
+
+    def test_global_readonly_role_can_view_runs_without_mutation_controls(self):
+        UnitRoleAssignment.objects.create(user=self.viewer, role="TRAINING", all_units=True)
+        run = AlgorithmRun.objects.create(semester=self.semester, status="OPTIMAL",
+            created_by=self.admin, entry_count=1)
+        self.own_entry.algorithm_run = run
+        self.own_entry.save()
+        self.client.force_login(self.viewer)
+        response = self.client.get(f"/admin/auto-schedule/?run={run.pk}")
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["can_approve"])
+        self.assertNotContains(response, 'id="scheduleUploadForm"')
+        self.assertNotContains(response, 'value="create_semester"')
+        self.assertNotContains(response, "Duyệt toàn bộ phương án")
+        self.assertEqual(self.client.post("/admin/auto-schedule/", {
+            "action": "create_semester", "name": "forbidden",
+        }).status_code, 403)
+
+    def test_scoped_export_warns_and_includes_own_lecturers_cross_unit_teaching(self):
+        self.own_entry.status = "DaDuyet"
+        self.own_entry.save()
+        self.foreign_entry.lecturer = self.teacher
+        self.foreign_entry.status = "DaDuyet"
+        self.foreign_entry.save()
+        self.client.force_login(self.viewer)
+        faculty_id = self.teacher.department.faculty_id
+        url = f"/admin/export-assignments/?semester={self.semester.pk}&faculty={faculty_id}"
+        response = self.client.get(url)
+        self.assertEqual(response.context["total_entries"], 2)
+        self.assertFalse(response.context["completeness"]["ready"])
+        self.assertContains(response, "Phạm vi đơn vị được phân quyền")
+        self.assertContains(response, "Chưa xác nhận bảng phân công hoàn chỉnh")
+        self.assertNotContains(response, "Foreign teacher")
+        book = load_workbook(BytesIO(self.client.get(url + "&action=download").content))
+        self.assertEqual(book["PhanCong"].max_row, 3)
+        self.assertIn("CHƯA XÁC NHẬN ĐẦY ĐỦ", str(list(book["ThongTin"].values)))
+        self.assertIn("Kiểm tra phạm vi đơn vị", str(list(book["ThongTin"].values)))
+        book.close()
+
+    def test_scoped_completeness_does_not_leak_unrelated_demand_or_teachers(self):
+        AlgorithmRun.objects.create(semester=self.semester, status="OPTIMAL", created_by=self.admin,
+            demand_snapshot=[{"group_id": self.foreign_group.pk, "code": "SECRET_SESSION"}])
+        self.client.force_login(self.faculty_user)
+        url = f"/admin/export-assignments/?semester={self.semester.pk}&faculty={self.teacher.department.faculty_id}"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "SECRET_SESSION")
+        self.assertNotContains(response, "Foreign course")
+
+    def test_scoped_completeness_tracks_missing_pending_approved_and_duplicate(self):
+        from .assignment_completeness import assignment_completeness
+        from .access import allowed_departments
+        AlgorithmRun.objects.create(semester=self.semester, status="OPTIMAL", created_by=self.admin,
+            demand_snapshot=[{"group_id": self.group.pk, "code": "LT1",
+                              "course_code": self.group.course.code, "group": self.group.group,
+                              "lab_group": "", "excel_row": 2}])
+        departments = allowed_departments(self.faculty_user)
+        check = lambda: assignment_completeness(self.semester, departments)
+        self.assertEqual(check()["counts"]["missing"], 1)
+        self.own_entry.request_code = "LT1"
+        self.own_entry.save()
+        self.assertEqual(check()["counts"]["pending"], 1)
+        self.assertFalse(check()["ready"])
+        self.own_entry.status = "DaDuyet"
+        self.own_entry.save()
+        self.assertTrue(check()["ready"])
+        ScheduleEntry.objects.create(group=self.group, lecturer=self.teacher, room=self.room,
+            day=4, start_period_id=1, period_count=2, status="DaDuyet", request_code="LT1")
+        self.assertEqual(check()["counts"]["duplicate"], 1)
+        self.assertFalse(check()["ready"])
+
     def test_locked_configuration_and_invalid_effective_quota_return_validation_error(self):
         self.api.force_authenticate(self.admin)
         payload={"lecturer":self.teacher.pk,"semester":self.semester.pk,"target_units":"0.01","allocation_fraction":"0.01"}

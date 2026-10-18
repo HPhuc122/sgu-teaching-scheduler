@@ -147,6 +147,107 @@ class ScheduleApiTests(TestCase):
         self.assertEqual(posted.status_code, 302)
         self.assertContains(self.client.get(f"/portal/?semester={self.semester.pk}"), "Ưu tiên sáng")
 
+    def test_preference_form_and_api_reject_the_same_invalid_rules(self):
+        self.client.force_authenticate(self.teacher_user)
+        invalid = [
+            ({"kind": "NgayNghi"}, "day"),
+            ({"kind": "KhungGio"}, "time_block"),
+            ({"kind": "INVALID", "time_block": "Sang"}, "kind"),
+            ({"kind": "KhungGio", "time_block": "INVALID"}, "time_block"),
+            ({"kind": "NgayNghi", "day": 9}, "day"),
+            ({"kind": "NgayNghi", "day": 1}, "day"),
+            ({"kind": "KhungGio", "time_block": "Sang", "priority": 99}, "priority"),
+            ({"kind": "KhungGio", "time_block": "Sang", "priority": 0}, "priority"),
+        ]
+        from .forms import PreferenceForm
+        for values, field in invalid:
+            with self.subTest(values=values):
+                payload = {"semester": self.semester.pk, "priority": 2, **values}
+                response = self.client.post("/api/me/preferences/", payload, format="json")
+                self.assertEqual(response.status_code, 400)
+                self.assertIn(field, response.data)
+                form = PreferenceForm(payload)
+                self.assertFalse(form.is_valid())
+                self.assertIn(field, form.errors)
+        self.assertFalse(LecturerPreference.objects.exists())
+
+    def test_valid_preference_options_and_locked_semester(self):
+        self.client.force_authenticate(self.teacher_user)
+        for block in ("Sang", "Chieu", "Toi"):
+            for priority in (1, 2, 3, 4):
+                response = self.client.post("/api/me/preferences/", {
+                    "semester": self.semester.pk, "kind": "KhungGio",
+                    "time_block": block, "priority": priority,
+                }, format="json")
+                self.assertEqual(response.status_code, 201, response.data)
+        for day in range(2, 9):
+            response = self.client.post("/api/me/preferences/", {
+                "semester": self.semester.pk, "kind": "NgayNghi", "day": day,
+            }, format="json")
+            self.assertEqual(response.status_code, 201)
+            self.assertEqual(response.data["priority"], 2)
+        self.semester.status = "DaKhoa"
+        self.semester.save()
+        response = self.client.post("/api/me/preferences/", {
+            "semester": self.semester.pk, "kind": "NgayNghi", "day": 2,
+        }, format="json")
+        self.assertEqual(response.status_code, 403)
+
+    def test_late_hard_preference_warns_then_edit_and_reapproval_resolve_export(self):
+        CourseGroup.objects.filter(pk__in=[self.group1.pk, self.group2.pk]).delete()
+        self.client.force_login(self.admin)
+        run = self.queue_auto(self.auto_data())
+        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE", "HEURISTIC"))
+        self.client.post("/admin/auto-schedule/", {"action": "approve", "run_id": run.pk})
+        entry = run.entries.get()
+        user = get_user_model().objects.create_user("late_teacher")
+        entry.lecturer.user = user
+        entry.lecturer.save()
+        self.client.force_authenticate(None)
+        self.client.force_login(user)
+        response = self.client.post("/portal/preferences/", {
+            "semester": self.semester.pk, "kind": "NgayNghi", "day": entry.day, "priority": 2,
+        }, follow=True)
+        self.assertContains(response, "Lịch hiện tại vẫn có hiệu lực")
+        entry.refresh_from_db()
+        self.assertEqual(entry.status, "DaDuyet")
+        self.client.force_login(self.admin)
+        export_url = f"/admin/export-assignments/?semester={self.semester.pk}&faculty={entry.lecturer.department.faculty_id}"
+        self.assertFalse(self.client.get(export_url).context["completeness"]["ready"])
+        review = self.client.get(f"/admin/review-schedules/?semester={self.semester.pk}&run={run.pk}")
+        self.assertContains(review, "Gửi sau lần chạy")
+        self.assertContains(review, "lưu về chờ duyệt rồi bộ phận đào tạo duyệt lại")
+        edit_page = self.client.get(f"/admin/review-schedules/{entry.pk}/edit/")
+        initial = edit_page.context["form"].initial
+        self.assertEqual(initial["lecturer"], entry.lecturer_id)
+        self.assertEqual(initial["day"], entry.day)
+        self.assertEqual(initial["start_period"], entry.start_period_id)
+        self.assertEqual(initial["weeks"], "1,2")
+        response = self.client.post(f"/admin/review-schedules/{entry.pk}/edit/", {
+            "lecturer": entry.lecturer_id, "room": entry.room_id, "day": 4,
+            "start_period": entry.start_period_id, "period_count": entry.period_count, "weeks": "1-2",
+        })
+        self.assertEqual(response.status_code, 302)
+        entry.refresh_from_db()
+        self.assertEqual(entry.status, "ChoDuyet")
+        self.assertIsNone(entry.approved_by_id)
+        self.assertFalse(self.client.get(export_url).context["completeness"]["ready"])
+        response = self.client.post("/admin/review-schedules/", {
+            "semester": self.semester.pk, "action": "approve", "entry_ids": [entry.pk],
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(self.client.get(export_url).context["completeness"]["ready"])
+
+    def test_api_warns_about_late_day_off_without_changing_approved_schedule(self):
+        self.client.post("/api/schedules/", self.payload(self.group1, self.teacher, [1]), format="json")
+        self.client.force_authenticate(self.teacher_user)
+        response = self.client.post("/api/me/preferences/", {
+            "semester": self.semester.pk, "kind": "NgayNghi", "day": 2,
+        }, format="json")
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("sửa các buổi bị ảnh hưởng và duyệt lại", response.data["warning"])
+        self.assertEqual(ScheduleEntry.objects.get().status, "DaDuyet")
+
     def test_review_explains_preference_outcomes_for_selected_run(self):
         run = AlgorithmRun.objects.create(semester=self.semester, created_by=self.admin,
                                           status="FEASIBLE")

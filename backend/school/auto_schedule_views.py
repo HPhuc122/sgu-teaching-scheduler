@@ -12,6 +12,7 @@ from .models import AlgorithmRun, Semester
 from .preference_checks import day_off_violations
 from .schedule_queue import enqueue_schedule
 from .services import ScheduleConflictError
+from .access import can_approve as user_can_approve
 
 
 class NewSemesterForm(forms.ModelForm):
@@ -85,7 +86,8 @@ def auto_schedule(request):
     can_approve = bool(run and run.status in ("FEASIBLE", "OPTIMAL", "HEURISTIC") and run.entry_count
                        and run.entries.count() == run.entry_count
                        and not run.entries.exclude(status="ChoDuyet").exists()
-                       and not hard_conflicts)
+                       and not hard_conflicts
+                       and user_can_approve(request.user, run.entries.all()))
     approved_count = run.entries.filter(status="DaDuyet").count() if run else 0
     return render(request, "school/auto_schedule.html", {
         "semesters": semesters, "selected": selected, "errors": errors,

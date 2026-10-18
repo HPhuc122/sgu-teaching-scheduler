@@ -824,8 +824,9 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         demand = next(item for item in demands if item["group"].pk == existing_in_group.group_id)
         raise InputIssues([issue("courses", "BuoiHocYeuCau", demand["line"],
                                  f"Nhóm {existing_in_group.group.course.code}/{existing_in_group.group.group} "
-                                 "đã có lịch được duyệt hoặc nhập riêng; không thể tự xếp thêm "
-                                 "khi chưa có mã buổi yêu cầu để đối chiếu")])
+                                 "đã có lịch được duyệt hoặc nhập riêng. Hãy vào Rà soát và duyệt, "
+                                 "chọn Sửa ở từng buổi cần thay đổi, lưu về chờ duyệt rồi duyệt lại; "
+                                 "không chạy lại ba tệp Excel cho nhóm này.")])
     allowed_pairs = {(row["ma_vien_chuc"], row["ma_mon_hoc"])
                      for row in data["lecturers"]["GiangVienHocPhan"]}
     preferences = list(LecturerPreference.objects.filter(semester=semester)

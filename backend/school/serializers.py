@@ -196,6 +196,11 @@ class LecturerPreferenceSerializer(serializers.ModelSerializer):
         fields = ["id", "semester", "kind", "day", "time_block", "priority", "note"]
 
     def validate(self, attrs):
-        if attrs.get("day") is not None and not 2 <= attrs["day"] <= 8:
-            raise serializers.ValidationError({"day": "Thứ phải từ 2 đến 8"})
+        from .preference_validation import preference_errors
+        values = {name: getattr(self.instance, name) for name in
+                  ("kind", "day", "time_block", "priority")} if self.instance else {}
+        values.update(attrs)
+        errors = preference_errors(values)
+        if errors:
+            raise serializers.ValidationError(errors)
         return attrs

@@ -6,6 +6,7 @@
 <h1>Thời khóa biểu của tôi</h1>
   <p class="sub">{{ lecturer.name }} · Mã viên chức {{ lecturer.employee_code|default:"Chưa có" }} · {{ lecturer.department.name }} · Email: {{ lecturer.email|default:"Chưa cập nhật" }}</p>
   {% for message in messages %}<div class="message {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}
+  {% if preference_conflicts %}<div class="message warning" role="status">Có {{ preference_conflicts|length }} buổi đã duyệt trùng với ngày bạn không thể dạy. Lịch hiện tại vẫn có hiệu lực. Hãy liên hệ bộ phận phụ trách để sửa các buổi bị ảnh hưởng và duyệt lại.</div>{% endif %}
   <section>
     <form class="filters" method="get"><label for="semester">Học kỳ</label><select id="semester" name="semester" >
       {% for semester in semesters %}<option value="{{ semester.id }}" {% if selected_semester == semester.id|stringformat:"s" %}selected{% endif %}>{{ semester.name }}</option>{% endfor %}

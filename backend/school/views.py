@@ -369,8 +369,13 @@ def my_preferences(request):
     serializer.is_valid(raise_exception=True)
     if serializer.validated_data["semester"].status == "DaKhoa":
         raise PermissionDenied("Học kỳ đã khóa")
-    serializer.save(lecturer=lecturer)
-    return Response(serializer.data, status=201)
+    preference = serializer.save(lecturer=lecturer)
+    from .preference_checks import late_preference_warning
+    result = dict(serializer.data)
+    warning = late_preference_warning(preference)
+    if warning:
+        result["warning"] = warning
+    return Response(result, status=201)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -399,9 +404,12 @@ def portal(request):
     preferences = LecturerPreference.objects.filter(lecturer=lecturer)
     if semester_id:
         preferences = preferences.filter(semester_id=semester_id)
+    from .preference_checks import day_off_violations
+    preference_conflicts = day_off_violations(semester_id, entries) if semester_id else []
     return render(request, "school/portal.html", {
         "lecturer": lecturer, "semesters": semesters, "selected_semester": str(semester_id or ""),
         "entries": entries, "preferences": preferences, "form": PreferenceForm(initial={"semester": semester_id}),
+        "preference_conflicts": preference_conflicts,
     })
 
 
@@ -418,6 +426,10 @@ def submit_preference(request):
         preference.lecturer = lecturer
         preference.save()
         messages.success(request, "Đã ghi nhận nguyện vọng.")
+        from .preference_checks import late_preference_warning
+        warning = late_preference_warning(preference)
+        if warning:
+            messages.warning(request, warning)
         return redirect(f"{reverse('portal')}?semester={preference.semester_id}")
     else:
         for field, errors in form.errors.items():

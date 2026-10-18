@@ -15,7 +15,8 @@ class ScheduleReviewForm(forms.Form):
     weeks = forms.CharField(label="Tuần học", help_text="Ví dụ: 1-10,12,14-16")
 
     def __init__(self, *args, entry=None, **kwargs):
-        if entry is not None and not args and "initial" not in kwargs:
+        if (entry is not None and (not args or args[0] is None)
+                and kwargs.get("data") is None and "initial" not in kwargs):
             kwargs["initial"] = {
                 "lecturer": entry.lecturer_id, "room": entry.room_id,
                 "other_location": entry.other_location or "", "day": entry.day,
@@ -65,8 +66,8 @@ class PreferenceForm(forms.ModelForm):
 
     def clean(self):
         data = super().clean()
-        if data.get("kind") == "NgayNghi" and not data.get("day"):
-            self.add_error("day", "Cần chọn thứ cho ngày không thể dạy")
-        if data.get("kind") == "KhungGio" and not data.get("time_block"):
-            self.add_error("time_block", "Cần chọn buổi ưu tiên")
+        from .preference_validation import preference_errors
+        for field, message in preference_errors(data).items():
+            if field not in self.errors:
+                self.add_error(field, message)
         return data

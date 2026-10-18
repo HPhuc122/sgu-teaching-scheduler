@@ -23,7 +23,7 @@ def approved_assignments(semester, faculty):
         ScheduleEntry.objects.filter(
             status="DaDuyet", group__semester=semester,
             lecturer__department__faculty=faculty,
-        ).select_related("group__course", "lecturer", "room")
+        ).select_related("group__course", "lecturer__department", "room")
         .prefetch_related("schedule_weeks", "group__cohort_links__cohort")
         .order_by("lecturer__employee_code", "lecturer__name", "group__course__code",
                   "group__group", "group__lab_group", "day", "start_period_id", "pk")
@@ -110,7 +110,8 @@ def assignment_workbook_bytes(semester, faculty, entries, completeness=None):
     for row in info:
         note.append([_safe_cell(value) for value in row])
     if completeness is not None:
-        note.append(("Kiểm tra toàn học kỳ",
+        scope_label = completeness.get("scope_label", "Toàn học kỳ")
+        note.append(("Kiểm tra toàn học kỳ" if scope_label == "Toàn học kỳ" else "Kiểm tra phạm vi đơn vị",
                      "Đủ theo buổi yêu cầu đã lưu" if completeness["ready"] else
                      "CHƯA XÁC NHẬN ĐẦY ĐỦ – xem các dòng kiểm tra bên dưới"))
         note.append(("Buổi yêu cầu", completeness["expected"]))
@@ -120,7 +121,8 @@ def assignment_workbook_bytes(semester, faculty, entries, completeness=None):
         note.append(("Mã buổi trùng lịch", completeness["counts"]["duplicate"]))
         note.append(("Nhóm chưa có yêu cầu lưu", len(completeness["unknown_groups"])))
         note.append(("Tổng buổi chờ duyệt", len(completeness["pending_entries"])))
-        note.append(("Phạm vi kiểm tra", "Toàn học kỳ; buổi chưa có giảng viên chưa thể gắn cho một khoa"))
+        note.append(("Buổi trùng ngày không thể dạy", len(completeness.get("hard_conflicts", []))))
+        note.append(("Phạm vi kiểm tra", scope_label + "; buổi chưa phân công được đối chiếu theo đơn vị quản lý học phần"))
     note.column_dimensions["A"].width = 28
     note.column_dimensions["B"].width = 75
     note["A1"].font = Font(bold=True, size=14, color="164B6B")
