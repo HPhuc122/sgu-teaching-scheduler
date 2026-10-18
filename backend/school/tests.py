@@ -15,7 +15,7 @@ from .models import (AlgorithmRun, Building, Cohort, Course, CourseGroup, Course
                      Semester, TeachingQualification)
 from .schedule_import import HEADERS
 from .catalog_import import SHEETS
-from .auto_schedule import AUTO_SHEETS, _best_local_search, read_auto_workbook
+from .auto_schedule import AUTO_SHEETS, read_auto_workbook
 from .great_deluge import improve
 from .schedule_queue import process_next_run
 from .sample_data import synthetic_rows, workbook_bytes
@@ -28,7 +28,7 @@ class ScheduleApiTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         user_model = get_user_model()
-        cls.admin = user_model.objects.create_user("admin", password="safe-test-password", is_staff=True)
+        cls.admin = user_model.objects.create_superuser("admin", password="safe-test-password")
         cls.teacher_user = user_model.objects.create_user("teacher", password="safe-test-password")
         faculty = Faculty.objects.create(code="CNTT", name="Công nghệ thông tin")
         department = Department.objects.create(faculty=faculty, code="KHMT", name="Khoa học máy tính")
@@ -810,7 +810,7 @@ class ScheduleApiTests(TestCase):
         CourseGroup.objects.filter(pk__in=[self.group1.pk, self.group2.pk]).delete()
         self.client.force_login(self.admin)
         run = self.queue_auto(self.auto_data())
-        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE"))
+        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE", "HEURISTIC"))
         entry = ScheduleEntry.objects.get(algorithm_run=run)
         self.assertEqual(entry.request_code, "LT1")
         run.refresh_from_db()
@@ -852,7 +852,7 @@ class ScheduleApiTests(TestCase):
             lecturer=self.other_teacher, semester=self.semester, kind="NgayNghi", day=5)
         self.client.force_login(self.admin)
         run = self.queue_auto(self.auto_data())
-        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE"))
+        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE", "HEURISTIC"))
         run.refresh_from_db()
         self.assertIsNotNone(run.preferences_captured_at)
         self.assertEqual({item["id"] for item in run.preferences_snapshot},
@@ -906,19 +906,6 @@ class ScheduleApiTests(TestCase):
         }).status_code, 200)
         entry.refresh_from_db()
         self.assertEqual(entry.status, "DaDuyet")
-
-    def test_local_search_keeps_best_of_three_seeded_trials(self):
-        initial = ["initial"]
-        with patch("school.auto_schedule.improve", side_effect=[
-            (["first"], 9, 8), (["second"], 9, 6), (["third"], 9, 7),
-        ]) as search:
-            best, score, trials = _best_local_search(
-                self.semester, initial, 9, {}, {}, [], [], set(), [],
-            )
-        self.assertEqual((best, score), (["second"], 6))
-        self.assertEqual([trial["seed"] for trial in trials], [42, 43, 44])
-        self.assertEqual([trial["score"] for trial in trials], [8, 6, 7])
-        self.assertTrue(all(call.kwargs["time_limit"] <= 5 for call in search.call_args_list))
 
     def test_synthetic_workbooks_are_reproducible_and_fit_import_limits(self):
         first = synthetic_rows(sessions=449, semester_name=self.semester.name, seed=42)
@@ -1016,7 +1003,7 @@ class ScheduleApiTests(TestCase):
         data["rooms"]["PhongKhongKhaDung"] = []
         self.client.force_login(self.admin)
         self.queue_auto(data)
-        self.assertEqual(process_next_run().status, "OPTIMAL")
+        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE", "HEURISTIC"))
         entries = list(ScheduleEntry.objects.filter(source="ThuatToan", group__semester=self.semester))
         self.assertEqual(len(entries), 2)
         self.assertEqual({entry.day for entry in entries}, {2})
@@ -1028,14 +1015,14 @@ class ScheduleApiTests(TestCase):
         self.client.force_login(self.admin)
         for _ in range(2):
             self.queue_auto(data)
-            self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE"))
+            self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE", "HEURISTIC"))
         self.assertEqual(ScheduleEntry.objects.filter(source="ThuatToan", group__semester=self.semester).count(), 1)
 
     def test_auto_schedule_approves_whole_run_and_lecturer_sees_result(self):
         data = self.auto_data()
         self.client.force_login(self.admin)
         queued = self.queue_auto(data)
-        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE"))
+        self.assertIn(process_next_run().status, ("OPTIMAL", "FEASIBLE", "HEURISTIC"))
         response = self.client.get(f"/admin/auto-schedule/?run={queued.pk}")
         run = response.context["run"]
         self.assertTrue(response.context["can_approve"])

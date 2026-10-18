@@ -77,14 +77,14 @@ class SharedInterfaceTests(TestCase):
         self.client.force_login(self.staff)
         response = self.client.get('/admin/')
         sidebar = response.content.decode().split('<aside', 1)[1].split('</aside>', 1)[0]
-        self.assertIn(reverse('admin:school_lecturer_changelist'), sidebar)
+        self.assertNotIn(reverse('admin:school_lecturer_changelist'), sidebar)
         self.assertNotIn(reverse('admin:school_room_changelist'), sidebar)
         self.assertNotIn(reverse('admin:auth_user_changelist'), sidebar)
-        self.assertContains(response, 'Giảng viên')
+        self.assertEqual(self.client.get('/admin/school/lecturer/').status_code, 403)
         self.assertNotContains(response, 'href="/admin/school/room/"')
         from .templatetags.school_ui import dashboard_data
         stats = dashboard_data({'request': response.wsgi_request})['stats']
-        self.assertEqual([(item['label'], item['count']) for item in stats], [('Giảng viên', 1)])
+        self.assertEqual(stats, [])
         self.assertEqual(self.client.get('/admin/school/room/').status_code, 403)
 
     def test_staff_without_model_access_sees_no_model_links(self):
@@ -100,9 +100,9 @@ class SharedInterfaceTests(TestCase):
         self.client.force_login(user)
         response = self.client.get('/admin/')
         sidebar = response.content.decode().split('<aside', 1)[1].split('</aside>', 1)[0]
-        self.assertIn(reverse('admin:school_building_add'), sidebar)
+        self.assertNotIn(reverse('admin:school_building_add'), sidebar)
         self.assertNotIn('href="' + reverse('admin:school_building_changelist') + '"', sidebar)
-        self.assertEqual(self.client.get(reverse('admin:school_building_add')).status_code, 200)
+        self.assertEqual(self.client.get(reverse('admin:school_building_add')).status_code, 403)
         self.assertEqual(self.client.get(reverse('admin:school_building_changelist')).status_code, 403)
 
     def test_admin_create_edit_and_delete_confirmation_remain_functional(self):

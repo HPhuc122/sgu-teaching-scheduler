@@ -1,6 +1,8 @@
 """Presentation labels only; model metadata and database schema stay unchanged."""
 
 MODEL_LABELS = {
+    "teachingquota": "Định mức mô phỏng", "workloadpolicy": "Chính sách khối lượng mô phỏng",
+    "conversionrule": "Hệ số quy đổi mô phỏng", "unitroleassignment": "Phân quyền đơn vị mô phỏng",
     "faculty": "Khoa", "department": "Bộ môn", "lecturer": "Giảng viên",
     "course": "Học phần", "coursegroup": "Lớp học phần",
     "courseprogram": "Học phần trong chương trình", "room": "Phòng học",
@@ -10,6 +12,10 @@ MODEL_LABELS = {
 }
 
 FIELD_LABELS = {
+    "target_units": "Định mức giờ quy đổi", "allocation_fraction": "Tỷ lệ phân bổ (0,01–1)",
+    "default_factor": "Hệ số mô phỏng mặc định (có thể để trống)", "factor": "Hệ số mô phỏng",
+    "course_kind": "Loại học phần", "balance_weight": "Trọng số cân bằng (0 = tắt)",
+    "role": "Vai trò giả định", "can_manage": "Cho phép quản lý/đề xuất", "all_units": "Toàn hệ thống",
     "code": "Mã", "name": "Tên", "faculty": "Khoa", "department": "Bộ môn",
     "user": "Tài khoản liên kết", "employee_code": "Mã viên chức", "email": "Email",
     "status": "Trạng thái", "credits": "Số tín chỉ", "kind": "Loại học phần",

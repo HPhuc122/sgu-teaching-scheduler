@@ -7,12 +7,13 @@ from django.shortcuts import render
 from .assignment_export import approved_assignments, assignment_rows, assignment_workbook_bytes
 from .assignment_completeness import assignment_completeness
 from .models import Faculty, Semester
+from .access import scoped, global_action
 
 
 @staff_member_required
 def export_assignments(request):
     semesters = Semester.objects.all().order_by("-start_date")
-    faculties = Faculty.objects.all().order_by("name")
+    faculties = scoped(Faculty.objects.all(), request.user).order_by("name")
     semester_id = request.GET.get("semester", "")
     faculty_id = request.GET.get("faculty", "")
     semester = Semester.objects.filter(pk=semester_id).first() if semester_id.isdigit() else None
@@ -29,8 +30,10 @@ def export_assignments(request):
     entries = []
     completeness = None
     if semester is not None and faculty is not None and not errors:
-        completeness = assignment_completeness(semester)
-        entries = approved_assignments(semester, faculty)
+        completeness = assignment_completeness(semester) if global_action(request.user) else None
+        from .models import ScheduleEntry
+        visible = set(scoped(ScheduleEntry.objects.all(), request.user).values_list("pk", flat=True))
+        entries = [e for e in approved_assignments(semester, faculty) if e.pk in visible]
         detail_rows, summary_rows = assignment_rows(entries)
         if request.GET.get("action") == "download":
             response = HttpResponse(

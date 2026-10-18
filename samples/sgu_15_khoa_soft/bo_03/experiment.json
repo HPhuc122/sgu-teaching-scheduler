@@ -1,0 +1,5696 @@
+{
+  "format_version": 1,
+  "simulated": true,
+  "seed": 20261020,
+  "note": "Dữ liệu thực nghiệm mô phỏng; không phải nguyện vọng/phân công chính thức của SGU.",
+  "workbook_sha256": {
+    "courses": "08dc0283b3aa533467247f3b5a4e7635b73e949ecf95643921088cc5794f199c",
+    "rooms": "8b3eb9bdfc2d6aec4d48d49ae0e0295b044f1e4a492b1548fcecef5017368b16",
+    "lecturers": "adc36d66da2e2d2b5e0fdfe3ae1fb3a3be3a6f5619cd5abbe6ea67b897880982"
+  },
+  "qualification_priorities": [
+    {
+      "employee_code": "10012",
+      "course_code": "820424",
+      "priority": 4
+    },
+    {
+      "employee_code": "10012",
+      "course_code": "846401",
+      "priority": 3
+    },
+    {
+      "employee_code": "10012",
+      "course_code": "846404",
+      "priority": 2
+    },
+    {
+      "employee_code": "10051",
+      "course_code": "834427",
+      "priority": 4
+    },
+    {
+      "employee_code": "10063",
+      "course_code": "841302",
+      "priority": 1
+    },
+    {
+      "employee_code": "10068",
+      "course_code": "843038",
+      "priority": 4
+    },
+    {
+      "employee_code": "10089",
+      "course_code": "854409",
+      "priority": 1
+    },
+    {
+      "employee_code": "10105",
+      "course_code": "839406",
+      "priority": 2
+    },
+    {
+      "employee_code": "10125",
+      "course_code": "802135",
+      "priority": 1
+    },
+    {
+      "employee_code": "10126",
+      "course_code": "801047",
+      "priority": 3
+    },
+    {
+      "employee_code": "10131",
+      "course_code": "864001",
+      "priority": 2
+    },
+    {
+      "employee_code": "10131",
+      "course_code": "864005",
+      "priority": 1
+    },
+    {
+      "employee_code": "10131",
+      "course_code": "867007",
+      "priority": 2
+    },
+    {
+      "employee_code": "10134",
+      "course_code": "864007",
+      "priority": 4
+    },
+    {
+      "employee_code": "10135",
+      "course_code": "864006",
+      "priority": 1
+    },
+    {
+      "employee_code": "10135",
+      "course_code": "867007",
+      "priority": 2
+    },
+    {
+      "employee_code": "10138",
+      "course_code": "802305",
+      "priority": 2
+    },
+    {
+      "employee_code": "10139",
+      "course_code": "821426",
+      "priority": 2
+    },
+    {
+      "employee_code": "10144",
+      "course_code": "864007",
+      "priority": 1
+    },
+    {
+      "employee_code": "10144",
+      "course_code": "865508",
+      "priority": 1
+    },
+    {
+      "employee_code": "10144",
+      "course_code": "867508",
+      "priority": 2
+    },
+    {
+      "employee_code": "10145",
+      "course_code": "864508",
+      "priority": 1
+    },
+    {
+      "employee_code": "10147",
+      "course_code": "806060",
+      "priority": 3
+    },
+    {
+      "employee_code": "10147",
+      "course_code": "853002",
+      "priority": 4
+    },
+    {
+      "employee_code": "10150",
+      "course_code": "803125",
+      "priority": 4
+    },
+    {
+      "employee_code": "10150",
+      "course_code": "803317",
+      "priority": 3
+    },
+    {
+      "employee_code": "10151",
+      "course_code": "803407",
+      "priority": 2
+    },
+    {
+      "employee_code": "10151",
+      "course_code": "864004",
+      "priority": 4
+    },
+    {
+      "employee_code": "10155",
+      "course_code": "821402",
+      "priority": 1
+    },
+    {
+      "employee_code": "10156",
+      "course_code": "802103",
+      "priority": 3
+    },
+    {
+      "employee_code": "10190",
+      "course_code": "809451",
+      "priority": 2
+    },
+    {
+      "employee_code": "10192",
+      "course_code": "857415",
+      "priority": 1
+    },
+    {
+      "employee_code": "10192",
+      "course_code": "857417",
+      "priority": 1
+    },
+    {
+      "employee_code": "10227",
+      "course_code": "841044",
+      "priority": 2
+    },
+    {
+      "employee_code": "10229",
+      "course_code": "833063",
+      "priority": 4
+    },
+    {
+      "employee_code": "10229",
+      "course_code": "833306",
+      "priority": 2
+    },
+    {
+      "employee_code": "10229",
+      "course_code": "833450",
+      "priority": 4
+    },
+    {
+      "employee_code": "10249",
+      "course_code": "815407",
+      "priority": 3
+    },
+    {
+      "employee_code": "10250",
+      "course_code": "809021",
+      "priority": 2
+    },
+    {
+      "employee_code": "10250",
+      "course_code": "809408",
+      "priority": 3
+    },
+    {
+      "employee_code": "10250",
+      "course_code": "865001",
+      "priority": 2
+    },
+    {
+      "employee_code": "10252",
+      "course_code": "815095",
+      "priority": 1
+    },
+    {
+      "employee_code": "10252",
+      "course_code": "815404",
+      "priority": 1
+    },
+    {
+      "employee_code": "10272",
+      "course_code": "819070",
+      "priority": 3
+    },
+    {
+      "employee_code": "10278",
+      "course_code": "819302",
+      "priority": 1
+    },
+    {
+      "employee_code": "10282",
+      "course_code": "819418",
+      "priority": 2
+    },
+    {
+      "employee_code": "10312",
+      "course_code": "863514",
+      "priority": 1
+    },
+    {
+      "employee_code": "10337",
+      "course_code": "813075",
+      "priority": 4
+    },
+    {
+      "employee_code": "10337",
+      "course_code": "838309",
+      "priority": 2
+    },
+    {
+      "employee_code": "10341",
+      "course_code": "866401",
+      "priority": 1
+    },
+    {
+      "employee_code": "10345",
+      "course_code": "813310",
+      "priority": 4
+    },
+    {
+      "employee_code": "10358",
+      "course_code": "813413",
+      "priority": 4
+    },
+    {
+      "employee_code": "10358",
+      "course_code": "813416",
+      "priority": 2
+    },
+    {
+      "employee_code": "10363",
+      "course_code": "817058",
+      "priority": 2
+    },
+    {
+      "employee_code": "10363",
+      "course_code": "817116",
+      "priority": 4
+    },
+    {
+      "employee_code": "10366",
+      "course_code": "816420",
+      "priority": 4
+    },
+    {
+      "employee_code": "10366",
+      "course_code": "816423",
+      "priority": 2
+    },
+    {
+      "employee_code": "10370",
+      "course_code": "816408",
+      "priority": 2
+    },
+    {
+      "employee_code": "10370",
+      "course_code": "816410",
+      "priority": 3
+    },
+    {
+      "employee_code": "10371",
+      "course_code": "816405",
+      "priority": 4
+    },
+    {
+      "employee_code": "10371",
+      "course_code": "816413",
+      "priority": 3
+    },
+    {
+      "employee_code": "10372",
+      "course_code": "816423",
+      "priority": 4
+    },
+    {
+      "employee_code": "10372",
+      "course_code": "816506",
+      "priority": 4
+    },
+    {
+      "employee_code": "10377",
+      "course_code": "846317",
+      "priority": 4
+    },
+    {
+      "employee_code": "10387",
+      "course_code": "817406",
+      "priority": 4
+    },
+    {
+      "employee_code": "10390",
+      "course_code": "817406",
+      "priority": 2
+    },
+    {
+      "employee_code": "10390",
+      "course_code": "841417",
+      "priority": 2
+    },
+    {
+      "employee_code": "10396",
+      "course_code": "839503",
+      "priority": 1
+    },
+    {
+      "employee_code": "10397",
+      "course_code": "834314",
+      "priority": 1
+    },
+    {
+      "employee_code": "10397",
+      "course_code": "834433",
+      "priority": 2
+    },
+    {
+      "employee_code": "10398",
+      "course_code": "834214",
+      "priority": 1
+    },
+    {
+      "employee_code": "10401",
+      "course_code": "834307",
+      "priority": 2
+    },
+    {
+      "employee_code": "10412",
+      "course_code": "854505",
+      "priority": 3
+    },
+    {
+      "employee_code": "10412",
+      "course_code": "854509",
+      "priority": 2
+    },
+    {
+      "employee_code": "10413",
+      "course_code": "865002",
+      "priority": 1
+    },
+    {
+      "employee_code": "10418",
+      "course_code": "867002",
+      "priority": 1
+    },
+    {
+      "employee_code": "10431",
+      "course_code": "863005",
+      "priority": 2
+    },
+    {
+      "employee_code": "10431",
+      "course_code": "863408",
+      "priority": 4
+    },
+    {
+      "employee_code": "10433",
+      "course_code": "863005",
+      "priority": 4
+    },
+    {
+      "employee_code": "10433",
+      "course_code": "863412",
+      "priority": 2
+    },
+    {
+      "employee_code": "10436",
+      "course_code": "853505",
+      "priority": 3
+    },
+    {
+      "employee_code": "10437",
+      "course_code": "853507",
+      "priority": 1
+    },
+    {
+      "employee_code": "10444",
+      "course_code": "862101",
+      "priority": 3
+    },
+    {
+      "employee_code": "10445",
+      "course_code": "862101",
+      "priority": 3
+    },
+    {
+      "employee_code": "10448",
+      "course_code": "862101",
+      "priority": 3
+    },
+    {
+      "employee_code": "10452",
+      "course_code": "862101",
+      "priority": 4
+    },
+    {
+      "employee_code": "10460",
+      "course_code": "854501",
+      "priority": 4
+    },
+    {
+      "employee_code": "10500",
+      "course_code": "817351",
+      "priority": 2
+    },
+    {
+      "employee_code": "10500",
+      "course_code": "817403",
+      "priority": 4
+    },
+    {
+      "employee_code": "10510",
+      "course_code": "801406",
+      "priority": 4
+    },
+    {
+      "employee_code": "10510",
+      "course_code": "867007",
+      "priority": 3
+    },
+    {
+      "employee_code": "10521",
+      "course_code": "853029",
+      "priority": 2
+    },
+    {
+      "employee_code": "10521",
+      "course_code": "853509",
+      "priority": 4
+    },
+    {
+      "employee_code": "10553",
+      "course_code": "815058",
+      "priority": 1
+    },
+    {
+      "employee_code": "10573",
+      "course_code": "832105",
+      "priority": 3
+    },
+    {
+      "employee_code": "10599",
+      "course_code": "810424",
+      "priority": 4
+    },
+    {
+      "employee_code": "10600",
+      "course_code": "841047",
+      "priority": 4
+    },
+    {
+      "employee_code": "10601",
+      "course_code": "841476",
+      "priority": 1
+    },
+    {
+      "employee_code": "10605",
+      "course_code": "819309",
+      "priority": 1
+    },
+    {
+      "employee_code": "10606",
+      "course_code": "819088",
+      "priority": 4
+    },
+    {
+      "employee_code": "10606",
+      "course_code": "819109",
+      "priority": 4
+    },
+    {
+      "employee_code": "10612",
+      "course_code": "833075",
+      "priority": 4
+    },
+    {
+      "employee_code": "10612",
+      "course_code": "833364",
+      "priority": 1
+    },
+    {
+      "employee_code": "10612",
+      "course_code": "833501",
+      "priority": 2
+    },
+    {
+      "employee_code": "10613",
+      "course_code": "836306",
+      "priority": 4
+    },
+    {
+      "employee_code": "10615",
+      "course_code": "841044",
+      "priority": 2
+    },
+    {
+      "employee_code": "10617",
+      "course_code": "833101",
+      "priority": 1
+    },
+    {
+      "employee_code": "10617",
+      "course_code": "859402",
+      "priority": 4
+    },
+    {
+      "employee_code": "10618",
+      "course_code": "832060",
+      "priority": 3
+    },
+    {
+      "employee_code": "10619",
+      "course_code": "832061",
+      "priority": 4
+    },
+    {
+      "employee_code": "10619",
+      "course_code": "848407",
+      "priority": 4
+    },
+    {
+      "employee_code": "10624",
+      "course_code": "862101",
+      "priority": 4
+    },
+    {
+      "employee_code": "10625",
+      "course_code": "862101",
+      "priority": 1
+    },
+    {
+      "employee_code": "10631",
+      "course_code": "841443",
+      "priority": 4
+    },
+    {
+      "employee_code": "10631",
+      "course_code": "841476",
+      "priority": 3
+    },
+    {
+      "employee_code": "10631",
+      "course_code": "841482",
+      "priority": 1
+    },
+    {
+      "employee_code": "10631",
+      "course_code": "858009",
+      "priority": 3
+    },
+    {
+      "employee_code": "10637",
+      "course_code": "836126",
+      "priority": 4
+    },
+    {
+      "employee_code": "10637",
+      "course_code": "836419",
+      "priority": 4
+    },
+    {
+      "employee_code": "10637",
+      "course_code": "838402",
+      "priority": 2
+    },
+    {
+      "employee_code": "10645",
+      "course_code": "833063",
+      "priority": 1
+    },
+    {
+      "employee_code": "10645",
+      "course_code": "833359",
+      "priority": 2
+    },
+    {
+      "employee_code": "10645",
+      "course_code": "833362",
+      "priority": 1
+    },
+    {
+      "employee_code": "10646",
+      "course_code": "834406",
+      "priority": 2
+    },
+    {
+      "employee_code": "10674",
+      "course_code": "857425",
+      "priority": 2
+    },
+    {
+      "employee_code": "10701",
+      "course_code": "819026",
+      "priority": 3
+    },
+    {
+      "employee_code": "10702",
+      "course_code": "863005",
+      "priority": 3
+    },
+    {
+      "employee_code": "10702",
+      "course_code": "863013",
+      "priority": 2
+    },
+    {
+      "employee_code": "10706",
+      "course_code": "850021",
+      "priority": 1
+    },
+    {
+      "employee_code": "10706",
+      "course_code": "850411",
+      "priority": 3
+    },
+    {
+      "employee_code": "10709",
+      "course_code": "834457",
+      "priority": 4
+    },
+    {
+      "employee_code": "10713",
+      "course_code": "832050",
+      "priority": 1
+    },
+    {
+      "employee_code": "10713",
+      "course_code": "867002",
+      "priority": 2
+    },
+    {
+      "employee_code": "10725",
+      "course_code": "833303",
+      "priority": 3
+    },
+    {
+      "employee_code": "10725",
+      "course_code": "833504",
+      "priority": 1
+    },
+    {
+      "employee_code": "10725",
+      "course_code": "867009",
+      "priority": 2
+    },
+    {
+      "employee_code": "10731",
+      "course_code": "832113",
+      "priority": 3
+    },
+    {
+      "employee_code": "10740",
+      "course_code": "832402",
+      "priority": 4
+    },
+    {
+      "employee_code": "10761",
+      "course_code": "813412",
+      "priority": 2
+    },
+    {
+      "employee_code": "10776",
+      "course_code": "832302",
+      "priority": 3
+    },
+    {
+      "employee_code": "10780",
+      "course_code": "811080",
+      "priority": 4
+    },
+    {
+      "employee_code": "10780",
+      "course_code": "811402",
+      "priority": 3
+    },
+    {
+      "employee_code": "10780",
+      "course_code": "811403",
+      "priority": 1
+    },
+    {
+      "employee_code": "10783",
+      "course_code": "832403",
+      "priority": 2
+    },
+    {
+      "employee_code": "10784",
+      "course_code": "862406",
+      "priority": 4
+    },
+    {
+      "employee_code": "10784",
+      "course_code": "862407",
+      "priority": 4
+    },
+    {
+      "employee_code": "10792",
+      "course_code": "839510",
+      "priority": 2
+    },
+    {
+      "employee_code": "10792",
+      "course_code": "839512",
+      "priority": 1
+    },
+    {
+      "employee_code": "10793",
+      "course_code": "867002",
+      "priority": 4
+    },
+    {
+      "employee_code": "10795",
+      "course_code": "834408",
+      "priority": 3
+    },
+    {
+      "employee_code": "10802",
+      "course_code": "862101",
+      "priority": 4
+    },
+    {
+      "employee_code": "10807",
+      "course_code": "850438",
+      "priority": 3
+    },
+    {
+      "employee_code": "10808",
+      "course_code": "819407",
+      "priority": 4
+    },
+    {
+      "employee_code": "10808",
+      "course_code": "819502",
+      "priority": 1
+    },
+    {
+      "employee_code": "10818",
+      "course_code": "862408",
+      "priority": 4
+    },
+    {
+      "employee_code": "10818",
+      "course_code": "862409",
+      "priority": 3
+    },
+    {
+      "employee_code": "10826",
+      "course_code": "801501",
+      "priority": 2
+    },
+    {
+      "employee_code": "10830",
+      "course_code": "819407",
+      "priority": 4
+    },
+    {
+      "employee_code": "10832",
+      "course_code": "861305",
+      "priority": 4
+    },
+    {
+      "employee_code": "10872",
+      "course_code": "806302",
+      "priority": 2
+    },
+    {
+      "employee_code": "10874",
+      "course_code": "801401",
+      "priority": 2
+    },
+    {
+      "employee_code": "10875",
+      "course_code": "841111",
+      "priority": 1
+    },
+    {
+      "employee_code": "10878",
+      "course_code": "851406",
+      "priority": 1
+    },
+    {
+      "employee_code": "10879",
+      "course_code": "850410",
+      "priority": 1
+    },
+    {
+      "employee_code": "10879",
+      "course_code": "851407",
+      "priority": 1
+    },
+    {
+      "employee_code": "10881",
+      "course_code": "834063",
+      "priority": 1
+    },
+    {
+      "employee_code": "10882",
+      "course_code": "819308",
+      "priority": 2
+    },
+    {
+      "employee_code": "10896",
+      "course_code": "850310",
+      "priority": 2
+    },
+    {
+      "employee_code": "10898",
+      "course_code": "803301",
+      "priority": 3
+    },
+    {
+      "employee_code": "10899",
+      "course_code": "816423",
+      "priority": 3
+    },
+    {
+      "employee_code": "10906",
+      "course_code": "834218",
+      "priority": 1
+    },
+    {
+      "employee_code": "10907",
+      "course_code": "834421",
+      "priority": 1
+    },
+    {
+      "employee_code": "10907",
+      "course_code": "834458",
+      "priority": 3
+    },
+    {
+      "employee_code": "10909",
+      "course_code": "832024",
+      "priority": 1
+    },
+    {
+      "employee_code": "10909",
+      "course_code": "833062",
+      "priority": 3
+    },
+    {
+      "employee_code": "10909",
+      "course_code": "859406",
+      "priority": 1
+    },
+    {
+      "employee_code": "10909",
+      "course_code": "859412",
+      "priority": 2
+    },
+    {
+      "employee_code": "10915",
+      "course_code": "862101",
+      "priority": 1
+    },
+    {
+      "employee_code": "10920",
+      "course_code": "815055",
+      "priority": 4
+    },
+    {
+      "employee_code": "10920",
+      "course_code": "815504",
+      "priority": 1
+    },
+    {
+      "employee_code": "10922",
+      "course_code": "813407",
+      "priority": 3
+    },
+    {
+      "employee_code": "10927",
+      "course_code": "842025",
+      "priority": 1
+    },
+    {
+      "employee_code": "10927",
+      "course_code": "866401",
+      "priority": 2
+    },
+    {
+      "employee_code": "10927",
+      "course_code": "866402",
+      "priority": 2
+    },
+    {
+      "employee_code": "10931",
+      "course_code": "843557",
+      "priority": 3
+    },
+    {
+      "employee_code": "10933",
+      "course_code": "848036",
+      "priority": 1
+    },
+    {
+      "employee_code": "10933",
+      "course_code": "848105",
+      "priority": 4
+    },
+    {
+      "employee_code": "10933",
+      "course_code": "858006",
+      "priority": 3
+    },
+    {
+      "employee_code": "10933",
+      "course_code": "858012",
+      "priority": 1
+    },
+    {
+      "employee_code": "10934",
+      "course_code": "801351",
+      "priority": 4
+    },
+    {
+      "employee_code": "10934",
+      "course_code": "867510",
+      "priority": 4
+    },
+    {
+      "employee_code": "10935",
+      "course_code": "867007",
+      "priority": 1
+    },
+    {
+      "employee_code": "10935",
+      "course_code": "867510",
+      "priority": 4
+    },
+    {
+      "employee_code": "10936",
+      "course_code": "867511",
+      "priority": 2
+    },
+    {
+      "employee_code": "10938",
+      "course_code": "815065",
+      "priority": 1
+    },
+    {
+      "employee_code": "10942",
+      "course_code": "857551",
+      "priority": 1
+    },
+    {
+      "employee_code": "10942",
+      "course_code": "861304",
+      "priority": 3
+    },
+    {
+      "employee_code": "10944",
+      "course_code": "841438",
+      "priority": 2
+    },
+    {
+      "employee_code": "10945",
+      "course_code": "850426",
+      "priority": 3
+    },
+    {
+      "employee_code": "10949",
+      "course_code": "835022",
+      "priority": 1
+    },
+    {
+      "employee_code": "10963",
+      "course_code": "854551",
+      "priority": 3
+    },
+    {
+      "employee_code": "10969",
+      "course_code": "841431",
+      "priority": 3
+    },
+    {
+      "employee_code": "10972",
+      "course_code": "809501",
+      "priority": 4
+    },
+    {
+      "employee_code": "10973",
+      "course_code": "811408",
+      "priority": 4
+    },
+    {
+      "employee_code": "10973",
+      "course_code": "822305",
+      "priority": 2
+    },
+    {
+      "employee_code": "10980",
+      "course_code": "832402",
+      "priority": 1
+    },
+    {
+      "employee_code": "10983",
+      "course_code": "813411",
+      "priority": 3
+    },
+    {
+      "employee_code": "10983",
+      "course_code": "838407",
+      "priority": 3
+    },
+    {
+      "employee_code": "10986",
+      "course_code": "867508",
+      "priority": 2
+    },
+    {
+      "employee_code": "10987",
+      "course_code": "801313",
+      "priority": 1
+    },
+    {
+      "employee_code": "10987",
+      "course_code": "864005",
+      "priority": 1
+    },
+    {
+      "employee_code": "10988",
+      "course_code": "810412",
+      "priority": 3
+    },
+    {
+      "employee_code": "10988",
+      "course_code": "822504",
+      "priority": 3
+    },
+    {
+      "employee_code": "10988",
+      "course_code": "865003",
+      "priority": 3
+    },
+    {
+      "employee_code": "10991",
+      "course_code": "841044",
+      "priority": 2
+    },
+    {
+      "employee_code": "10991",
+      "course_code": "841467",
+      "priority": 2
+    },
+    {
+      "employee_code": "10997",
+      "course_code": "836501",
+      "priority": 2
+    },
+    {
+      "employee_code": "10998",
+      "course_code": "836124",
+      "priority": 1
+    },
+    {
+      "employee_code": "10998",
+      "course_code": "836141",
+      "priority": 4
+    },
+    {
+      "employee_code": "10998",
+      "course_code": "836514",
+      "priority": 4
+    },
+    {
+      "employee_code": "10998",
+      "course_code": "838112",
+      "priority": 1
+    },
+    {
+      "employee_code": "11006",
+      "course_code": "806402",
+      "priority": 3
+    },
+    {
+      "employee_code": "11007",
+      "course_code": "861301",
+      "priority": 3
+    },
+    {
+      "employee_code": "11026",
+      "course_code": "843032",
+      "priority": 3
+    },
+    {
+      "employee_code": "11026",
+      "course_code": "843034",
+      "priority": 4
+    },
+    {
+      "employee_code": "11026",
+      "course_code": "865006",
+      "priority": 3
+    },
+    {
+      "employee_code": "11029",
+      "course_code": "866402",
+      "priority": 3
+    },
+    {
+      "employee_code": "11033",
+      "course_code": "841438",
+      "priority": 4
+    },
+    {
+      "employee_code": "11033",
+      "course_code": "850016",
+      "priority": 2
+    },
+    {
+      "employee_code": "11033",
+      "course_code": "850324",
+      "priority": 1
+    },
+    {
+      "employee_code": "11039",
+      "course_code": "815095",
+      "priority": 2
+    },
+    {
+      "employee_code": "11050",
+      "course_code": "806417",
+      "priority": 3
+    },
+    {
+      "employee_code": "11050",
+      "course_code": "819022",
+      "priority": 4
+    },
+    {
+      "employee_code": "11050",
+      "course_code": "821412",
+      "priority": 2
+    },
+    {
+      "employee_code": "11051",
+      "course_code": "864007",
+      "priority": 3
+    },
+    {
+      "employee_code": "11051",
+      "course_code": "867508",
+      "priority": 3
+    },
+    {
+      "employee_code": "11057",
+      "course_code": "833020",
+      "priority": 4
+    },
+    {
+      "employee_code": "11057",
+      "course_code": "833318",
+      "priority": 2
+    },
+    {
+      "employee_code": "11058",
+      "course_code": "833020",
+      "priority": 3
+    },
+    {
+      "employee_code": "11058",
+      "course_code": "833303",
+      "priority": 2
+    },
+    {
+      "employee_code": "11060",
+      "course_code": "832055",
+      "priority": 3
+    },
+    {
+      "employee_code": "11060",
+      "course_code": "832306",
+      "priority": 2
+    },
+    {
+      "employee_code": "11061",
+      "course_code": "832009",
+      "priority": 4
+    },
+    {
+      "employee_code": "11064",
+      "course_code": "861301",
+      "priority": 2
+    },
+    {
+      "employee_code": "11067",
+      "course_code": "834309",
+      "priority": 3
+    },
+    {
+      "employee_code": "11070",
+      "course_code": "842401",
+      "priority": 4
+    },
+    {
+      "employee_code": "11071",
+      "course_code": "822307",
+      "priority": 4
+    },
+    {
+      "employee_code": "11072",
+      "course_code": "848039",
+      "priority": 1
+    },
+    {
+      "employee_code": "11074",
+      "course_code": "802415",
+      "priority": 3
+    },
+    {
+      "employee_code": "11075",
+      "course_code": "806064",
+      "priority": 2
+    },
+    {
+      "employee_code": "11075",
+      "course_code": "806411",
+      "priority": 3
+    },
+    {
+      "employee_code": "11075",
+      "course_code": "806416",
+      "priority": 3
+    },
+    {
+      "employee_code": "11076",
+      "course_code": "854017",
+      "priority": 2
+    },
+    {
+      "employee_code": "11076",
+      "course_code": "854514",
+      "priority": 2
+    },
+    {
+      "employee_code": "11076",
+      "course_code": "854521",
+      "priority": 4
+    },
+    {
+      "employee_code": "11104",
+      "course_code": "862406",
+      "priority": 3
+    },
+    {
+      "employee_code": "11104",
+      "course_code": "862407",
+      "priority": 2
+    },
+    {
+      "employee_code": "11105",
+      "course_code": "821303",
+      "priority": 1
+    },
+    {
+      "employee_code": "11107",
+      "course_code": "801301",
+      "priority": 3
+    },
+    {
+      "employee_code": "11124",
+      "course_code": "865001",
+      "priority": 4
+    },
+    {
+      "employee_code": "11125",
+      "course_code": "813419",
+      "priority": 4
+    },
+    {
+      "employee_code": "11126",
+      "course_code": "813413",
+      "priority": 3
+    },
+    {
+      "employee_code": "11126",
+      "course_code": "866401",
+      "priority": 3
+    },
+    {
+      "employee_code": "11126",
+      "course_code": "866402",
+      "priority": 4
+    },
+    {
+      "employee_code": "11127",
+      "course_code": "854017",
+      "priority": 1
+    },
+    {
+      "employee_code": "11127",
+      "course_code": "854514",
+      "priority": 2
+    },
+    {
+      "employee_code": "11127",
+      "course_code": "866401",
+      "priority": 1
+    },
+    {
+      "employee_code": "11128",
+      "course_code": "813310",
+      "priority": 4
+    },
+    {
+      "employee_code": "11132",
+      "course_code": "832056",
+      "priority": 3
+    },
+    {
+      "employee_code": "11133",
+      "course_code": "835111",
+      "priority": 4
+    },
+    {
+      "employee_code": "11133",
+      "course_code": "835401",
+      "priority": 4
+    },
+    {
+      "employee_code": "11136",
+      "course_code": "849010",
+      "priority": 4
+    },
+    {
+      "employee_code": "11137",
+      "course_code": "850408",
+      "priority": 1
+    },
+    {
+      "employee_code": "11137",
+      "course_code": "851403",
+      "priority": 1
+    },
+    {
+      "employee_code": "11137",
+      "course_code": "851506",
+      "priority": 3
+    },
+    {
+      "employee_code": "11143",
+      "course_code": "850311",
+      "priority": 2
+    },
+    {
+      "employee_code": "11143",
+      "course_code": "850319",
+      "priority": 1
+    },
+    {
+      "employee_code": "11145",
+      "course_code": "839302",
+      "priority": 3
+    },
+    {
+      "employee_code": "11148",
+      "course_code": "811417",
+      "priority": 1
+    },
+    {
+      "employee_code": "11151",
+      "course_code": "809323",
+      "priority": 4
+    },
+    {
+      "employee_code": "11151",
+      "course_code": "865001",
+      "priority": 3
+    },
+    {
+      "employee_code": "11158",
+      "course_code": "803062",
+      "priority": 4
+    },
+    {
+      "employee_code": "11172",
+      "course_code": "861304",
+      "priority": 4
+    },
+    {
+      "employee_code": "11175",
+      "course_code": "835313",
+      "priority": 3
+    },
+    {
+      "employee_code": "11175",
+      "course_code": "857508",
+      "priority": 4
+    },
+    {
+      "employee_code": "11175",
+      "course_code": "865002",
+      "priority": 3
+    },
+    {
+      "employee_code": "11187",
+      "course_code": "832058",
+      "priority": 1
+    },
+    {
+      "employee_code": "11187",
+      "course_code": "842304",
+      "priority": 3
+    },
+    {
+      "employee_code": "11192",
+      "course_code": "832025",
+      "priority": 2
+    },
+    {
+      "employee_code": "11192",
+      "course_code": "866402",
+      "priority": 4
+    },
+    {
+      "employee_code": "11194",
+      "course_code": "816427",
+      "priority": 4
+    },
+    {
+      "employee_code": "11196",
+      "course_code": "838306",
+      "priority": 4
+    },
+    {
+      "employee_code": "11200",
+      "course_code": "820023",
+      "priority": 3
+    },
+    {
+      "employee_code": "11200",
+      "course_code": "861303",
+      "priority": 1
+    },
+    {
+      "employee_code": "11202",
+      "course_code": "815055",
+      "priority": 2
+    },
+    {
+      "employee_code": "11202",
+      "course_code": "867007",
+      "priority": 2
+    },
+    {
+      "employee_code": "11204",
+      "course_code": "848043",
+      "priority": 3
+    },
+    {
+      "employee_code": "11206",
+      "course_code": "861301",
+      "priority": 2
+    },
+    {
+      "employee_code": "11206",
+      "course_code": "861303",
+      "priority": 3
+    },
+    {
+      "employee_code": "11218",
+      "course_code": "846314",
+      "priority": 2
+    },
+    {
+      "employee_code": "11218",
+      "course_code": "846318",
+      "priority": 4
+    },
+    {
+      "employee_code": "11219",
+      "course_code": "853403",
+      "priority": 2
+    },
+    {
+      "employee_code": "11219",
+      "course_code": "863515",
+      "priority": 4
+    },
+    {
+      "employee_code": "11219",
+      "course_code": "863516",
+      "priority": 1
+    },
+    {
+      "employee_code": "11222",
+      "course_code": "802303",
+      "priority": 1
+    },
+    {
+      "employee_code": "11229",
+      "course_code": "843411",
+      "priority": 3
+    },
+    {
+      "employee_code": "11229",
+      "course_code": "865006",
+      "priority": 2
+    },
+    {
+      "employee_code": "11231",
+      "course_code": "819420",
+      "priority": 4
+    },
+    {
+      "employee_code": "11232",
+      "course_code": "820311",
+      "priority": 3
+    },
+    {
+      "employee_code": "11233",
+      "course_code": "862101",
+      "priority": 2
+    },
+    {
+      "employee_code": "11235",
+      "course_code": "816423",
+      "priority": 4
+    },
+    {
+      "employee_code": "11237",
+      "course_code": "811419",
+      "priority": 2
+    },
+    {
+      "employee_code": "11238",
+      "course_code": "810414",
+      "priority": 3
+    },
+    {
+      "employee_code": "11238",
+      "course_code": "810422",
+      "priority": 3
+    },
+    {
+      "employee_code": "11238",
+      "course_code": "817401",
+      "priority": 1
+    },
+    {
+      "employee_code": "11238",
+      "course_code": "822310",
+      "priority": 2
+    },
+    {
+      "employee_code": "11238",
+      "course_code": "873502",
+      "priority": 4
+    },
+    {
+      "employee_code": "11260",
+      "course_code": "806406",
+      "priority": 3
+    },
+    {
+      "employee_code": "11260",
+      "course_code": "821506",
+      "priority": 3
+    },
+    {
+      "employee_code": "11264",
+      "course_code": "819414",
+      "priority": 2
+    },
+    {
+      "employee_code": "11266",
+      "course_code": "846313",
+      "priority": 1
+    },
+    {
+      "employee_code": "11271",
+      "course_code": "841044",
+      "priority": 1
+    },
+    {
+      "employee_code": "11274",
+      "course_code": "849401",
+      "priority": 2
+    },
+    {
+      "employee_code": "11274",
+      "course_code": "849413",
+      "priority": 3
+    },
+    {
+      "employee_code": "11277",
+      "course_code": "815022",
+      "priority": 1
+    },
+    {
+      "employee_code": "11278",
+      "course_code": "843307",
+      "priority": 3
+    },
+    {
+      "employee_code": "11280",
+      "course_code": "833104",
+      "priority": 2
+    },
+    {
+      "employee_code": "11281",
+      "course_code": "813404",
+      "priority": 1
+    },
+    {
+      "employee_code": "11282",
+      "course_code": "813426",
+      "priority": 1
+    },
+    {
+      "employee_code": "11284",
+      "course_code": "835117",
+      "priority": 3
+    },
+    {
+      "employee_code": "11284",
+      "course_code": "857438",
+      "priority": 2
+    },
+    {
+      "employee_code": "11288",
+      "course_code": "832033",
+      "priority": 1
+    },
+    {
+      "employee_code": "11288",
+      "course_code": "832061",
+      "priority": 2
+    },
+    {
+      "employee_code": "11292",
+      "course_code": "822317",
+      "priority": 4
+    },
+    {
+      "employee_code": "11292",
+      "course_code": "874503",
+      "priority": 1
+    },
+    {
+      "employee_code": "11293",
+      "course_code": "816503",
+      "priority": 2
+    },
+    {
+      "employee_code": "11294",
+      "course_code": "836408",
+      "priority": 4
+    },
+    {
+      "employee_code": "11294",
+      "course_code": "866401",
+      "priority": 1
+    },
+    {
+      "employee_code": "11298",
+      "course_code": "861301",
+      "priority": 3
+    },
+    {
+      "employee_code": "11301",
+      "course_code": "843049",
+      "priority": 1
+    },
+    {
+      "employee_code": "11301",
+      "course_code": "843481",
+      "priority": 1
+    },
+    {
+      "employee_code": "11301",
+      "course_code": "867003",
+      "priority": 3
+    },
+    {
+      "employee_code": "11303",
+      "course_code": "833104",
+      "priority": 1
+    },
+    {
+      "employee_code": "11303",
+      "course_code": "866403",
+      "priority": 3
+    },
+    {
+      "employee_code": "11304",
+      "course_code": "866402",
+      "priority": 3
+    },
+    {
+      "employee_code": "11307",
+      "course_code": "813077",
+      "priority": 1
+    },
+    {
+      "employee_code": "11315",
+      "course_code": "811401",
+      "priority": 4
+    },
+    {
+      "employee_code": "11315",
+      "course_code": "811411",
+      "priority": 1
+    },
+    {
+      "employee_code": "11315",
+      "course_code": "874505",
+      "priority": 4
+    },
+    {
+      "employee_code": "11316",
+      "course_code": "846501",
+      "priority": 1
+    },
+    {
+      "employee_code": "11319",
+      "course_code": "809401",
+      "priority": 2
+    },
+    {
+      "employee_code": "11319",
+      "course_code": "809404",
+      "priority": 3
+    },
+    {
+      "employee_code": "11321",
+      "course_code": "839301",
+      "priority": 1
+    },
+    {
+      "employee_code": "11324",
+      "course_code": "822407",
+      "priority": 2
+    },
+    {
+      "employee_code": "11333",
+      "course_code": "803102",
+      "priority": 2
+    },
+    {
+      "employee_code": "11339",
+      "course_code": "850007",
+      "priority": 4
+    },
+    {
+      "employee_code": "11348",
+      "course_code": "866401",
+      "priority": 4
+    },
+    {
+      "employee_code": "11354",
+      "course_code": "839505",
+      "priority": 1
+    },
+    {
+      "employee_code": "11364",
+      "course_code": "841411",
+      "priority": 3
+    },
+    {
+      "employee_code": "11364",
+      "course_code": "841501",
+      "priority": 2
+    },
+    {
+      "employee_code": "11365",
+      "course_code": "850422",
+      "priority": 1
+    },
+    {
+      "employee_code": "11366",
+      "course_code": "850425",
+      "priority": 1
+    },
+    {
+      "employee_code": "11366",
+      "course_code": "852503",
+      "priority": 1
+    },
+    {
+      "employee_code": "11367",
+      "course_code": "861302",
+      "priority": 2
+    },
+    {
+      "employee_code": "11372",
+      "course_code": "864007",
+      "priority": 4
+    },
+    {
+      "employee_code": "11375",
+      "course_code": "802301",
+      "priority": 1
+    },
+    {
+      "employee_code": "11377",
+      "course_code": "841302",
+      "priority": 1
+    },
+    {
+      "employee_code": "11377",
+      "course_code": "841422",
+      "priority": 3
+    },
+    {
+      "employee_code": "11377",
+      "course_code": "841444",
+      "priority": 1
+    },
+    {
+      "employee_code": "11381",
+      "course_code": "841403",
+      "priority": 2
+    },
+    {
+      "employee_code": "11381",
+      "course_code": "841482",
+      "priority": 2
+    },
+    {
+      "employee_code": "11381",
+      "course_code": "848028",
+      "priority": 3
+    },
+    {
+      "employee_code": "11383",
+      "course_code": "841302",
+      "priority": 1
+    },
+    {
+      "employee_code": "11384",
+      "course_code": "841120",
+      "priority": 1
+    },
+    {
+      "employee_code": "11387",
+      "course_code": "865006",
+      "priority": 2
+    },
+    {
+      "employee_code": "11389",
+      "course_code": "816420",
+      "priority": 1
+    },
+    {
+      "employee_code": "11392",
+      "course_code": "832105",
+      "priority": 2
+    },
+    {
+      "employee_code": "11394",
+      "course_code": "833403",
+      "priority": 1
+    },
+    {
+      "employee_code": "11395",
+      "course_code": "809413",
+      "priority": 3
+    },
+    {
+      "employee_code": "11396",
+      "course_code": "822326",
+      "priority": 4
+    },
+    {
+      "employee_code": "11403",
+      "course_code": "815054",
+      "priority": 4
+    },
+    {
+      "employee_code": "11407",
+      "course_code": "813002",
+      "priority": 4
+    },
+    {
+      "employee_code": "11409",
+      "course_code": "849307",
+      "priority": 1
+    },
+    {
+      "employee_code": "11409",
+      "course_code": "849501",
+      "priority": 4
+    },
+    {
+      "employee_code": "11423",
+      "course_code": "861301",
+      "priority": 3
+    },
+    {
+      "employee_code": "11423",
+      "course_code": "865004",
+      "priority": 4
+    },
+    {
+      "employee_code": "11423",
+      "course_code": "865005",
+      "priority": 3
+    },
+    {
+      "employee_code": "11426",
+      "course_code": "841072",
+      "priority": 4
+    },
+    {
+      "employee_code": "11430",
+      "course_code": "854003",
+      "priority": 4
+    },
+    {
+      "employee_code": "11431",
+      "course_code": "843404",
+      "priority": 2
+    },
+    {
+      "employee_code": "11453",
+      "course_code": "841448",
+      "priority": 4
+    },
+    {
+      "employee_code": "11453",
+      "course_code": "841457",
+      "priority": 2
+    },
+    {
+      "employee_code": "11458",
+      "course_code": "862101",
+      "priority": 4
+    },
+    {
+      "employee_code": "11458",
+      "course_code": "862406",
+      "priority": 1
+    },
+    {
+      "employee_code": "11458",
+      "course_code": "862407",
+      "priority": 3
+    },
+    {
+      "employee_code": "11460",
+      "course_code": "861301",
+      "priority": 4
+    },
+    {
+      "employee_code": "11460",
+      "course_code": "861303",
+      "priority": 1
+    },
+    {
+      "employee_code": "11476",
+      "course_code": "813077",
+      "priority": 2
+    },
+    {
+      "employee_code": "11476",
+      "course_code": "813411",
+      "priority": 2
+    },
+    {
+      "employee_code": "11476",
+      "course_code": "813413",
+      "priority": 4
+    },
+    {
+      "employee_code": "11476",
+      "course_code": "866401",
+      "priority": 3
+    },
+    {
+      "employee_code": "11478",
+      "course_code": "813404",
+      "priority": 1
+    },
+    {
+      "employee_code": "11478",
+      "course_code": "813407",
+      "priority": 2
+    },
+    {
+      "employee_code": "11478",
+      "course_code": "866403",
+      "priority": 1
+    },
+    {
+      "employee_code": "11489",
+      "course_code": "867007",
+      "priority": 4
+    },
+    {
+      "employee_code": "11494",
+      "course_code": "843407",
+      "priority": 4
+    },
+    {
+      "employee_code": "11494",
+      "course_code": "843414",
+      "priority": 2
+    },
+    {
+      "employee_code": "11494",
+      "course_code": "865006",
+      "priority": 4
+    },
+    {
+      "employee_code": "11496",
+      "course_code": "862408",
+      "priority": 1
+    },
+    {
+      "employee_code": "11496",
+      "course_code": "862409",
+      "priority": 1
+    },
+    {
+      "employee_code": "11499",
+      "course_code": "834341",
+      "priority": 3
+    },
+    {
+      "employee_code": "11499",
+      "course_code": "834432",
+      "priority": 2
+    },
+    {
+      "employee_code": "11499",
+      "course_code": "834435",
+      "priority": 3
+    },
+    {
+      "employee_code": "11499",
+      "course_code": "834441",
+      "priority": 1
+    },
+    {
+      "employee_code": "11500",
+      "course_code": "816427",
+      "priority": 3
+    },
+    {
+      "employee_code": "11501",
+      "course_code": "813413",
+      "priority": 1
+    },
+    {
+      "employee_code": "11502",
+      "course_code": "813404",
+      "priority": 3
+    },
+    {
+      "employee_code": "11502",
+      "course_code": "813408",
+      "priority": 3
+    },
+    {
+      "employee_code": "11502",
+      "course_code": "838307",
+      "priority": 1
+    },
+    {
+      "employee_code": "11503",
+      "course_code": "838303",
+      "priority": 3
+    },
+    {
+      "employee_code": "11505",
+      "course_code": "865006",
+      "priority": 3
+    },
+    {
+      "employee_code": "11506",
+      "course_code": "833062",
+      "priority": 3
+    },
+    {
+      "employee_code": "11506",
+      "course_code": "833357",
+      "priority": 1
+    },
+    {
+      "employee_code": "11507",
+      "course_code": "835025",
+      "priority": 2
+    },
+    {
+      "employee_code": "11508",
+      "course_code": "836504",
+      "priority": 1
+    },
+    {
+      "employee_code": "11509",
+      "course_code": "832033",
+      "priority": 1
+    },
+    {
+      "employee_code": "11509",
+      "course_code": "842051",
+      "priority": 1
+    },
+    {
+      "employee_code": "11509",
+      "course_code": "842112",
+      "priority": 1
+    },
+    {
+      "employee_code": "11534",
+      "course_code": "865006",
+      "priority": 4
+    },
+    {
+      "employee_code": "11534",
+      "course_code": "867003",
+      "priority": 4
+    },
+    {
+      "employee_code": "11535",
+      "course_code": "862101",
+      "priority": 1
+    },
+    {
+      "employee_code": "11539",
+      "course_code": "846311",
+      "priority": 3
+    },
+    {
+      "employee_code": "11540",
+      "course_code": "802053",
+      "priority": 1
+    },
+    {
+      "employee_code": "11540",
+      "course_code": "802403",
+      "priority": 4
+    },
+    {
+      "employee_code": "11541",
+      "course_code": "841111",
+      "priority": 2
+    },
+    {
+      "employee_code": "11544",
+      "course_code": "841021",
+      "priority": 1
+    },
+    {
+      "employee_code": "11544",
+      "course_code": "841302",
+      "priority": 1
+    },
+    {
+      "employee_code": "11545",
+      "course_code": "813002",
+      "priority": 1
+    },
+    {
+      "employee_code": "11547",
+      "course_code": "855501",
+      "priority": 2
+    },
+    {
+      "employee_code": "11547",
+      "course_code": "866403",
+      "priority": 4
+    },
+    {
+      "employee_code": "11548",
+      "course_code": "838405",
+      "priority": 2
+    },
+    {
+      "employee_code": "11548",
+      "course_code": "866403",
+      "priority": 2
+    },
+    {
+      "employee_code": "11549",
+      "course_code": "833306",
+      "priority": 1
+    },
+    {
+      "employee_code": "11549",
+      "course_code": "833402",
+      "priority": 3
+    },
+    {
+      "employee_code": "11549",
+      "course_code": "833450",
+      "priority": 2
+    },
+    {
+      "employee_code": "11551",
+      "course_code": "833503",
+      "priority": 2
+    },
+    {
+      "employee_code": "11554",
+      "course_code": "832302",
+      "priority": 4
+    },
+    {
+      "employee_code": "11555",
+      "course_code": "833069",
+      "priority": 3
+    },
+    {
+      "employee_code": "11556",
+      "course_code": "841111",
+      "priority": 2
+    },
+    {
+      "employee_code": "11556",
+      "course_code": "841434",
+      "priority": 2
+    },
+    {
+      "employee_code": "11560",
+      "course_code": "835314",
+      "priority": 2
+    },
+    {
+      "employee_code": "11560",
+      "course_code": "838074",
+      "priority": 2
+    },
+    {
+      "employee_code": "11560",
+      "course_code": "857515",
+      "priority": 4
+    },
+    {
+      "employee_code": "11561",
+      "course_code": "846504",
+      "priority": 4
+    },
+    {
+      "employee_code": "11561",
+      "course_code": "846507",
+      "priority": 4
+    },
+    {
+      "employee_code": "11562",
+      "course_code": "841302",
+      "priority": 4
+    },
+    {
+      "employee_code": "11562",
+      "course_code": "841501",
+      "priority": 1
+    },
+    {
+      "employee_code": "11563",
+      "course_code": "833367",
+      "priority": 3
+    },
+    {
+      "employee_code": "11563",
+      "course_code": "833505",
+      "priority": 4
+    },
+    {
+      "employee_code": "11564",
+      "course_code": "832024",
+      "priority": 1
+    },
+    {
+      "employee_code": "11564",
+      "course_code": "867009",
+      "priority": 1
+    },
+    {
+      "employee_code": "11565",
+      "course_code": "842059",
+      "priority": 3
+    },
+    {
+      "employee_code": "11566",
+      "course_code": "832033",
+      "priority": 3
+    },
+    {
+      "employee_code": "11566",
+      "course_code": "842112",
+      "priority": 1
+    },
+    {
+      "employee_code": "11592",
+      "course_code": "843056",
+      "priority": 2
+    },
+    {
+      "employee_code": "11592",
+      "course_code": "843505",
+      "priority": 3
+    },
+    {
+      "employee_code": "11592",
+      "course_code": "865006",
+      "priority": 2
+    },
+    {
+      "employee_code": "11607",
+      "course_code": "803502",
+      "priority": 1
+    },
+    {
+      "employee_code": "11608",
+      "course_code": "850402",
+      "priority": 1
+    },
+    {
+      "employee_code": "11608",
+      "course_code": "851003",
+      "priority": 4
+    },
+    {
+      "employee_code": "11609",
+      "course_code": "820436",
+      "priority": 1
+    },
+    {
+      "employee_code": "11609",
+      "course_code": "861302",
+      "priority": 3
+    },
+    {
+      "employee_code": "11610",
+      "course_code": "872518",
+      "priority": 1
+    },
+    {
+      "employee_code": "11611",
+      "course_code": "813408",
+      "priority": 1
+    },
+    {
+      "employee_code": "11613",
+      "course_code": "842065",
+      "priority": 1
+    },
+    {
+      "employee_code": "11615",
+      "course_code": "835114",
+      "priority": 4
+    },
+    {
+      "employee_code": "11616",
+      "course_code": "854415",
+      "priority": 4
+    },
+    {
+      "employee_code": "11636",
+      "course_code": "841047",
+      "priority": 1
+    },
+    {
+      "employee_code": "11636",
+      "course_code": "841431",
+      "priority": 2
+    },
+    {
+      "employee_code": "11636",
+      "course_code": "841479",
+      "priority": 3
+    },
+    {
+      "employee_code": "11637",
+      "course_code": "841111",
+      "priority": 1
+    },
+    {
+      "employee_code": "11638",
+      "course_code": "813310",
+      "priority": 3
+    },
+    {
+      "employee_code": "11638",
+      "course_code": "813411",
+      "priority": 1
+    },
+    {
+      "employee_code": "11639",
+      "course_code": "832065",
+      "priority": 1
+    },
+    {
+      "employee_code": "11640",
+      "course_code": "867002",
+      "priority": 2
+    },
+    {
+      "employee_code": "11643",
+      "course_code": "832060",
+      "priority": 2
+    },
+    {
+      "employee_code": "11650",
+      "course_code": "862408",
+      "priority": 4
+    },
+    {
+      "employee_code": "11650",
+      "course_code": "862409",
+      "priority": 3
+    },
+    {
+      "employee_code": "11654",
+      "course_code": "835405",
+      "priority": 4
+    },
+    {
+      "employee_code": "11654",
+      "course_code": "835505",
+      "priority": 4
+    },
+    {
+      "employee_code": "11655",
+      "course_code": "842401",
+      "priority": 1
+    },
+    {
+      "employee_code": "11657",
+      "course_code": "843410",
+      "priority": 1
+    },
+    {
+      "employee_code": "11657",
+      "course_code": "867003",
+      "priority": 3
+    },
+    {
+      "employee_code": "11658",
+      "course_code": "861304",
+      "priority": 4
+    },
+    {
+      "employee_code": "11663",
+      "course_code": "820347",
+      "priority": 2
+    },
+    {
+      "employee_code": "11663",
+      "course_code": "861305",
+      "priority": 1
+    },
+    {
+      "employee_code": "11664",
+      "course_code": "833356",
+      "priority": 3
+    },
+    {
+      "employee_code": "11664",
+      "course_code": "844053",
+      "priority": 3
+    },
+    {
+      "employee_code": "11664",
+      "course_code": "867003",
+      "priority": 4
+    },
+    {
+      "employee_code": "11666",
+      "course_code": "835029",
+      "priority": 3
+    },
+    {
+      "employee_code": "11666",
+      "course_code": "835503",
+      "priority": 4
+    },
+    {
+      "employee_code": "11666",
+      "course_code": "865002",
+      "priority": 1
+    },
+    {
+      "employee_code": "11667",
+      "course_code": "833358",
+      "priority": 1
+    },
+    {
+      "employee_code": "11667",
+      "course_code": "867009",
+      "priority": 4
+    },
+    {
+      "employee_code": "11668",
+      "course_code": "833351",
+      "priority": 3
+    },
+    {
+      "employee_code": "11669",
+      "course_code": "813075",
+      "priority": 1
+    },
+    {
+      "employee_code": "11669",
+      "course_code": "813412",
+      "priority": 4
+    },
+    {
+      "employee_code": "11669",
+      "course_code": "866402",
+      "priority": 1
+    },
+    {
+      "employee_code": "11670",
+      "course_code": "858013",
+      "priority": 1
+    },
+    {
+      "employee_code": "11670",
+      "course_code": "867510",
+      "priority": 2
+    },
+    {
+      "employee_code": "11673",
+      "course_code": "855501",
+      "priority": 4
+    },
+    {
+      "employee_code": "11673",
+      "course_code": "866403",
+      "priority": 1
+    },
+    {
+      "employee_code": "11674",
+      "course_code": "813404",
+      "priority": 3
+    },
+    {
+      "employee_code": "11674",
+      "course_code": "813425",
+      "priority": 1
+    },
+    {
+      "employee_code": "11674",
+      "course_code": "866403",
+      "priority": 1
+    },
+    {
+      "employee_code": "11675",
+      "course_code": "841322",
+      "priority": 1
+    },
+    {
+      "employee_code": "11675",
+      "course_code": "841468",
+      "priority": 3
+    },
+    {
+      "employee_code": "11675",
+      "course_code": "858016",
+      "priority": 2
+    },
+    {
+      "employee_code": "11675",
+      "course_code": "872518",
+      "priority": 1
+    },
+    {
+      "employee_code": "11676",
+      "course_code": "865006",
+      "priority": 3
+    },
+    {
+      "employee_code": "11679",
+      "course_code": "854403",
+      "priority": 3
+    },
+    {
+      "employee_code": "11679",
+      "course_code": "854517",
+      "priority": 1
+    },
+    {
+      "employee_code": "11680",
+      "course_code": "850408",
+      "priority": 4
+    },
+    {
+      "employee_code": "11680",
+      "course_code": "850410",
+      "priority": 1
+    },
+    {
+      "employee_code": "11680",
+      "course_code": "850415",
+      "priority": 4
+    },
+    {
+      "employee_code": "11699",
+      "course_code": "832113",
+      "priority": 3
+    },
+    {
+      "employee_code": "11701",
+      "course_code": "832058",
+      "priority": 1
+    },
+    {
+      "employee_code": "11701",
+      "course_code": "842302",
+      "priority": 2
+    },
+    {
+      "employee_code": "11702",
+      "course_code": "842025",
+      "priority": 3
+    },
+    {
+      "employee_code": "11702",
+      "course_code": "866403",
+      "priority": 3
+    },
+    {
+      "employee_code": "11703",
+      "course_code": "833311",
+      "priority": 4
+    },
+    {
+      "employee_code": "11715",
+      "course_code": "813077",
+      "priority": 4
+    },
+    {
+      "employee_code": "11715",
+      "course_code": "866401",
+      "priority": 3
+    },
+    {
+      "employee_code": "11717",
+      "course_code": "841109",
+      "priority": 4
+    },
+    {
+      "employee_code": "11718",
+      "course_code": "801424",
+      "priority": 4
+    },
+    {
+      "employee_code": "11718",
+      "course_code": "867007",
+      "priority": 4
+    },
+    {
+      "employee_code": "11719",
+      "course_code": "862101",
+      "priority": 2
+    },
+    {
+      "employee_code": "11727",
+      "course_code": "862409",
+      "priority": 1
+    },
+    {
+      "employee_code": "11729",
+      "course_code": "813407",
+      "priority": 1
+    },
+    {
+      "employee_code": "11729",
+      "course_code": "838405",
+      "priority": 2
+    },
+    {
+      "employee_code": "11731",
+      "course_code": "867009",
+      "priority": 4
+    },
+    {
+      "employee_code": "11738",
+      "course_code": "859405",
+      "priority": 1
+    },
+    {
+      "employee_code": "11738",
+      "course_code": "859502",
+      "priority": 1
+    },
+    {
+      "employee_code": "11739",
+      "course_code": "865001",
+      "priority": 1
+    },
+    {
+      "employee_code": "11741",
+      "course_code": "862101",
+      "priority": 2
+    },
+    {
+      "employee_code": "11743",
+      "course_code": "834402",
+      "priority": 1
+    },
+    {
+      "employee_code": "11743",
+      "course_code": "834509",
+      "priority": 2
+    },
+    {
+      "employee_code": "11744",
+      "course_code": "813075",
+      "priority": 2
+    },
+    {
+      "employee_code": "11744",
+      "course_code": "813408",
+      "priority": 1
+    },
+    {
+      "employee_code": "11746",
+      "course_code": "862406",
+      "priority": 4
+    },
+    {
+      "employee_code": "11746",
+      "course_code": "862407",
+      "priority": 2
+    },
+    {
+      "employee_code": "11756",
+      "course_code": "862409",
+      "priority": 3
+    },
+    {
+      "employee_code": "11758",
+      "course_code": "801501",
+      "priority": 3
+    },
+    {
+      "employee_code": "11758",
+      "course_code": "858001",
+      "priority": 3
+    },
+    {
+      "employee_code": "11768",
+      "course_code": "864007",
+      "priority": 2
+    },
+    {
+      "employee_code": "11768",
+      "course_code": "867508",
+      "priority": 3
+    },
+    {
+      "employee_code": "11774",
+      "course_code": "862101",
+      "priority": 3
+    },
+    {
+      "employee_code": "11778",
+      "course_code": "802408",
+      "priority": 3
+    },
+    {
+      "employee_code": "11778",
+      "course_code": "864551",
+      "priority": 2
+    },
+    {
+      "employee_code": "11779",
+      "course_code": "853003",
+      "priority": 4
+    },
+    {
+      "employee_code": "11779",
+      "course_code": "863515",
+      "priority": 4
+    },
+    {
+      "employee_code": "11779",
+      "course_code": "863516",
+      "priority": 2
+    },
+    {
+      "employee_code": "11780",
+      "course_code": "810401",
+      "priority": 2
+    },
+    {
+      "employee_code": "11780",
+      "course_code": "810406",
+      "priority": 3
+    },
+    {
+      "employee_code": "11780",
+      "course_code": "810423",
+      "priority": 3
+    },
+    {
+      "employee_code": "11781",
+      "course_code": "846333",
+      "priority": 2
+    },
+    {
+      "employee_code": "11783",
+      "course_code": "835501",
+      "priority": 2
+    },
+    {
+      "employee_code": "11785",
+      "course_code": "857503",
+      "priority": 1
+    },
+    {
+      "employee_code": "11785",
+      "course_code": "857512",
+      "priority": 4
+    },
+    {
+      "employee_code": "11790",
+      "course_code": "857433",
+      "priority": 2
+    },
+    {
+      "employee_code": "11793",
+      "course_code": "865006",
+      "priority": 1
+    },
+    {
+      "employee_code": "11798",
+      "course_code": "841302",
+      "priority": 3
+    },
+    {
+      "employee_code": "11798",
+      "course_code": "841501",
+      "priority": 4
+    },
+    {
+      "employee_code": "11799",
+      "course_code": "810413",
+      "priority": 2
+    },
+    {
+      "employee_code": "11799",
+      "course_code": "865003",
+      "priority": 2
+    },
+    {
+      "employee_code": "11800",
+      "course_code": "838405",
+      "priority": 2
+    },
+    {
+      "employee_code": "11800",
+      "course_code": "866403",
+      "priority": 2
+    },
+    {
+      "employee_code": "11803",
+      "course_code": "820409",
+      "priority": 4
+    },
+    {
+      "employee_code": "11803",
+      "course_code": "861301",
+      "priority": 2
+    },
+    {
+      "employee_code": "11803",
+      "course_code": "861303",
+      "priority": 1
+    },
+    {
+      "employee_code": "11804",
+      "course_code": "862408",
+      "priority": 1
+    },
+    {
+      "employee_code": "11804",
+      "course_code": "862409",
+      "priority": 1
+    },
+    {
+      "employee_code": "11812",
+      "course_code": "833402",
+      "priority": 2
+    },
+    {
+      "employee_code": "11812",
+      "course_code": "833505",
+      "priority": 2
+    },
+    {
+      "employee_code": "11814",
+      "course_code": "861305",
+      "priority": 1
+    },
+    {
+      "employee_code": "11817",
+      "course_code": "817055",
+      "priority": 1
+    },
+    {
+      "employee_code": "11817",
+      "course_code": "817409",
+      "priority": 4
+    },
+    {
+      "employee_code": "20650",
+      "course_code": "832105",
+      "priority": 2
+    },
+    {
+      "employee_code": "20677",
+      "course_code": "862406",
+      "priority": 3
+    },
+    {
+      "employee_code": "20677",
+      "course_code": "862407",
+      "priority": 2
+    },
+    {
+      "employee_code": "20689",
+      "course_code": "816504",
+      "priority": 3
+    },
+    {
+      "employee_code": "20766",
+      "course_code": "872518",
+      "priority": 1
+    },
+    {
+      "employee_code": "20787",
+      "course_code": "862407",
+      "priority": 4
+    },
+    {
+      "employee_code": "20790",
+      "course_code": "841021",
+      "priority": 3
+    },
+    {
+      "employee_code": "20821",
+      "course_code": "817101",
+      "priority": 3
+    },
+    {
+      "employee_code": "20822",
+      "course_code": "817101",
+      "priority": 2
+    },
+    {
+      "employee_code": "20823",
+      "course_code": "864508",
+      "priority": 1
+    },
+    {
+      "employee_code": "20823",
+      "course_code": "867007",
+      "priority": 4
+    },
+    {
+      "employee_code": "20824",
+      "course_code": "817403",
+      "priority": 3
+    },
+    {
+      "employee_code": "20825",
+      "course_code": "817406",
+      "priority": 1
+    },
+    {
+      "employee_code": "20830",
+      "course_code": "843551",
+      "priority": 1
+    },
+    {
+      "employee_code": "21053",
+      "course_code": "862406",
+      "priority": 3
+    },
+    {
+      "employee_code": "21053",
+      "course_code": "862407",
+      "priority": 3
+    },
+    {
+      "employee_code": "21054",
+      "course_code": "862406",
+      "priority": 3
+    },
+    {
+      "employee_code": "21054",
+      "course_code": "862407",
+      "priority": 3
+    },
+    {
+      "employee_code": "21623",
+      "course_code": "833403",
+      "priority": 2
+    },
+    {
+      "employee_code": "21624",
+      "course_code": "859501",
+      "priority": 2
+    }
+  ],
+  "preferences": [
+    {
+      "employee_code": "10012",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10051",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10063",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10068",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10089",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10105",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10125",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10126",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10131",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10134",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10135",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10138",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10139",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10144",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10145",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10147",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10150",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10151",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10155",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10156",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10190",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10192",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10227",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10229",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10249",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10250",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10252",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10272",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10278",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10282",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10312",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10337",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10341",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10345",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10358",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10363",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10366",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10370",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10371",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10372",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10377",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10387",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10390",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10396",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10397",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10398",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10401",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10412",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10413",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10418",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10431",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10433",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10436",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10437",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10444",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10445",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10448",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10452",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10460",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10500",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10510",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10521",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10553",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10573",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10599",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10600",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10601",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10605",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10606",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10612",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10613",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10615",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10617",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10618",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10619",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10624",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10625",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10631",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10637",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10645",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10646",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10674",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10701",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10702",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10706",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10709",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10713",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10725",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10731",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10740",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10761",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10776",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10780",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10783",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10784",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10792",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10793",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10795",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10802",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10807",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10808",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10818",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10826",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10830",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10832",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10872",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10874",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10875",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10878",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10879",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10881",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10882",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10896",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10898",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10899",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10906",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10907",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10909",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10915",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10920",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10922",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10927",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10931",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10933",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10934",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10935",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10936",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10938",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10942",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10944",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10945",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10949",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10963",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10969",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10972",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "10973",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "10980",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "10983",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "10986",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10987",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "10988",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "10991",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "10997",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "10998",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11006",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11007",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11026",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11029",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11033",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11039",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11050",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11051",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11057",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11058",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11060",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11061",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11064",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11067",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11070",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11071",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11072",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11074",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11075",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11076",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11104",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11105",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11107",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11124",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11125",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11126",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11127",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11128",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11132",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11133",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11136",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11137",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11143",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11145",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11148",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11151",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11158",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11172",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11175",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11187",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11192",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11194",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11196",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11200",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11202",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11204",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11206",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11218",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11219",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11222",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11229",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11231",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11232",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11233",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11235",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11237",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11238",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11260",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11264",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11266",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11271",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11274",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11277",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11278",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11280",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11281",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11282",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11284",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11288",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11292",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11293",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11294",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11298",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11301",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11303",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11304",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11307",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11315",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11316",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11319",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11321",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11324",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11333",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11339",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11348",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11354",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11364",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11365",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11366",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11367",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11372",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11375",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11377",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11381",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11383",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11384",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11387",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11389",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11392",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11394",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11395",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11396",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11403",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11407",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11409",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11423",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11426",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11430",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11431",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11453",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11458",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11460",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11476",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11478",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11489",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11494",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11496",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11499",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11500",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11501",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11502",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11503",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11505",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11506",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11507",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11508",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11509",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11534",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11535",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11539",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11540",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11541",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11544",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11545",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11547",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11548",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11549",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11551",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11554",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11555",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11556",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11560",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11561",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11562",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11563",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11564",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11565",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11566",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11592",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11607",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11608",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11609",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11610",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11611",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11613",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11615",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11616",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11636",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11637",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11638",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11639",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11640",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11643",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11650",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11654",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11655",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11657",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11658",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11663",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11664",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11666",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11667",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11668",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11669",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11670",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11673",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11674",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11675",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11676",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11679",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11680",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11699",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11701",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11702",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11703",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11715",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11717",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11718",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11719",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11727",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11729",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11731",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11738",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11739",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11741",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11743",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11744",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "11746",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "11756",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11758",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11768",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11774",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11778",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 4
+    },
+    {
+      "employee_code": "11779",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11780",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11781",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11783",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11785",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "11790",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11793",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11798",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11799",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "11800",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    },
+    {
+      "employee_code": "11803",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11804",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "11812",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11814",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "11817",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "20650",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "20677",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 3
+    },
+    {
+      "employee_code": "20689",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "20766",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "20787",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "20790",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 2
+    },
+    {
+      "employee_code": "20821",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "20822",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "20823",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "20824",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "20825",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 3
+    },
+    {
+      "employee_code": "20830",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "21053",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 2
+    },
+    {
+      "employee_code": "21054",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Chieu",
+      "priority": 1
+    },
+    {
+      "employee_code": "21623",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 4
+    },
+    {
+      "employee_code": "21624",
+      "kind": "KhungGio",
+      "day": null,
+      "time_block": "Sang",
+      "priority": 1
+    }
+  ]
+}

@@ -3,10 +3,11 @@
 <aside class="ui-sidebar" id="uiSidebar" aria-label="Điều hướng chính">
   <a class="ui-brand" href="{% if request.user.is_staff %}{% url 'admin:index' %}{% else %}{% url 'portal' %}{% endif %}"><span class="ui-mark">SGU</span><span class="ui-brand-text"><strong>Teaching Scheduler</strong><small>ĐIỀU PHỐI GIẢNG DẠY</small></span></a>
   <nav>
+    <a href="{% url 'workload_report' %}">Khối lượng giảng dạy</a>
     {% if request.user.is_staff %}
       <div class="ui-nav-label">Không gian làm việc</div>
       <a href="{% url 'admin:index' %}" title="Tổng quan"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='dashboard' %}</span><span class="ui-nav-text">Tổng quan</span></a>
-      <a href="{% url 'auto_schedule' %}" title="Xếp lịch tự động"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Xếp lịch tự động</span></a>
+      <a href="{% url 'auto_schedule' %}" title="Xếp lịch chất lượng"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Xếp lịch chất lượng</span></a>
       <a href="{% url 'review_schedules' %}" title="Rà soát và duyệt"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='check' %}</span><span class="ui-nav-text">Rà soát và duyệt</span></a>
       <a href="{% url 'faculty_timetable' %}" title="Thời khóa biểu khoa"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Thời khóa biểu khoa</span></a>
       <a href="{% url 'export_assignments' %}" title="Xuất phân công"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='download' %}</span><span class="ui-nav-text">Xuất phân công</span></a>

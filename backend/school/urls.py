@@ -4,6 +4,9 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
+router.register("teaching-quotas", views.TeachingQuotaViewSet)
+router.register("workload-policies", views.WorkloadPolicyViewSet)
+router.register("conversion-rules", views.ConversionRuleViewSet)
 router.register("faculties", views.FacultyViewSet)
 router.register("departments", views.DepartmentViewSet)
 router.register("lecturers", views.LecturerViewSet)

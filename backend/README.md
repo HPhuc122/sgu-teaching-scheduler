@@ -36,7 +36,13 @@ Mặc định dùng SQLite để phát triển. Mở `http://127.0.0.1:8000/admi
 
 Admin mở `/admin/auto-schedule/`, tải ba mẫu tại màn hình, điền dữ liệu và tải cả ba file lên trong một lần. Chọn học kỳ đã cấu hình số tuần/tiết học rồi nhấn **Chạy xếp lịch**. Yêu cầu được đưa vào hàng đợi; trang kết quả tự làm mới khi đang chờ hoặc đang chạy. Worker tự chọn giảng viên có chuyên môn, thứ/tiết và phòng phù hợp, rồi lưu kết quả chờ duyệt. Trang Rà soát lịch hiển thị mức đáp ứng từng nguyện vọng giảng viên của lần chạy để admin xem trước khi duyệt. Mỗi học kỳ chỉ có một lần chạy đang hoạt động. Ba file được giữ tạm trong cơ sở dữ liệu đến khi xử lý xong rồi xóa khỏi hàng đợi. Lỗi nhập liệu được liệt kê theo file, sheet và dòng ngay trên màn hình tải hoặc trang kết quả worker; một lần chạy lỗi không ghi danh mục/lịch dở dang. File Học phần có thêm sheet `Khoa`, `BoMon` và `BuoiHocYeuCau` để mô tả đủ số buổi, số tiết, tuần học và thứ cho phép của từng nhóm. File Phòng học và Giảng viên có sheet thời gian không khả dụng. [Quy cách ba file và giới hạn bộ giải](../docs/luong_xep_lich_tu_dong.md).
 
-Có thể tạo ba file giả lập với seed cố định và chạy thử trên SQLite riêng theo [hướng dẫn kiểm thử tải](../docs/du_lieu_gia_lap_va_kiem_thu.md). Dưới 500 buổi, CP-SAT chạy tối đa 30 giây; nếu bộ giải chưa tìm được nghiệm nhưng lịch khởi tạo hợp lệ, hệ thống trả `HEURISTIC`. Từ 500 buổi, hệ thống dùng trực tiếp lịch khởi tạo, kiểm tra độc lập các ràng buộc trước khi lưu và duyệt. Giới hạn luồng ba file là 6.000 dòng dữ liệu cộng gộp các sheet và 10 MB mỗi file.
+Có thể tạo ba file giả lập với seed cố định và chạy thử trên SQLite riêng theo [hướng dẫn kiểm thử tải](../docs/du_lieu_gia_lap_va_kiem_thu.md). Hệ thống sinh Greedy hợp lệ trước; dưới 500 buổi, lượt đầu chỉ dựng/giải CP-SAT khi ngân sách thực tế cho phép, với trần giải 30 giây và các khoản dự trữ. Từ 500 buổi và ở các lượt sau dùng heuristic. Nghiệm Greedy đã audit được giữ khi CP-SAT bị bỏ qua, hết thời gian hoặc không cải thiện. Giới hạn luồng ba file là 6.000 dòng dữ liệu cộng gộp các sheet và 10 MB mỗi file.
+
+Nút chạy hiện là **Xếp lịch chất lượng**: tối đa ba khởi tạo với seed khác nhau,
+dùng chung ngân sách `UCTP_QUALITY_BUDGET_SECONDS` (mặc định 60 giây). CP-SAT ở
+lượt đầu còn bị giới hạn bởi phần thời gian được cấp; các lượt sau dựng lại
+nghiệm heuristic. GD Adaptive tận dụng thời gian còn dư. Xem [thuật toán và cấu hình](../docs/xep_lich_chat_luong_multi_start.md),
+[mốc chốt bước 3.4 và tài liệu Chương 3](../docs/chot_thuat_toan_3_4.md).
 
 ## Nhập danh mục hoặc lịch riêng để điều chỉnh ngoại lệ
 
@@ -78,6 +84,10 @@ Admin mở `/admin/faculty-timetable/`, chọn học kỳ, khoa quản lý giả
 
 ## API hiện có
 
+Từ Bước 4, các API quản lý bên dưới dùng **vai trò và phạm vi đơn vị** ở backend;
+nhãn Admin trong bảng chỉ nhóm chức năng quản lý, không còn có nghĩa mọi tài khoản
+`is_staff` đều có toàn quyền. Xem [ma trận quyền, định mức và triển khai migration](../docs/nghiep_vu_buoc_4.md).
+
 | Đường dẫn | Quyền | Tác dụng |
 | --- | --- | --- |
 | `/api/faculties/`, `/api/departments/` | Admin | Khoa, bộ môn |
@@ -93,6 +103,19 @@ Admin mở `/admin/faculty-timetable/`, chọn học kỳ, khoa quản lý giả
 Trang `/portal/` cung cấp giao diện đầu tiên cho giảng viên; `/admin/` quản lý danh mục và liên kết đến màn hình rà soát lịch. Quản trị viên cũng có thể tạo/sửa buổi dạy qua API `/api/schedules/`.
 
 Mỗi buổi trong `/api/schedules/` nhận `group`, `lecturer`, `room` hoặc `other_location`, `day`, `start_period`, `period_count`, `status` và danh sách `weeks`. Nếu trùng tài nguyên, API trả **409** cùng loại xung đột, mã buổi hiện có và các tuần giao nhau. Dữ liệu sai hoặc vượt giới hạn học kỳ trả **400**. API dùng xác thực phiên Django và CSRF cho thao tác ghi.
+
+## Định mức, quy đổi và cân bằng tải mô phỏng
+
+Mở `/workload/` để thống kê/xuất số tiết, giờ quy đổi, định mức và chênh lệch
+theo học kỳ, khoa hoặc giảng viên trong phạm vi được cấp. Cấu hình trong Django
+Admin: `TeachingQuota`, `WorkloadPolicy`, `ConversionRule`, `UnitRoleAssignment`;
+ba API mới là `/api/teaching-quotas/`, `/api/workload-policies/`, `/api/conversion-rules/`.
+
+Hệ số và định mức là cấu hình mô phỏng tường minh; không ngầm dùng hệ số khi thiếu.
+Trọng số cân bằng mặc định 0 giữ `soft_v1`; bật cân bằng tạo mục tiêu `soft_v2_workload`
+và baseline riêng. Cần migration `0012`; chưa áp dụng vào database chính trong phiên
+triển khai Bước 4. Staff phải được quản trị cấp vai trò đơn vị tường minh.
+Xem [báo cáo Bước 4](../docs/nghiep_vu_buoc_4.md) để biết công thức, quyền, kiểm thử và cách triển khai.
 
 ## SQL Server
 

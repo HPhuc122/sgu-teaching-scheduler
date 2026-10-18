@@ -16,6 +16,8 @@ log = logging.getLogger(__name__)
 
 def enqueue_schedule(semester_id, files, actor):
     """Check workbook shape and atomically reserve this semester's active slot."""
+    from .access import require_global
+    require_global(actor, "run")
     content = {}
     read_auto_files(files)
     for kind in AUTO_SHEETS:

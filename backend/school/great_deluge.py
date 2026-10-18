@@ -8,7 +8,8 @@ from collections import defaultdict
 from random import Random
 from time import monotonic
 
-from .models import LecturerPreference, Period, ScheduleEntry, TeachingQualification
+from .models import ScheduleEntry
+from .soft_score import SoftScorer
 
 
 def _overlap(start_a, count_a, start_b, count_b):
@@ -17,27 +18,46 @@ def _overlap(start_a, count_a, start_b, count_b):
 
 def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_blocks,
             allowed_pairs, *, max_iterations=3000, time_limit=5, seed=42,
-            preferences=None):
+            preferences=None, deadline=None, scoring=None, telemetry=None,
+            stagnation_limit=None):
     """Return (best solution, initial score, best score).
 
     The score exactly matches the CP-SAT objective in auto_schedule.solve.
     The starting solution is assumed to have passed the CP-SAT hard rules.
     """
-    periods = {period.pk: period for period in Period.objects.all()}
-    teacher_ids = {teacher.pk for teacher in teacher_map.values()}
+    started = monotonic()
+    deadline = min(deadline if deadline is not None else float("inf"), started + time_limit)
+    stats = telemetry if telemetry is not None else {}
+    stats.update(seed=seed, iterations=0, proposals=0, valid_moves=0, accepted_moves=0,
+                 score_improvements=0, max_iterations=max_iterations,
+                 time_limit_seconds=time_limit, stagnation_limit=stagnation_limit,
+                 stop_reason=None)
+    if stagnation_limit is not None and (type(stagnation_limit) is not int or stagnation_limit < 1):
+        raise ValueError("GD stagnation limit must be a positive integer")
+    scoring = scoring or SoftScorer(semester, teacher_map, allowed_pairs, preferences)
+    periods = scoring.periods
+    first_score = scoring.score(initial)
+    stats["score_before"] = first_score
+
+    def finish(solution, score, reason):
+        stats.update(score_after=score, stop_reason=reason, seconds=round(monotonic() - started, 6))
+        return solution, first_score, score
+
+    if not initial:
+        return finish([], first_score, "EMPTY_SOLUTION")
+    if first_score == 0:
+        return finish(list(initial), first_score, "ZERO_SCORE")
+    if max_iterations <= 0:
+        return finish(list(initial), first_score, "ITERATION_LIMIT")
+    if monotonic() >= deadline:
+        return finish(list(initial), first_score, "TIME_LIMIT")
     qualifications = defaultdict(list)
-    for row in TeachingQualification.objects.filter(lecturer_id__in=teacher_ids).select_related("lecturer", "course"):
-        if (row.lecturer.status == "DangCongTac" and
-                (row.lecturer.employee_code, row.course.code) in allowed_pairs):
-            qualifications[row.course_id].append(row)
-    preference = defaultdict(list)
+    for row in scoring.qualifications:
+        qualifications[row.course_id].append(row)
     teacher_unavailable = defaultdict(list)
-    if preferences is None:
-        preferences = list(LecturerPreference.objects.filter(semester=semester))
+    preferences = scoring.preferences
     for item in preferences:
-        if item.kind == "KhungGio":
-            preference[item.lecturer_id].append(item)
-        elif item.kind == "NgayNghi" and item.day:
+        if item.kind == "NgayNghi" and item.day:
             for week in range(1, semester.week_count + 1):
                 teacher_unavailable[(item.lecturer_id, item.day, week)].append((1, 13))
     room_unavailable = defaultdict(list)
@@ -50,6 +70,8 @@ def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_block
 
     options = []
     for demand, _, _, _, _ in initial:
+        if monotonic() >= deadline:
+            return finish(list(initial), first_score, "SETUP_TIME_LIMIT")
         group = demand["group"]
         times = [(day, start) for day in demand["days"] for start in sorted(periods)
                  if all(number in periods and periods[number].block == periods[start].block
@@ -66,6 +88,8 @@ def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_block
                 .exclude(source="ThuatToan", status="ChoDuyet")
                 .select_related("group").prefetch_related("schedule_weeks", "group__cohort_links"))
     for entry in previous:
+        if monotonic() >= deadline:
+            return finish(list(initial), first_score, "SETUP_TIME_LIMIT")
         fixed.append((entry.group_id, frozenset(link.cohort_id for link in entry.group.cohort_links.all()),
                       frozenset(item.week for item in entry.schedule_weeks.all()),
                       entry.day, entry.start_period_id, entry.period_count, entry.room_id, entry.lecturer_id))
@@ -73,18 +97,7 @@ def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_block
                for item in initial]
 
     def penalty(index, assignment):
-        demand, day, start, _, teacher = assignment
-        block = periods[start].block
-        total = 5 if block.lower().startswith("toi") else 0
-        total += max(0, options[index][3][teacher.pk] - 1)
-        for pref in preference[teacher.pk]:
-            if not pref.time_block or (pref.day is not None and pref.day != day):
-                continue
-            if pref.priority <= 2 and pref.time_block != block:
-                total += (3 - pref.priority) * 4
-            elif pref.priority >= 3 and pref.time_block == block:
-                total += (pref.priority - 2) * 4
-        return total
+        return scoring.penalty(assignment)
 
     def valid(index, candidate, solution):
         demand, day, start, room, teacher = candidate
@@ -118,18 +131,25 @@ def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_block
         return True
 
     current = list(initial)
-    current_score = sum(penalty(i, item) for i, item in enumerate(current))
+    current_score = scoring.score(current)
+    workload_loads = scoring.balance.loads(current)
     first_score = current_score
     best = list(current)
     best_score = current_score
     if not current or current_score == 0 or max_iterations <= 0:
-        return best, first_score, best_score
+        return finish(best, best_score, "ZERO_SCORE" if current_score == 0 else "ITERATION_LIMIT")
     rng = Random(seed)
     level = current_score + max(1, current_score // 5)
-    deadline = monotonic() + time_limit
+    last_improvement = 0
+    stop_reason = "ITERATION_LIMIT"
     for iteration in range(max_iterations):
         if monotonic() >= deadline:
+            stop_reason = "TIME_LIMIT"
             break
+        if stagnation_limit is not None and iteration - last_improvement >= stagnation_limit:
+            stop_reason = "STAGNATION"
+            break
+        stats["iterations"] += 1
         index = rng.randrange(len(current))
         demand, day, start, room, teacher = current[index]
         times, rooms, teachers, _ = options[index]
@@ -143,17 +163,24 @@ def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_block
             candidate = (demand, day, start, room, rng.choice(teachers))
         else:
             continue
+        stats["proposals"] += 1
         if candidate == current[index] or not valid(index, candidate, current):
             continue
-        proposed_score = current_score - penalty(index, current[index]) + penalty(index, candidate)
+        stats["valid_moves"] += 1
+        proposed_score = current_score + scoring.move_delta(current[index], candidate, workload_loads)
         # Water level decreases toward the original score. Keep the best seen
         # even when an accepted intermediate move is worse than the current one.
         water_level = first_score + (level - first_score) * (1 - iteration / max_iterations)
         if proposed_score <= water_level:
+            stats["accepted_moves"] += 1
+            scoring.accept_move(current[index], candidate, workload_loads)
             current[index] = candidate
             current_score = proposed_score
             if current_score < best_score:
+                stats["score_improvements"] += 1
+                last_improvement = iteration + 1
                 best, best_score = list(current), current_score
                 if best_score == 0:
+                    stop_reason = "ZERO_SCORE"
                     break
-    return best, first_score, best_score
+    return finish(best, best_score, stop_reason)

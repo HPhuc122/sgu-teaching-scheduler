@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from decimal import Decimal
 
 
 class Faculty(models.Model):
@@ -157,6 +158,7 @@ class CourseGroup(models.Model):
 
 class Cohort(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.PROTECT, db_column="MaHocKy")
+    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.PROTECT)
     name = models.CharField(max_length=30, db_column="TenLop")
 
     class Meta:
@@ -189,6 +191,8 @@ class AlgorithmRun(models.Model):
     preferences_snapshot = models.JSONField(default=list, blank=True)
     preferences_captured_at = models.DateTimeField(null=True, blank=True)
     demand_snapshot = models.JSONField(default=list, blank=True)
+    objective_version = models.CharField(max_length=40, default="soft_v1")
+    quality_snapshot = models.JSONField(default=dict, blank=True)
 
     class Meta:
         db_table = "LanChayThuatToan"
@@ -253,3 +257,88 @@ class LecturerPreference(models.Model):
 
     class Meta:
         db_table = "NguyenVongGV"
+
+
+class SemesterConfiguration:
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        super().clean()
+        semester_ids = {self.semester_id}
+        if self.pk:
+            semester_ids.update(type(self).objects.filter(pk=self.pk).values_list("semester_id", flat=True))
+        if Semester.objects.filter(pk__in=semester_ids, status="DaKhoa").exists():
+            raise ValidationError("Học kỳ đã khóa; cấu hình chỉ được đọc.")
+
+
+class TeachingQuota(SemesterConfiguration, models.Model):
+    lecturer = models.ForeignKey(Lecturer, on_delete=models.PROTECT)
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
+    target_units = models.DecimalField(max_digits=10, decimal_places=2,
+                                      validators=[MinValueValidator(Decimal("0.01")), MaxValueValidator(100000)])
+    allocation_fraction = models.DecimalField(max_digits=3, decimal_places=2, default=1,
+                                             validators=[MinValueValidator(Decimal("0.01")), MaxValueValidator(1)])
+    note = models.CharField(max_length=250, blank=True)
+
+    def clean(self):
+        super().clean()
+        from django.core.exceptions import ValidationError
+        if self.target_units is not None and self.allocation_fraction is not None:
+            if Decimal(self.target_units) * Decimal(self.allocation_fraction) < Decimal("0.01"):
+                raise ValidationError("Định mức sau phân bổ phải ít nhất 0,01 giờ quy đổi mô phỏng.")
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["lecturer", "semester"], name="uq_teaching_quota")]
+
+
+class WorkloadPolicy(SemesterConfiguration, models.Model):
+    semester = models.OneToOneField(Semester, on_delete=models.PROTECT)
+    default_factor = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True,
+                                        validators=[MinValueValidator(Decimal("0.01")), MaxValueValidator(10)])
+    balance_weight = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(100)])
+    note = models.CharField(max_length=250, blank=True)
+
+
+class ConversionRule(SemesterConfiguration, models.Model):
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
+    course_kind = models.CharField(max_length=20)
+    factor = models.DecimalField(max_digits=4, decimal_places=2,
+                                validators=[MinValueValidator(Decimal("0.01")), MaxValueValidator(10)])
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["semester", "course_kind"], name="uq_conversion_rule")]
+
+
+class UnitRoleAssignment(models.Model):
+    ROLE_CHOICES = [("ADMIN", "Quản trị hệ thống"), ("FACULTY", "Cán bộ khoa"),
+                    ("HEAD", "Trưởng bộ môn"), ("TRAINING", "Phòng đào tạo")]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    role = models.CharField(max_length=12, choices=ROLE_CHOICES)
+    faculty = models.ForeignKey(Faculty, null=True, blank=True, on_delete=models.PROTECT)
+    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.PROTECT)
+    all_units = models.BooleanField(default=False)
+    can_manage = models.BooleanField(default=False)
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        super().clean()
+        valid = ((self.role == "ADMIN" and self.all_units and not self.faculty_id and not self.department_id)
+                 or (self.role == "FACULTY" and self.faculty_id and not self.department_id and not self.all_units)
+                 or (self.role == "HEAD" and self.department_id and not self.faculty_id and not self.all_units)
+                 or (self.role == "TRAINING" and sum((bool(self.faculty_id), bool(self.department_id), self.all_units)) == 1))
+        if not valid:
+            raise ValidationError("Chọn đúng một phạm vi phù hợp với vai trò mô phỏng.")
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(condition=(
+                models.Q(role="ADMIN", all_units=True, faculty__isnull=True, department__isnull=True)
+                | models.Q(role="FACULTY", all_units=False, faculty__isnull=False, department__isnull=True)
+                | models.Q(role="HEAD", all_units=False, faculty__isnull=True, department__isnull=False)
+                | (models.Q(role="TRAINING") & (
+                    models.Q(all_units=True, faculty__isnull=True, department__isnull=True)
+                    | models.Q(all_units=False, faculty__isnull=False, department__isnull=True)
+                    | models.Q(all_units=False, faculty__isnull=True, department__isnull=False)))), name="ck_unit_role_scope"),
+            models.UniqueConstraint(fields=["user", "role", "faculty"], condition=models.Q(faculty__isnull=False), name="uq_role_faculty"),
+            models.UniqueConstraint(fields=["user", "role", "department"], condition=models.Q(department__isnull=False), name="uq_role_department"),
+            models.UniqueConstraint(fields=["user", "role"], condition=models.Q(all_units=True), name="uq_role_global"),
+        ]

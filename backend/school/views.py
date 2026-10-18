@@ -166,7 +166,65 @@ def import_schedule_template(request):
 
 
 class AdminViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAdminUser]
+    from .access import UnitPermission
+    permission_classes = [UnitPermission]
+
+    def get_queryset(self):
+        from .access import scoped
+        action = {"create": "add", "update": "change", "partial_update": "change", "destroy": "delete"}.get(self.action, "view")
+        return scoped(super().get_queryset(), self.request.user, action)
+
+    def perform_create(self, serializer):
+        from .access import check_write
+        check_write(self.request.user, serializer.Meta.model, serializer.validated_data, action="add")
+        if serializer.Meta.model._meta.model_name in ("teachingquota", "workloadpolicy", "conversionrule"):
+            from .workload import save_configuration
+            obj = serializer.Meta.model(**serializer.validated_data)
+            save_configuration(obj, self.request.user)
+            serializer.instance = obj
+        else:
+            serializer.save()
+
+    def perform_update(self, serializer):
+        from .access import check_write
+        check_write(self.request.user, serializer.Meta.model, serializer.validated_data, serializer.instance)
+        if serializer.Meta.model._meta.model_name in ("teachingquota", "workloadpolicy", "conversionrule"):
+            from .workload import save_configuration
+            for key, value in serializer.validated_data.items():
+                setattr(serializer.instance, key, value)
+            save_configuration(serializer.instance, self.request.user)
+        else:
+            serializer.save()
+
+    def perform_destroy(self, instance):
+        from .access import check_delete
+        from django.db.models.deletion import ProtectedError
+        check_delete(self.request.user, instance)
+        with transaction.atomic():
+            if instance._meta.model_name in ("teachingquota", "workloadpolicy", "conversionrule"):
+                semester = Semester.objects.select_for_update().get(pk=instance.semester_id)
+                if semester.status == "DaKhoa":
+                    raise PermissionDenied("Học kỳ đã khóa.")
+            try:
+                instance.delete()
+            except ProtectedError as exc:
+                raise ValidationError("Đối tượng còn được sử dụng; không thể xóa.") from exc
+
+
+from .models import TeachingQuota, WorkloadPolicy, ConversionRule
+from .serializers import TeachingQuotaSerializer, WorkloadPolicySerializer, ConversionRuleSerializer
+
+class TeachingQuotaViewSet(AdminViewSet):
+    queryset = TeachingQuota.objects.all()
+    serializer_class = TeachingQuotaSerializer
+
+class WorkloadPolicyViewSet(AdminViewSet):
+    queryset = WorkloadPolicy.objects.all()
+    serializer_class = WorkloadPolicySerializer
+
+class ConversionRuleViewSet(AdminViewSet):
+    queryset = ConversionRule.objects.all()
+    serializer_class = ConversionRuleSerializer
 
 
 class FacultyViewSet(AdminViewSet):
@@ -322,7 +380,8 @@ from django.urls import reverse
 @login_required
 def portal(request):
     if request.user.is_staff and not Lecturer.objects.filter(user=request.user).exists():
-        return redirect("auto_schedule")
+        from .access import global_action
+        return redirect("auto_schedule" if global_action(request.user) else "admin:index")
     lecturer = Lecturer.objects.filter(user=request.user).select_related("department").first()
     if not lecturer:
         return render(request, "school/no_profile.html", status=403)

@@ -13,6 +13,7 @@ from .forms import ScheduleReviewForm
 from .models import AlgorithmRun, Course, Faculty, Lecturer, Room, ScheduleEntry, Semester
 from .preference_report import preference_report
 from .services import ScheduleConflictError, approve_schedule_entries, save_schedule_entry
+from .access import scoped, global_action
 
 
 FILTER_KEYS = ("faculty", "course", "group", "lecturer", "room", "status", "run")
@@ -49,14 +50,15 @@ def _review_entries(semester, filters):
 def _review_context(request, semester, errors, filters, faculty):
     semesters = Semester.objects.all().order_by("-start_date")
     context = {"semesters": semesters, "selected_semester": semester,
-               "errors": errors, "courses": Course.objects.all().order_by("code"),
-               "faculties": Faculty.objects.all().order_by("name"),
+               "errors": errors, "courses": scoped(Course.objects.all(), request.user).order_by("code"),
+               "faculties": scoped(Faculty.objects.all(), request.user).order_by("name"),
                "selected_faculty": faculty,
                "lecturers": (Lecturer.objects.filter(department__faculty=faculty)
                              if faculty else Lecturer.objects.all()).order_by("name"),
                "rooms": Room.objects.all().order_by("code")}
+    context["lecturers"] = scoped(context["lecturers"], request.user)
     context["filters"] = filters
-    qs = _review_entries(semester, filters) if not errors else ScheduleEntry.objects.none()
+    qs = scoped(_review_entries(semester, filters), request.user) if not errors else ScheduleEntry.objects.none()
     context["count"] = qs.count()
     context["page"] = Paginator(qs, 50).get_page(request.GET.get("page"))
     context["query_prefix"] = urlencode({"semester": semester.pk if semester else "",
@@ -68,7 +70,7 @@ def _review_context(request, semester, errors, filters, faculty):
         semester, run_id=int(filters["run"]) if filters["run"].isdigit() else None,
         snapshot=(selected_run.preferences_snapshot if selected_run.preferences_captured_at else None)
         if selected_run else None,
-    ) if semester else None)
+    ) if semester and global_action(request.user) else None)
     return context
 
 
@@ -123,20 +125,21 @@ def review_schedules(request):
 def edit_schedule(request, entry_id):
     entry = get_object_or_404(ScheduleEntry.objects.select_related("group__course", "group__semester", "lecturer", "room")
                               .prefetch_related("schedule_weeks"), pk=entry_id)
+    form = ScheduleReviewForm(request.POST if request.method == "POST" else None, entry=entry)
+    for field in form.fields.values():
+        if hasattr(field, "queryset"):
+            field.queryset = scoped(field.queryset, request.user)
     if request.method == "POST":
-        form = ScheduleReviewForm(request.POST, entry=entry)
         if form.is_valid():
             values = dict(form.cleaned_data)
             values["status"] = "ChoDuyet"
             try:
-                save_schedule_entry(values, instance=entry)
+                save_schedule_entry(values, instance=entry, actor=request.user)
                 messages.success(request, "Đã lưu lịch ở trạng thái chờ duyệt.")
                 return redirect(f"{reverse('review_schedules')}?semester={entry.group.semester_id}")
             except ScheduleConflictError as exc:
                 form.add_error(None, f"Trùng lịch: {exc.conflicts}")
             except ValidationError as exc:
                 form.add_error(None, str(exc))
-    else:
-        form = ScheduleReviewForm(entry=entry)
     return render(request, "school/edit_schedule.html", {"entry": entry, "form": form},
                   status=400 if form.errors else 200)

@@ -6,8 +6,10 @@ from school import review_views
 from school import export_views
 from school import faculty_timetable
 from school import auto_schedule_views
+from school.workload_views import workload_report
 
 urlpatterns = [
+    path("workload/", workload_report, name="workload_report"),
     path("login/", auth_views.LoginView.as_view(template_name="school/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(next_page="login"), name="logout"),
     path("portal/", school_views.portal, name="portal"),

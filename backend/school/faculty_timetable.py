@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from .models import Faculty, Lecturer, Period, ScheduleEntry, Semester
+from .access import scoped
 
 
 DAYS = ((2, "Thứ 2"), (3, "Thứ 3"), (4, "Thứ 4"), (5, "Thứ 5"),
@@ -16,7 +17,7 @@ DAYS = ((2, "Thứ 2"), (3, "Thứ 3"), (4, "Thứ 4"), (5, "Thứ 5"),
 @staff_member_required
 def faculty_timetable(request):
     semesters = Semester.objects.all().order_by("-start_date")
-    faculties = Faculty.objects.all().order_by("name")
+    faculties = scoped(Faculty.objects.all(), request.user).order_by("name")
     semester_id = request.GET.get("semester", "")
     faculty_id = request.GET.get("faculty", "")
     lecturer_id = request.GET.get("lecturer", "")
@@ -35,6 +36,7 @@ def faculty_timetable(request):
     if week < 1 or (semester and week > semester.week_count):
         errors.append("Tuần học không hợp lệ")
     lecturers = Lecturer.objects.filter(department__faculty=faculty).order_by("name", "pk") if faculty else Lecturer.objects.none()
+    lecturers = scoped(lecturers, request.user)
     if lecturer_id:
         if not lecturer_id.isdigit() or not lecturers.filter(pk=lecturer_id).exists():
             errors.append("Giảng viên không thuộc khoa đã chọn")
@@ -45,9 +47,9 @@ def faculty_timetable(request):
     timetable = []
     public_demo_count = 0
     if semester and faculty and not errors:
-        public_demo_count = ScheduleEntry.objects.filter(
+        public_demo_count = scoped(ScheduleEntry.objects.filter(
             group__semester=semester, lecturer__department__faculty=faculty,
-            source="SGUMoPhong", status="DaDuyet").count()
+            source="SGUMoPhong", status="DaDuyet"), request.user).count()
         if not lecturer_id:
             # The faculty may have many catalog-only lecturers. Show those who
             # actually teach in the selected week before paginating.
@@ -60,6 +62,7 @@ def faculty_timetable(request):
             group__semester=semester, lecturer_id__in=[item.pk for item in page.object_list],
             schedule_weeks__week=week, status="DaDuyet",
         ).select_related("group__course", "room").order_by("day", "start_period_id", "pk"))
+        entries = scoped(entries, request.user)
         grid = {}
         for entry in entries:
             for number in range(entry.start_period_id, entry.start_period_id + entry.period_count):
@@ -97,7 +100,7 @@ def faculty_timetable(request):
     context = {
         "semesters": semesters, "faculties": faculties, "selected_semester": semester,
         "selected_faculty": faculty, "semester_id": semester_id, "faculty_id": faculty_id,
-        "lecturer_id": lecturer_id, "lecturers": Lecturer.objects.filter(department__faculty=faculty).order_by("name")
+        "lecturer_id": lecturer_id, "lecturers": scoped(Lecturer.objects.filter(department__faculty=faculty), request.user).order_by("name")
         if faculty else Lecturer.objects.none(),
         "week": week, "weeks": range(1, semester.week_count + 1) if semester else [],
         "public_demo_count": public_demo_count,

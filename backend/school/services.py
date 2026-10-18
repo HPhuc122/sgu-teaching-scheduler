@@ -39,6 +39,15 @@ def _to_session(entry, *, weeks=None, cohort_ids=None):
 @transaction.atomic
 def save_schedule_entry(data, *, instance=None, actor=None):
     values = dict(data)
+    if actor is not None:
+        from .access import check_write, require_object
+        check_write(actor, ScheduleEntry, values, instance, "change" if instance else "add")
+        if values.get("status") == "DaDuyet" and (instance is None or instance.status != "DaDuyet"):
+            group = values.get("group") or instance.group
+            require_object(actor, group, "approve")
+            teacher = values.get("lecturer") or (instance.lecturer if instance else None)
+            if teacher:
+                require_object(actor, teacher, "approve")
     weeks = values.pop("weeks", None)
     group = values.get("group") or instance.group
     # Moi thao tac cung hoc ky lay cung mot khoa; tranh doc lich cu dong thoi.
@@ -137,6 +146,9 @@ def approve_schedule_entries(semester_id, entry_ids, *, actor):
         raise ValidationError("Học kỳ đã khóa")
     entries = list(ScheduleEntry.objects.select_for_update().filter(pk__in=ids)
                    .select_related("group").order_by("pk"))
+    from .access import require_object
+    for entry in entries:
+        require_object(actor, entry, "approve")
     if len(entries) != len(ids) or any(entry.group.semester_id != semester_id for entry in entries):
         raise ValidationError("Danh sách duyệt có buổi không thuộc học kỳ đã chọn")
     if any(entry.status != "ChoDuyet" for entry in entries):

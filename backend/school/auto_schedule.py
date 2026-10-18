@@ -1,10 +1,13 @@
 """Import three proposed Excel workbooks and build a real-resource CP-SAT timetable."""
 
 from collections import defaultdict
+from contextlib import contextmanager
 from io import BytesIO
 from random import Random
 from time import monotonic
+from math import isfinite
 
+from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from openpyxl import Workbook, load_workbook
@@ -12,9 +15,12 @@ from ortools.sat.python import cp_model
 
 from .catalog_import import SHEETS, commit_catalog, validate_catalog
 from .auto_schedule_errors import InputIssues, issue
-from .great_deluge import improve
-from .schedule_diagnostics import diagnose, forced_day_overloads
+from .search_budget import (SearchBudgetExpired, check_deadline, cp_budget,
+                            estimate_cp_build, load_cp_observations)
 from .solution_audit import audit_solution
+from .soft_score import SoftScorer, evening_penalty, preference_penalty
+from .quality_search import search_quality
+from .schedule_diagnostics import diagnose, forced_day_overloads
 from .models import (AlgorithmRun, CourseGroup, Department, Faculty, Lecturer,
                      LecturerPreference, Period, Room, ScheduleEntry, ScheduleWeek, Semester, TeachingQualification)
 from .preference_checks import day_off_error, day_off_violations
@@ -41,8 +47,6 @@ AUTO_SHEETS = {
 MAX_BYTES = 10 * 1024 * 1024
 MAX_ROWS = 6000
 LARGE_RUN_SESSIONS = 500
-LOCAL_SEARCH_RESTARTS = 3
-LOCAL_SEARCH_BUDGET_SECONDS = 9
 ROOM_TYPES = {"LyThuyet", "MayTinh", "ThiNghiem", "HoiTruong"}
 
 
@@ -292,11 +296,13 @@ def _create_catalog(semester, data, demand_rows, room_blocks, teacher_blocks):
     commit_catalog("lecturers", _base(lecturers, "lecturers"))
 
     group_map = {(g.course.code, g.group, g.lab_group or ""): g for g in
-                 CourseGroup.objects.filter(semester=semester).select_related("course")}
+                 CourseGroup.objects.filter(semester=semester).select_related("course")
+                 .prefetch_related("cohort_links")}
     room_codes = {row["ma_phong"] for row in rooms["PhongHoc"]}
     teacher_codes = {row["ma_vien_chuc"] for row in lecturers["GiangVien"]}
-    room_map = {r.code: r for r in Room.objects.filter(code__in=room_codes)}
-    teacher_map = {t.employee_code: t for t in Lecturer.objects.filter(employee_code__in=teacher_codes)}
+    room_map = {r.code: r for r in Room.objects.filter(code__in=room_codes).order_by("code")}
+    teacher_map = {t.employee_code: t for t in Lecturer.objects.filter(
+        employee_code__in=teacher_codes).order_by("employee_code")}
     for code, *_ in room_blocks:
         if code not in room_map:
             raise ValueError(f"Phòng không khả dụng {code} chưa có trong file")
@@ -317,8 +323,9 @@ def _overlap(a_start, a_count, b_start, b_count):
 
 
 def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailable,
-                 *, attempts=8, seed=42):
+                 *, attempts=8, seed=42, deadline=None):
     """Find a valid complete assignment to hint CP-SAT and cover timeouts."""
+    check_deadline(deadline)
     fixed = set()
 
     def keys(kind, resource_id, day, start, count, weeks):
@@ -326,6 +333,7 @@ def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailab
                 for week in weeks for period in range(start, start + count))
 
     for entry in previous:
+        check_deadline(deadline)
         weeks = [item.week for item in entry.schedule_weeks.all()]
         resources = [("group", entry.group_id), ("room", entry.room_id),
                      ("teacher", entry.lecturer_id)]
@@ -342,9 +350,11 @@ def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailab
     cohorts = [{link.cohort_id for link in demand["group"].cohort_links.all()}
                for demand in demands]
     for _ in range(attempts):
+        check_deadline(deadline)
         occupied = set(fixed)
         selected = {}
         for index in order:
+            check_deadline(deadline)
             demand = demands[index]
             group = demand["group"]
             count, weeks = demand["count"], demand["weeks"]
@@ -353,6 +363,7 @@ def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailab
             rng.shuffle(time_indices)
             found = False
             for time_index in time_indices:
+                check_deadline(deadline)
                 day, start, _ = time_options[time_index]
                 group_keys = list(keys("group", group.pk, day, start, count, weeks))
                 for cohort_id in cohorts[index]:
@@ -364,6 +375,7 @@ def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailab
                 rng.shuffle(room_indices)
                 rng.shuffle(teacher_indices)
                 for room_index in room_indices:
+                    check_deadline(deadline)
                     room = rooms[room_index]
                     if (any(_overlap(start, count, busy_start, busy_count)
                             for week in weeks for busy_start, busy_count
@@ -371,6 +383,7 @@ def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailab
                             any(key in occupied for key in keys("room", room.pk, day, start, count, weeks))):
                         continue
                     for teacher_index in teacher_indices:
+                        check_deadline(deadline)
                         teacher = teachers[teacher_index].lecturer
                         if (any(_overlap(start, count, busy_start, busy_count)
                                 for week in weeks for busy_start, busy_count
@@ -395,16 +408,13 @@ def _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailab
     return None
 
 
-def _solve_large(semester, demands, room_map, qualification, periods,
-                 room_unavailable, teacher_unavailable, room_blocks, teacher_blocks,
-                 teacher_map, allowed_pairs):
-    """Use the audited constructive path without allocating a huge CP-SAT model."""
-    if forced_day_overloads(semester, demands):
-        return None, "INFEASIBLE", None
+def _prepare_choices(demands, room_map, qualification, periods, deadline):
+    """Prepare identical domains for both Greedy and CP-SAT before building variables."""
     choices = []
     problems = []
     available_rooms = [room for room in room_map.values() if room.status == "SanSang"]
     for demand in demands:
+        check_deadline(deadline)
         group = demand["group"]
         count = demand["count"]
         times = [(day, start, periods[start].block) for day in demand["days"]
@@ -427,34 +437,230 @@ def _solve_large(semester, demands, room_map, qualification, periods,
         choices.append((times, None, rooms, None, teachers, None))
     if problems:
         raise InputIssues(problems)
-    previous = list(ScheduleEntry.objects.filter(group__semester=semester)
-                    .exclude(source="ThuatToan", status="ChoDuyet")
-                    .select_related("group").prefetch_related("schedule_weeks", "group__cohort_links"))
-    selected = _greedy_seed(demands, choices, previous, room_unavailable,
-                            teacher_unavailable, attempts=12)
-    if selected is None:
-        return None, "UNKNOWN", None
+    return choices
+
+
+def _selected_result(demands, choices, selected):
     result = []
     for index, demand in enumerate(demands):
         time_index, room_index, teacher_index = selected[index]
         times, _, rooms, _, teachers, _ = choices[index]
         day, start, _ = times[time_index]
         result.append((demand, day, start, rooms[room_index], teachers[teacher_index].lecturer))
-    _, score, _ = improve(semester, result, room_map, teacher_map, room_blocks,
-                          teacher_blocks, allowed_pairs, max_iterations=0)
-    return result, "HEURISTIC", score
+    return result
 
 
 def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
-          allowed_pairs, *, preferences=None):
-    periods = {p.pk: p for p in Period.objects.all()}
+          allowed_pairs, *, preferences=None, seed=42, deadline=None,
+          cp_time_limit=30, use_cp_sat=True, scoring=None, num_search_workers=4,
+          generation_policy="greedy_first", telemetry=None,
+          cp_policy="budget_aware", cp_observations=None):
+    """Keep an audited seed before optional, bounded CP-SAT refinement/rescue.
+
+    ``model_first`` controls the previous ordering and time allocation, using
+    the same new validation/selection safeguards. Domains/scoring are shared.
+    Stage timers are wall time, exclusive of one another; validation includes
+    independent audits and scoring. The return tuple remains backwards compatible.
+    """
+    if generation_policy not in ("greedy_first", "model_first"):
+        raise ValueError("Unknown generation policy")
+    if cp_policy not in ("budget_aware", "fixed_window"):
+        raise ValueError("Unknown CP admission policy")
+    active_cp_policy = "fixed_window" if generation_policy == "model_first" else cp_policy
+    refinement_seconds = settings.QUALITY_CP_REFINEMENT_SECONDS
+    min_solve_seconds = settings.QUALITY_CP_MIN_SOLVE_SECONDS
+    if (not isfinite(refinement_seconds) or not isfinite(min_solve_seconds)
+            or min_solve_seconds <= 0 or refinement_seconds < min_solve_seconds
+            or not isfinite(cp_time_limit) or cp_time_limit <= 0):
+        raise ValueError("Invalid CP-SAT time allocation")
+    metrics = telemetry if telemetry is not None else {}
+    metrics.update(policy=generation_policy, source="NONE", cp_called=False,
+                   cp_status="NOT_CALLED", cp_skip_reason=None, greedy_status="NOT_CALLED",
+                   cp_policy=active_cp_policy, cp_decision="NOT_CONSIDERED",
+                   sessions=len(demands), cp_model_complete=False,
+                   preparation_seconds=0, greedy_seconds=0, cp_model_seconds=0,
+                   cp_solve_seconds=0, validation_seconds=0,
+                   greedy_score=None, cp_score=None)
+
+    @contextmanager
+    def timed(stage):
+        started = monotonic()
+        try:
+            yield
+        finally:
+            metrics[stage] = round(metrics[stage] + monotonic() - started, 6)
+
+    def validate(result):
+        with timed("validation_seconds"):
+            audit_solution(semester, demands, result, room_map, teacher_map,
+                           room_blocks, teacher_blocks, allowed_pairs, preferences=scoring.preferences)
+            return scoring.score(result)
+
+    # Preparation is timed even if validation of the input/domain fails.
+    with timed("preparation_seconds"):
+        prepared = _prepare_generation(semester, demands, room_map, teacher_map,
+                                       room_blocks, teacher_blocks, allowed_pairs,
+                                       preferences, scoring, deadline)
+    scoring, choices, previous, room_unavailable, teacher_unavailable = prepared
+    constructive_only = len(demands) >= LARGE_RUN_SESSIONS or not use_cp_sat
+    if constructive_only and forced_day_overloads(semester, demands):
+        metrics.update(cp_skip_reason="CONSTRUCTIVE_ONLY", cp_decision="SKIPPED_POLICY")
+        return None, "INFEASIBLE", None
+    seed_solution, greedy, greedy_score = None, None, None
+
+    def generate_greedy(greedy_deadline):
+        nonlocal seed_solution, greedy, greedy_score
+        try:
+            with timed("greedy_seconds"):
+                seed_solution = _greedy_seed(
+                    demands, choices, previous, room_unavailable, teacher_unavailable,
+                    attempts=12 if constructive_only else 8, seed=seed, deadline=greedy_deadline)
+            if seed_solution is None:
+                metrics["greedy_status"] = "NO_SOLUTION"
+                return
+            result = _selected_result(demands, choices, seed_solution)
+            greedy_score = validate(result)
+            greedy = result
+            metrics.update(greedy_status="VALID", greedy_score=greedy_score)
+        except SearchBudgetExpired:
+            metrics["greedy_status"] = "TIMEOUT"
+        except (ValueError, KeyError) as exc:
+            seed_solution = None
+            metrics.update(greedy_status="AUDIT_REJECTED", greedy_error=str(exc))
+
+    def fallback(reason):
+        metrics["cp_skip_reason"] = reason
+        metrics["source"] = "GREEDY" if greedy is not None else "NONE"
+        return greedy, "HEURISTIC" if greedy is not None else "UNKNOWN", greedy_score
+
+    if generation_policy == "greedy_first" or constructive_only:
+        greedy_deadline = deadline
+        if not constructive_only and deadline is not None:
+            # A failed constructive search must leave time for CP-SAT rescue.
+            now = monotonic()
+            greedy_deadline = min(deadline, now + max(0, deadline - now) * 0.25)
+        metrics["greedy_budget_seconds"] = max(0, greedy_deadline - monotonic()) if greedy_deadline is not None else None
+        generate_greedy(greedy_deadline)
+    if constructive_only:
+        metrics["cp_decision"] = "SKIPPED_POLICY"
+        return fallback("LARGE_INSTANCE" if len(demands) >= LARGE_RUN_SESSIONS else "LATER_START")
+    if generation_policy == "greedy_first" and greedy_score == 0:
+        metrics["cp_decision"] = "SKIPPED_ZERO_PENALTY"
+        return fallback("ZERO_SOFT_PENALTY")
+
+    cp_deadline = deadline
+    build_deadline = deadline
+    if active_cp_policy == "budget_aware":
+        observations = (load_cp_observations(settings.QUALITY_CP_BUILD_PROFILE)
+                        if cp_observations is None else cp_observations)
+        estimate = estimate_cp_build(
+            len(demands), observations,
+            seconds_per_session=settings.QUALITY_CP_MODEL_SECONDS_PER_SESSION,
+            safety_factor=settings.QUALITY_CP_ESTIMATE_SAFETY_FACTOR)
+        decision = cp_budget(
+            monotonic(), deadline, has_seed=greedy is not None, estimate=estimate,
+            refinement_seconds=refinement_seconds, min_solve_seconds=min_solve_seconds,
+            audit_reserve=settings.QUALITY_AUDIT_RESERVE_SECONDS, cp_time_limit=cp_time_limit)
+        metrics.update(decision)
+        if decision["cp_decision"] == "SKIPPED_BUDGET":
+            return fallback("SKIPPED_BUDGET")
+        cp_deadline = decision["cp_deadline"]
+        build_deadline = decision["cp_build_deadline"]
+    elif generation_policy == "greedy_first":
+        now = monotonic()
+        # With a valid fallback CP-SAT is a bounded improvement, otherwise it
+        # may use the remaining generation allocation to recover feasibility.
+        if greedy is not None:
+            cp_deadline = now + refinement_seconds
+            if deadline is not None:
+                cp_deadline = min(deadline, cp_deadline)
+        if cp_deadline is not None and cp_deadline - now < min_solve_seconds:
+            metrics["cp_decision"] = "SKIPPED_BUDGET"
+            return fallback("INSUFFICIENT_CP_BUDGET")
+        build_deadline = cp_deadline - min_solve_seconds if cp_deadline is not None else None
+    if active_cp_policy == "fixed_window":
+        metrics.update(cp_decision="RUN_FIXED_WINDOW",
+                       cp_remaining_seconds=max(0, deadline - monotonic()) if deadline is not None else None,
+                       cp_allocated_seconds=max(0, cp_deadline - monotonic()) if cp_deadline is not None else cp_time_limit)
+    try:
+        with timed("cp_model_seconds"):
+            model, cp_choices = _build_cp_model(
+                demands, choices, previous, room_unavailable, teacher_unavailable,
+                scoring.time_preferences, build_deadline, scoring=scoring)
+    except SearchBudgetExpired:
+        return fallback("MODEL_BUILD_TIMEOUT")
+    except OverflowError:
+        return fallback("MODEL_OBJECTIVE_LIMIT")
+    metrics["cp_model_complete"] = True
+
+    if generation_policy == "model_first":
+        generate_greedy(deadline)
+    try:
+        with timed("cp_model_seconds"):
+            if seed_solution is not None:
+                for index, (_, x, _, r, _, g) in enumerate(cp_choices):
+                    check_deadline(build_deadline)
+                    for flags, chosen in zip((x, r, g), seed_solution[index]):
+                        for flag_index, flag in enumerate(flags):
+                            model.AddHint(flag, int(flag_index == chosen))
+    except SearchBudgetExpired:
+        return fallback("HINT_BUILD_TIMEOUT")
+    remaining = cp_time_limit if cp_deadline is None else min(cp_time_limit, cp_deadline - monotonic())
+    if remaining <= 0 or (active_cp_policy == "budget_aware" and remaining < min_solve_seconds):
+        return fallback("NO_SOLVE_TIME")
+    solver = cp_model.CpSolver()
+    solver.parameters.max_time_in_seconds = remaining
+    solver.parameters.num_search_workers = num_search_workers
+    solver.parameters.random_seed = seed
+    metrics.update(cp_called=True, cp_time_limit_seconds=round(remaining, 6))
+    try:
+        with timed("cp_solve_seconds"):
+            status = solver.Solve(model)
+    except SearchBudgetExpired:
+        metrics["cp_status"] = "INTERRUPTED"
+        return fallback("SOLVER_INTERRUPTED")
+    except RuntimeError as exc:
+        metrics.update(cp_status="ERROR", cp_error=str(exc))
+        if greedy is not None:
+            return fallback("SOLVER_ERROR")
+        raise
+    metrics["cp_status"] = solver.StatusName(status)
+    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        if greedy is not None:
+            if status != cp_model.UNKNOWN:
+                metrics["cp_warning"] = "Solver rejected a model with an independently valid seed"
+            return fallback(None)
+        return None, solver.StatusName(status), None
+    result = []
+    for demand, (times, x, rooms, r, teachers, g) in zip(demands, cp_choices):
+        day, start, _ = times[next(j for j, flag in enumerate(x) if solver.Value(flag))]
+        room = rooms[next(j for j, flag in enumerate(r) if solver.Value(flag))]
+        teacher = teachers[next(j for j, flag in enumerate(g) if solver.Value(flag))].lecturer
+        result.append((demand, day, start, room, teacher))
+    try:
+        score = validate(result)
+        metrics["cp_score"] = score
+        if score != round(solver.ObjectiveValue()):
+            raise ValueError("CP-SAT objective differs from shared score")
+    except (ValueError, KeyError) as exc:
+        metrics["cp_candidate_error"] = str(exc)
+        return fallback("CP_CANDIDATE_REJECTED")
+    if greedy is not None and greedy_score <= score:
+        return fallback("CP_NOT_BETTER_THAN_GREEDY")
+    metrics["source"] = "CP_SAT"
+    return result, solver.StatusName(status), score
+
+
+def _prepare_generation(semester, demands, room_map, teacher_map, room_blocks,
+                        teacher_blocks, allowed_pairs, preferences, scoring, deadline):
+    check_deadline(deadline)
+    scoring = scoring or SoftScorer(semester, teacher_map, allowed_pairs, preferences)
+    periods = scoring.periods
     if not periods:
         raise ValueError("Chưa cấu hình tiết học cho hệ thống")
     qualification = defaultdict(list)
-    teacher_ids = {teacher.pk for teacher in teacher_map.values()}
-    for q in TeachingQualification.objects.filter(lecturer_id__in=teacher_ids).select_related("lecturer", "course"):
-        if q.lecturer.status == "DangCongTac" and (q.lecturer.employee_code, q.course.code) in allowed_pairs:
-            qualification[q.course_id].append(q)
+    for q in scoring.qualifications:
+        qualification[q.course_id].append(q)
     room_unavailable = defaultdict(list)
     for code, day, start, count, weeks in room_blocks:
         for week in weeks:
@@ -463,52 +669,33 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
     for code, day, start, count, weeks in teacher_blocks:
         for week in weeks:
             teacher_unavailable[(teacher_map[code].pk, day, week)].append((start, count))
-    if preferences is None:
-        preferences = list(LecturerPreference.objects.filter(semester=semester))
+    preferences = scoring.preferences
     for pref in preferences:
         if pref.kind != "NgayNghi":
             continue
         if pref.day:
             for week in range(1, semester.week_count + 1):
                 teacher_unavailable[(pref.lecturer_id, pref.day, week)].append((1, 13))
-    prefs = defaultdict(list)
-    for pref in preferences:
-        if pref.kind == "KhungGio":
-            prefs[pref.lecturer_id].append(pref)
+    choices = _prepare_choices(demands, room_map, qualification, periods, deadline)
+    previous = list(ScheduleEntry.objects.filter(group__semester=semester)
+                    .exclude(source="ThuatToan", status="ChoDuyet")
+                    .select_related("group").prefetch_related("schedule_weeks", "group__cohort_links"))
+    return scoring, choices, previous, room_unavailable, teacher_unavailable
 
-    if len(demands) >= LARGE_RUN_SESSIONS:
-        return _solve_large(semester, demands, room_map, qualification, periods,
-                            room_unavailable, teacher_unavailable, room_blocks,
-                            teacher_blocks, teacher_map, allowed_pairs)
+
+def _build_cp_model(demands, domains, previous, room_unavailable, teacher_unavailable,
+                    prefs, deadline, scoring=None):
+    """Existing CP-SAT formulation, sharing the exact domains used by Greedy."""
 
     model = cp_model.CpModel()
     room_buckets, teacher_buckets, cohort_buckets, group_buckets = (defaultdict(list) for _ in range(4))
     choices = []
     objective = []
-    preflight_errors = []
     for index, demand in enumerate(demands):
+        check_deadline(deadline)
         group = demand["group"]
         count = demand["count"]
-        time_options = [(day, start, periods[start].block) for day in demand["days"]
-                        for start in sorted(periods)
-                        if all(number in periods and periods[number].block == periods[start].block
-                               for number in range(start, start + count))]
-        rooms = [room for room in room_map.values() if room.status == "SanSang"
-                 and room.capacity >= group.capacity
-                 and (not demand["room_type"] or room.room_type == demand["room_type"])]
-        teachers = qualification[group.course_id]
-        issues = []
-        if not time_options:
-            issues.append("không có khung tiết hợp lệ; kiểm tra so_tiet, thu_duoc_xep và cấu hình tiết học")
-        if not rooms:
-            issues.append("không có phòng đủ sức chứa/đúng loại; kiểm tra file Phòng học")
-        if not teachers:
-            issues.append("không có giảng viên đủ chuyên môn; kiểm tra GiangVienHocPhan")
-        if issues:
-            preflight_errors.append(issue("courses", "BuoiHocYeuCau", demand["line"],
-                                          f"Môn {group.course.code}, nhóm {group.group}, "
-                                          f"buổi {demand['code']}: " + "; ".join(issues)))
-            continue
+        time_options, _, rooms, _, teachers, _ = domains[index]
         x = [model.NewBoolVar(f"t_{index}_{j}") for j in range(len(time_options))]
         r = [model.NewBoolVar(f"r_{index}_{j}") for j in range(len(rooms))]
         g = [model.NewBoolVar(f"g_{index}_{j}") for j in range(len(teachers))]
@@ -520,8 +707,7 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
         model.Add(end_var == start_var + count)
         for j, (_, start, block) in enumerate(time_options):
             model.Add(start_var == start).OnlyEnforceIf(x[j])
-            if block.lower().startswith("toi"):
-                objective.append(5 * x[j])
+            objective.append(evening_penalty(block) * x[j])
         day_flags = {}
         for day in demand["days"]:
             flag = model.NewBoolVar(f"day_{index}_{day}")
@@ -534,6 +720,7 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
                 for link in group.cohort_links.all():
                     cohort_buckets[(link.cohort_id, day, week)].append(interval)
         for j, room in enumerate(rooms):
+            check_deadline(deadline)
             for day, day_flag in day_flags.items():
                 present = model.NewBoolVar(f"room_{index}_{j}_{day}")
                 model.AddMultiplicationEquality(present, [r[j], day_flag])
@@ -542,6 +729,7 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
                 for week in demand["weeks"]:
                     room_buckets[(room.pk, day, week)].append(interval)
         for j, qualification_row in enumerate(teachers):
+            check_deadline(deadline)
             teacher = qualification_row.lecturer
             objective.append(max(0, qualification_row.priority - 1) * g[j])
             for k, (day, start, block) in enumerate(time_options):
@@ -549,14 +737,7 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
                        for week in demand["weeks"]
                        for busy_start, busy_count in teacher_unavailable[(teacher.pk, day, week)]):
                     model.Add(g[j] + x[k] <= 1)
-                penalty = 0
-                for pref in prefs[teacher.pk]:
-                    if not pref.time_block or (pref.day is not None and pref.day != day):
-                        continue
-                    if pref.priority <= 2 and pref.time_block != block:
-                        penalty += (3 - pref.priority) * 4
-                    elif pref.priority >= 3 and pref.time_block == block:
-                        penalty += (pref.priority - 2) * 4
+                penalty = preference_penalty(prefs[teacher.pk], day, block)
                 if penalty:
                     both = model.NewBoolVar(f"pref_{index}_{j}_{k}")
                     model.AddMultiplicationEquality(both, [g[j], x[k]])
@@ -570,13 +751,8 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
                     teacher_buckets[(teacher.pk, day, week)].append(interval)
         choices.append((time_options, x, rooms, r, teachers, g))
 
-    if preflight_errors:
-        raise InputIssues(preflight_errors)
-
-    previous = list(ScheduleEntry.objects.filter(group__semester=semester)
-                    .exclude(source="ThuatToan", status="ChoDuyet")
-                    .select_related("group").prefetch_related("schedule_weeks", "group__cohort_links"))
     for entry in previous:
+        check_deadline(deadline)
         weeks = [item.week for item in entry.schedule_weeks.all()]
         if entry.room_id:
             _add_fixed(room_buckets, entry.room_id, entry.day, entry.start_period_id,
@@ -592,6 +768,7 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
     for buckets in (room_buckets, teacher_buckets, cohort_buckets, group_buckets):
         seen_overlaps = set()
         for intervals in buckets.values():
+            check_deadline(deadline)
             if len(intervals) > 1:
                 signature = tuple(interval.Index() for interval in intervals)
                 if signature not in seen_overlaps:
@@ -599,6 +776,7 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
                     seen_overlaps.add(signature)
     # Resource unavailability is checked against every candidate time option.
     for index, demand in enumerate(demands):
+        check_deadline(deadline)
         time_options, x, rooms, r, _, _ = choices[index]
         for j, room in enumerate(rooms):
             for k, (day, start, _) in enumerate(time_options):
@@ -606,41 +784,11 @@ def solve(semester, demands, room_map, teacher_map, room_blocks, teacher_blocks,
                        for week in demand["weeks"]
                        for busy_start, busy_count in room_unavailable[(room.pk, day, week)]):
                     model.Add(r[j] + x[k] <= 1)
-    seed_solution = _greedy_seed(demands, choices, previous, room_unavailable, teacher_unavailable)
-    if seed_solution is not None:
-        for index, (time_options, x, rooms, r, teachers, g) in enumerate(choices):
-            selected_time, selected_room, selected_teacher = seed_solution[index]
-            for flags, chosen in ((x, selected_time), (r, selected_room), (g, selected_teacher)):
-                for flag_index, flag in enumerate(flags):
-                    model.AddHint(flag, int(flag_index == chosen))
+    if scoring is not None:
+        objective.extend(scoring.balance.add_cp_objective(model, choices, demands))
     model.Minimize(sum(objective))
-    solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = 30
-    solver.parameters.num_search_workers = 4
-    status = solver.Solve(model)
-    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        if status == cp_model.INFEASIBLE and seed_solution is not None:
-            raise ValueError("Lịch khởi tạo mâu thuẫn với kết luận CP-SAT; cần kiểm tra mô hình ràng buộc")
-        if status == cp_model.UNKNOWN and seed_solution is not None:
-            result = []
-            for index, demand in enumerate(demands):
-                time_options, _, rooms, _, teachers, _ = choices[index]
-                time_index, room_index, teacher_index = seed_solution[index]
-                day, start, _ = time_options[time_index]
-                result.append((demand, day, start, rooms[room_index], teachers[teacher_index].lecturer))
-            _, objective_value, _ = improve(
-                semester, result, room_map, teacher_map, room_blocks, teacher_blocks,
-                allowed_pairs, max_iterations=0,
-            )
-            return result, "HEURISTIC", objective_value
-        return None, solver.StatusName(status), None
-    result = []
-    for demand, (time_options, x, rooms, r, teachers, g) in zip(demands, choices):
-        day, start, _ = time_options[next(j for j, flag in enumerate(x) if solver.Value(flag))]
-        room = rooms[next(j for j, flag in enumerate(r) if solver.Value(flag))]
-        teacher = teachers[next(j for j, flag in enumerate(g) if solver.Value(flag))].lecturer
-        result.append((demand, day, start, room, teacher))
-    return result, solver.StatusName(status), round(solver.ObjectiveValue())
+    check_deadline(deadline)
+    return model, choices
 
 
 def _demand_snapshot(demands):
@@ -653,37 +801,15 @@ def _demand_snapshot(demands):
     } for demand in demands]
 
 
-def _best_local_search(semester, result, objective, room_map, teacher_map,
-                       room_blocks, teacher_blocks, allowed_pairs, preferences):
-    """Try independent Great Deluge paths within one shared time budget."""
-    best_result, best_score = result, objective
-    trials = []
-    deadline = monotonic() + LOCAL_SEARCH_BUDGET_SECONDS
-    for index in range(LOCAL_SEARCH_RESTARTS):
-        if best_score == 0:
-            break
-        remaining = deadline - monotonic()
-        if remaining <= 0:
-            break
-        seed = 42 + index
-        started = monotonic()
-        candidate, verified_before, candidate_score = improve(
-            semester, result, room_map, teacher_map, room_blocks, teacher_blocks,
-            allowed_pairs, preferences=preferences, seed=seed,
-            max_iterations=3000,
-            time_limit=min(5, remaining / (LOCAL_SEARCH_RESTARTS - index)),
-        )
-        if verified_before != objective:
-            raise ValueError("Điểm bộ giải và pha cải thiện không khớp; đã hủy lần chạy")
-        trials.append({"seed": seed, "score": candidate_score,
-                       "seconds": round(monotonic() - started, 3)})
-        if candidate_score < best_score:
-            best_result, best_score = candidate, candidate_score
-    return best_result, best_score, trials
-
-
 @transaction.atomic
 def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
+    budget = settings.QUALITY_SEARCH_BUDGET_SECONDS
+    if not isfinite(budget) or budget <= 0:
+        raise ValueError("Ngân sách xếp lịch phải là số giây dương hữu hạn")
+    if not 0 <= settings.QUALITY_SEARCH_SEED <= 2147483645:
+        raise ValueError("Seed xếp lịch phải từ 0 đến 2147483645")
+    preparation_started = monotonic()
+    deadline = preparation_started + budget
     semester = Semester.objects.select_for_update().get(pk=semester_id)
     if semester.status == "DaKhoa":
         raise ValueError("Học kỳ đã khóa")
@@ -711,16 +837,22 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         "kind": pref.kind, "day": pref.day, "time_block": pref.time_block,
         "priority": pref.priority, "note": pref.note,
     } for pref in preferences]
-    result, status, objective = solve(semester, demands, room_map, teacher_map,
-                                      room_blocks, teacher_blocks, allowed_pairs,
-                                      preferences=preferences)
+    input_preparation_seconds = round(monotonic() - preparation_started, 6)
+    result, status, objective_before, objective, optimization_trials = search_quality(
+        semester, demands, room_map, teacher_map, room_blocks, teacher_blocks, allowed_pairs,
+        preferences=preferences, deadline=deadline, max_starts=settings.QUALITY_SEARCH_MAX_STARTS,
+        seed=settings.QUALITY_SEARCH_SEED,
+    )
+    if optimization_trials:
+        # Charged once per request, not once for each independent start.
+        optimization_trials[0]["input_preparation_seconds"] = input_preparation_seconds
+    quality_snapshot = next((t["quality_snapshot"] for t in optimization_trials if "quality_snapshot" in t),
+                            {"version": "soft_v1", "weight": 0})
     if result is None:
         if status == "INFEASIBLE":
             message = "Không có phương án thỏa đồng thời các ràng buộc với nguồn lực hiện có"
         elif status == "UNKNOWN":
-            message = ("Chưa tìm được phương án khởi tạo hợp lệ; chưa thể kết luận vô nghiệm"
-                       if len(demands) >= LARGE_RUN_SESSIONS else
-                       "Hết 30 giây nhưng chưa tìm được phương án; chưa thể kết luận vô nghiệm")
+            message = "Chưa tìm được phương án hợp lệ trong ngân sách tìm kiếm; chưa thể kết luận vô nghiệm"
         else:
             message = f"Bộ giải trả trạng thái {status}; cần kiểm tra dữ liệu và mô hình"
         diagnostics = diagnose(semester, demands, room_map, teacher_map,
@@ -729,25 +861,21 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         if existing_run_id is None:
             run = AlgorithmRun.objects.create(semester=semester, created_by=actor, status=status,
                                               message=message, diagnostics=diagnostics,
+                                              optimization_trials=optimization_trials,
                                               preferences_snapshot=preferences_snapshot,
                                               preferences_captured_at=preferences_captured_at)
         else:
             run = AlgorithmRun.objects.select_for_update().get(pk=existing_run_id)
             run.status, run.message, run.diagnostics = status, message, diagnostics
+            run.optimization_trials = optimization_trials
             run.preferences_snapshot = preferences_snapshot
             run.preferences_captured_at = preferences_captured_at
             run.save(update_fields=["status", "message", "diagnostics",
-                                    "preferences_snapshot", "preferences_captured_at"])
+                                    "preferences_snapshot", "preferences_captured_at", "optimization_trials"])
+        run.objective_version = quality_snapshot["version"]
+        run.quality_snapshot = quality_snapshot
+        run.save(update_fields=["objective_version", "quality_snapshot"])
         return run
-    objective_before = objective
-    optimization_trials = []
-    if status != "OPTIMAL" and objective > 0:
-        result, objective, optimization_trials = _best_local_search(
-            semester, result, objective, room_map, teacher_map, room_blocks,
-            teacher_blocks, allowed_pairs, preferences,
-        )
-    audit_solution(semester, demands, result, room_map, teacher_map,
-                   room_blocks, teacher_blocks, allowed_pairs, preferences=preferences)
     replaced = ScheduleEntry.objects.filter(group__semester=semester, source="ThuatToan", status="ChoDuyet")
     replaced_run_ids = set(replaced.exclude(algorithm_run_id__isnull=True)
                            .values_list("algorithm_run_id", flat=True))
@@ -779,9 +907,17 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         status="ChoDuyet", source="ThuatToan", algorithm_run=run,
         request_code=demand["code"],
     ) for demand, day, start, room, teacher in result]
+    run.objective_version = quality_snapshot["version"]
+    run.quality_snapshot = quality_snapshot
+    run.save(update_fields=["objective_version", "quality_snapshot"])
     # audit_solution checks every hard rule against fixed and generated sessions
     # before this transaction writes any of the generated entries.
     ScheduleEntry.objects.bulk_create(entries, batch_size=250)
+    if any(entry.pk is None for entry in entries):
+        saved = {(e.group_id, e.request_code): e for e in run.entries.all()}
+        if len(saved) != len(entries):
+            raise ValueError("Không ánh xạ được đầy đủ ID buổi dạy sau khi lưu.")
+        entries = [saved[(e.group_id, e.request_code)] for e in entries]
     ScheduleWeek.objects.bulk_create((
         ScheduleWeek(entry=entry, week=week)
         for entry, (demand, *_rest) in zip(entries, result)
@@ -797,13 +933,17 @@ def approve_algorithm_run(run_id, actor):
     if actor is None or not actor.is_authenticated or not actor.is_staff:
         raise ValidationError("Chỉ quản trị viên được duyệt lịch")
 
+    semester_id = AlgorithmRun.objects.only("semester_id").get(pk=run_id).semester_id
+    semester = Semester.objects.select_for_update().get(pk=semester_id)
     run = AlgorithmRun.objects.select_for_update().get(pk=run_id)
     if run.status not in ("FEASIBLE", "OPTIMAL", "HEURISTIC") or run.entry_count == 0:
         raise ValidationError("Lần chạy không có phương án để duyệt")
-    semester = Semester.objects.select_for_update().get(pk=run.semester_id)
     if semester.status == "DaKhoa":
         raise ValidationError("Học kỳ đã khóa")
     ids = list(run.entries.order_by("pk").values_list("pk", flat=True))
+    from .access import require_object
+    for entry in run.entries.select_related("group", "lecturer"):
+        require_object(actor, entry, "approve")
     if len(ids) != run.entry_count or run.entries.exclude(status="ChoDuyet").exists():
         raise ValidationError("Phương án đã thay đổi hoặc đã được duyệt; hãy chạy lại nếu cần")
     violations = day_off_violations(semester.pk, run.entries.select_related(

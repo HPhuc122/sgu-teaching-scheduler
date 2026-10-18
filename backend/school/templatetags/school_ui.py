@@ -43,6 +43,7 @@ def ui_navigation(context):
     if not request.user.is_active or not request.user.is_staff:
         return []
     sections = [
+        ("Khối lượng & quyền đơn vị", ("teachingquota", "workloadpolicy", "conversionrule", "unitroleassignment")),
         ("Tổ chức & nhân sự", ("faculty", "department", "lecturer", "teachingqualification")),
         ("Đào tạo & cơ sở vật chất", ("course", "coursegroup", "program", "courseprogram",
                                      "cohort", "building", "room", "semester", "period")),
@@ -72,7 +73,9 @@ def dashboard_data(context):
                          (Room, "Phòng học"), (Semester, "Học kỳ")):
         model_admin = admin.site._registry[model]
         if model_admin.has_module_permission(request) and model_admin.has_view_or_change_permission(request):
-            stats.append({"label": label, "count": model.objects.count(),
+            stats.append({"label": label, "count": model_admin.get_queryset(request).count(),
                           "url": reverse(f"admin:school_{model._meta.model_name}_changelist")})
-    return {"stats": stats, "run_count": AlgorithmRun.objects.count(),
-            "recent_runs": AlgorithmRun.objects.select_related("semester").order_by("-created_at")[:5]}
+    from school.access import global_action
+    runs = AlgorithmRun.objects.all() if global_action(request.user) else AlgorithmRun.objects.none()
+    return {"stats": stats, "run_count": runs.count(),
+            "recent_runs": runs.select_related("semester").order_by("-created_at")[:5]}

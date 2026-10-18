@@ -1,0 +1,242 @@
+{
+    "simulated":  true,
+    "purpose":  "Separate workload objective baselines; one seed, no statistical performance claim",
+    "source":  "outputs/workload_v2_smoke_02/summary.json",
+    "seed":  42,
+    "budget_seconds":  5,
+    "sessions":  12,
+    "max_starts":  3,
+    "cp_workers":  1,
+    "configuration":  "greedy-first / budget-aware / adaptive",
+    "workbook_sha256":  {
+                            "courses":  "f86d7d695ebf16708f63f7da54d2d88198694c289e9c05e269e9bd3a66a6e546",
+                            "rooms":  "7dbb648272079868c4c8a665624d947712db6ef48e86de08af991dfe47c41294",
+                            "lecturers":  "750d3c4e2f54c835a5f0d80352471d1ea857d22dd2450da536d204aab8163d51"
+                        },
+    "experiment_sha256":  "b47e44d098e0c0d8c6fadbfa08f607d2990b8ec5699c49eceff5230fce78ea81",
+    "algorithm_sha256":  {
+                             "auto_schedule.py":  "59e4f358abde2fd1e7ed580c12c75dac342fad75a64da0bbc6c55512dd99668a",
+                             "great_deluge.py":  "74ff58b8f1ae15f066da06019d18560ce23c42a1ad444c5f61fd8af92dfc2e42",
+                             "quality_search.py":  "6357293e09b8271b102ceaf13f1cb983582ead300995e3035de993814d46c27b",
+                             "soft_score.py":  "999063f243046d1613e6de02ec70f4e37c1d7e8a14eb9ab8ef01e222e345c804",
+                             "workload.py":  "56ce09f65924520c9c6396a5b602a61bee2faf34b2654cc7a83e37c9a4a5c4de",
+                             "search_budget.py":  "6caba6a64c2c67251af16f8f1c3cb0b53a0d280fce331282fc60ec4a98748308",
+                             "solution_audit.py":  "205d3b549be829cfe15edca597def894b12a09697d0043ec612e4dd7900e03f3"
+                         },
+    "rows":  [
+                 {
+                     "weight":  0,
+                     "objective_version":  "soft_v1",
+                     "objective":  1,
+                     "processing_seconds":  2.554,
+                     "audit":  "PASS",
+                     "hard_penalty":  0,
+                     "audit_seconds":  0.04675,
+                     "saved_fingerprint":  "42a47e258bf7e64984eb696a226f36737ddb0893cc3acc43667723e58bcbb9b0",
+                     "database_unchanged":  true,
+                     "teachers_with_load":  5,
+                     "max_actual_periods":  96,
+                     "unweighted_balance_component":  502,
+                     "legacy_component":  1,
+                     "loads":  [
+                                   {
+                                       "employee_code":  "TEST_GV_001",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_002",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_003",
+                                       "periods":  96,
+                                       "units":  "96.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_004",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_005",
+                                       "periods":  96,
+                                       "units":  "96.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_006",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_007",
+                                       "periods":  96,
+                                       "units":  "96.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_008",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_009",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_010",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_011",
+                                       "periods":  64,
+                                       "units":  "64.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_012",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_013",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_014",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_015",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "120"
+                                   }
+                               ]
+                 },
+                 {
+                     "weight":  1,
+                     "objective_version":  "soft_v2_workload",
+                     "objective":  204,
+                     "processing_seconds":  2.857,
+                     "audit":  "PASS",
+                     "hard_penalty":  0,
+                     "audit_seconds":  0.041683,
+                     "saved_fingerprint":  "ed26562a5460e6f4e46f198036c2575a5277ad26bd7e6acd431e403d3da50ff9",
+                     "database_unchanged":  true,
+                     "teachers_with_load":  11,
+                     "max_actual_periods":  64,
+                     "unweighted_balance_component":  192,
+                     "legacy_component":  12,
+                     "loads":  [
+                                   {
+                                       "employee_code":  "TEST_GV_001",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_002",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_003",
+                                       "periods":  64,
+                                       "units":  "64.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_004",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_005",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_006",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_007",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_008",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_009",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_010",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_011",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_012",
+                                       "periods":  32,
+                                       "units":  "32.00",
+                                       "quota":  "120"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_013",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "40"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_014",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "80"
+                                   },
+                                   {
+                                       "employee_code":  "TEST_GV_015",
+                                       "periods":  0,
+                                       "units":  "0.00",
+                                       "quota":  "120"
+                                   }
+                               ]
+                 }
+             ]
+}

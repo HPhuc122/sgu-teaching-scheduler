@@ -1,4 +1,20 @@
 from rest_framework import serializers
+from .models import TeachingQuota, WorkloadPolicy, ConversionRule
+
+class TeachingQuotaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeachingQuota
+        fields = "__all__"
+
+class WorkloadPolicySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkloadPolicy
+        fields = "__all__"
+
+class ConversionRuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConversionRule
+        fields = "__all__"
 
 from .models import (Building, Cohort, Course, CourseGroup, CourseProgram, Department, Faculty,
                      GroupCohort, Lecturer, LecturerPreference, Period, Room,

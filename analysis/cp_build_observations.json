@@ -1,0 +1,14 @@
+{
+  "format_version": 1,
+  "simulated": true,
+  "note": "Observed model build wall time from step 3.1.1. Incomplete models are censored lower bounds, not completed build durations. Hardware and model density may differ elsewhere.",
+  "environment": {"python": "3.13.2", "ortools": "9.15.6755", "platform": "Windows-11-10.0.26300-SP0"},
+  "observations": [
+    {"sessions": 240, "seconds": 9.546371, "model_complete": false, "source": "outputs/initial_generation_verify_15/bo_01/model-first_single_15s_seed42.json", "source_sha256": "31ec2ca01cc00265ec5a9261bba6a2599d59bc6f0fc8b23b816f641839218a21"},
+    {"sessions": 240, "seconds": 9.928627, "model_complete": false, "source": "outputs/initial_generation_verify_15/bo_01/model-first_single_15s_seed45.json", "source_sha256": "034d0e194614085c438a595267c7d969fffee965e92344df75e705e8d6de8533"},
+    {"sessions": 240, "seconds": 9.586401, "model_complete": true, "source": "outputs/initial_generation_verify_15/bo_01/model-first_single_15s_seed48.json", "source_sha256": "265ecc124b4901f2385f6701068e872e11825665db481a9fba67514d95903f3b"},
+    {"sessions": 480, "seconds": 9.384178, "model_complete": false, "source": "outputs/initial_generation_verify_15/bo_02/model-first_single_15s_seed42.json", "source_sha256": "c39f2f6afa0f183ad2233a280c85830092934b2c0a588e6e0ac82419a4865dfc"},
+    {"sessions": 480, "seconds": 7.525488, "model_complete": false, "source": "outputs/initial_generation_verify_15/bo_02/model-first_single_15s_seed45.json", "source_sha256": "1fe7c646227efbfe300da2b27fbaf98193b726927e2ed3a341cebab83b81407e"},
+    {"sessions": 480, "seconds": 10.107598, "model_complete": false, "source": "outputs/initial_generation_verify_15/bo_02/model-first_single_15s_seed48.json", "source_sha256": "7b87c7c4b8c34aa5f72777ab7bb7fb67929e3438804c05056cf163536eaa0d9f"}
+  ]
+}

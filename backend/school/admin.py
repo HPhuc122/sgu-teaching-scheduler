@@ -48,6 +48,87 @@ class SchoolModelAdmin(admin.ModelAdmin):
     list_select_related = True
     save_on_top = False
 
+    def get_queryset(self, request):
+        from .access import scoped
+        return scoped(super().get_queryset(request), request.user)
+
+    def _unit_permission(self, request, action, obj=None):
+        from .access import scoped, system_admin, roles, allowed_departments, SHARED, model_action
+        if system_admin(request.user):
+            return True
+        if not roles(request.user).exists():
+            return False
+        if not model_action(request.user, self.model._meta.model_name, action):
+            return False
+        if self.model._meta.model_name == "unitroleassignment":
+            return False
+        departments = allowed_departments(request.user, action, self.model._meta.model_name)
+        if action != "view" and self.model._meta.model_name in SHARED and departments is not None:
+            return False
+        if action == "add" and self.model._meta.model_name == "faculty" and departments is not None:
+            return False
+        if obj is not None:
+            return scoped(self.model.objects.filter(pk=obj.pk), request.user, action).exists()
+        return departments is None or departments.exists()
+
+    def has_view_permission(self, request, obj=None):
+        return self._unit_permission(request, "view", obj)
+
+    def has_add_permission(self, request):
+        return self._unit_permission(request, "add")
+
+    def has_change_permission(self, request, obj=None):
+        return self._unit_permission(request, "change", obj)
+
+    def has_delete_permission(self, request, obj=None):
+        return self._unit_permission(request, "delete", obj)
+
+    def has_module_permission(self, request):
+        return self.has_view_permission(request)
+
+    def get_list_filter(self, request):
+        from .access import global_action
+        return super().get_list_filter(request) if global_action(request.user) else ()
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        from .access import scoped
+        kwargs["queryset"] = scoped(db_field.remote_field.model.objects.all(), request.user)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def save_model(self, request, obj, form, change):
+        from .access import check_write
+        check_write(request.user, self.model, form.cleaned_data, obj if change else None,
+                    "change" if change else "add")
+        if self.model._meta.model_name in ("teachingquota", "workloadpolicy", "conversionrule"):
+            from .workload import save_configuration
+            save_configuration(obj, request.user)
+        else:
+            super().save_model(request, obj, form, change)
+
+    def delete_queryset(self, request, queryset):
+        from django.db import transaction
+        from django.core.exceptions import PermissionDenied
+        with transaction.atomic():
+            for obj in queryset:
+                from .access import check_delete
+                check_delete(request.user, obj)
+                if not self.has_delete_permission(request, obj):
+                    raise PermissionDenied("Không có quyền xóa đối tượng.")
+                if obj._meta.model_name in ("teachingquota", "workloadpolicy", "conversionrule"):
+                    semester = Semester.objects.select_for_update().get(pk=obj.semester_id)
+                    if semester.status == "DaKhoa":
+                        raise PermissionDenied("Học kỳ đã khóa.")
+            super().delete_queryset(request, queryset)
+
+    def delete_model(self, request, obj):
+        self.delete_queryset(request, self.model.objects.filter(pk=obj.pk))
+
+    def get_deleted_objects(self, objs, request):
+        from .access import check_delete
+        for obj in objs:
+            check_delete(request.user, obj)
+        return super().get_deleted_objects(objs, request)
+
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         kwargs.setdefault("label", FIELD_LABELS.get(db_field.name, db_field.verbose_name))
         field = super().formfield_for_dbfield(db_field, request, **kwargs)
@@ -84,7 +165,7 @@ class SchoolModelAdmin(admin.ModelAdmin):
         return columns
 
     def _ui_context(self, extra_context, action=""):
-        return {**(extra_context or {}), "title": f"{action}{MODEL_LABELS[self.model._meta.model_name]}"}
+        return {**(extra_context or {}), "title": f"{action}{MODEL_LABELS.get(self.model._meta.model_name, self.model._meta.verbose_name)}"}
 
     def changelist_view(self, request, extra_context=None):
         return super().changelist_view(request, self._ui_context(extra_context))
@@ -128,9 +209,11 @@ class LecturerAdmin(SchoolModelAdmin):
     )
 
     def get_readonly_fields(self, request, obj=None):
+        from .access import system_admin
+        account_fields = () if system_admin(request.user) else ("user",)
         if obj and obj.scheduleentry_set.filter(status="DaDuyet").exists():
-            return ("status",)
-        return ()
+            return account_fields + ("status",)
+        return account_fields
 
 
 @admin.register(Course)
@@ -250,10 +333,10 @@ class CourseGroupAdmin(SchoolModelAdmin):
 
 @admin.register(Cohort)
 class CohortAdmin(SchoolModelAdmin):
-    list_display = ("name", "semester")
+    list_display = ("name", "semester", "department")
     search_fields = ("name",)
     list_filter = ("semester",)
-    fieldsets = (("Thông tin lớp hành chính", {"fields": ("name", "semester")}),)
+    fieldsets = (("Thông tin lớp hành chính", {"fields": ("name", "semester", "department")}),)
 
 
 def permission_label(permission):
@@ -290,7 +373,45 @@ admin.site.unregister(Group)
 class SchedulerUserAdmin(PermissionPresentationMixin, UserAdmin):
     list_per_page = 30
 
+    def has_module_permission(self, request):
+        from .access import system_admin
+        return system_admin(request.user)
+
+    def has_view_permission(self, request, obj=None):
+        return self.has_module_permission(request)
+
+    has_change_permission = has_view_permission
+    has_delete_permission = has_view_permission
+
+    def has_add_permission(self, request):
+        return self.has_module_permission(request)
+
 
 @admin.register(Group)
 class SchedulerGroupAdmin(PermissionPresentationMixin, GroupAdmin):
     list_per_page = 30
+
+    has_module_permission = SchedulerUserAdmin.has_module_permission
+    has_view_permission = SchedulerUserAdmin.has_view_permission
+    has_change_permission = SchedulerUserAdmin.has_view_permission
+    has_delete_permission = SchedulerUserAdmin.has_view_permission
+    has_add_permission = SchedulerUserAdmin.has_add_permission
+
+
+from .models import TeachingQuota, WorkloadPolicy, ConversionRule, UnitRoleAssignment
+
+@admin.register(TeachingQuota)
+class TeachingQuotaAdmin(SchoolModelAdmin):
+    list_display = ("lecturer", "semester", "target_units", "allocation_fraction")
+
+@admin.register(WorkloadPolicy)
+class WorkloadPolicyAdmin(SchoolModelAdmin):
+    list_display = ("semester", "default_factor", "balance_weight")
+
+@admin.register(ConversionRule)
+class ConversionRuleAdmin(SchoolModelAdmin):
+    list_display = ("semester", "course_kind", "factor")
+
+@admin.register(UnitRoleAssignment)
+class UnitRoleAssignmentAdmin(SchoolModelAdmin):
+    list_display = ("user", "role", "faculty", "department", "all_units", "can_manage")
