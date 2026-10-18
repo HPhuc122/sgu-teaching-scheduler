@@ -384,6 +384,82 @@ class UnitAuthorizationTests(QualityFixture):
         book=load_workbook(BytesIO(response.content))
         self.assertEqual(book["PhanCong"].max_row,2)
 
+    def test_cross_unit_teaching_is_visible_consistently_without_granting_write(self):
+        self.foreign_entry.lecturer = self.teacher
+        self.foreign_entry.status = "DaDuyet"
+        self.foreign_entry.save()
+        self.own_entry.status = "DaDuyet"
+        self.own_entry.save()
+        self.client.force_login(self.viewer)
+        faculty_id = self.teacher.department.faculty_id
+        timetable = self.client.get(f"/admin/faculty-timetable/?semester={self.semester.pk}&faculty={faculty_id}&week=1")
+        self.assertContains(timetable, "Foreign course")
+        self.assertNotContains(timetable, f'href="/admin/review-schedules/{self.foreign_entry.pk}/edit/"')
+        review = self.client.get(f"/admin/review-schedules/?semester={self.semester.pk}&faculty={faculty_id}")
+        self.assertEqual(review.context["count"], 2)
+        self.assertContains(review, "Foreign course")
+        self.assertNotContains(review, 'name="entry_ids"')
+        exported = self.client.get(f"/admin/export-assignments/?semester={self.semester.pk}&faculty={faculty_id}")
+        self.assertEqual(exported.context["total_entries"], 2)
+        self.api.force_authenticate(self.training)
+        url = f"/api/schedules/{self.foreign_entry.pk}/"
+        self.assertEqual(self.api.get(url).status_code, 200)
+        self.assertEqual(self.api.patch(url, {"day": 4}, format="json").status_code, 404)
+        self.client.force_login(self.training)
+        self.assertEqual(self.client.get(f"/admin/review-schedules/{self.foreign_entry.pk}/edit/").status_code, 403)
+        self.foreign_entry.status = "ChoDuyet"
+        self.foreign_entry.save()
+        with self.assertRaises(PermissionDenied):
+            approve_schedule_entries(self.semester.pk, [self.foreign_entry.pk], actor=self.training)
+        response = self.client.get(f"/admin/review-schedules/?semester={self.semester.pk}")
+        cross = next(e for e in response.context["page"] if e.pk == self.foreign_entry.pk)
+        self.assertFalse(cross.can_edit)
+        self.assertFalse(cross.can_approve)
+
+    def test_unassigned_sessions_are_visible_only_to_the_course_unit(self):
+        from .access import scoped
+        self.own_entry.lecturer = None
+        self.own_entry.save()
+        self.foreign_entry.lecturer = None
+        self.foreign_entry.save()
+        entries = scoped(ScheduleEntry.objects.all(), self.viewer)
+        self.assertEqual(list(entries.values_list("pk", flat=True)), [self.own_entry.pk])
+        weeks = scoped(ScheduleWeek.objects.all(), self.viewer)
+        self.assertEqual(list(weeks.values_list("entry_id", flat=True)), [self.own_entry.pk])
+
+    def test_export_completeness_is_limited_to_selected_faculty_for_multi_unit_users(self):
+        UnitRoleAssignment.objects.create(user=self.viewer, role="FACULTY", faculty=self.foreign_faculty)
+        self.own_entry.status = "DaDuyet"
+        self.own_entry.request_code = "LT1"
+        self.own_entry.save()
+        AlgorithmRun.objects.create(semester=self.semester, status="OPTIMAL", created_by=self.admin,
+            demand_snapshot=[{"group_id": group.pk, "code": "LT1", "course_code": group.course.code,
+                              "group": group.group, "lab_group": "", "excel_row": 2}
+                             for group in (self.group, self.foreign_group)])
+        for user in (self.viewer, self.admin):
+            with self.subTest(user=user.username):
+                self.client.force_login(user)
+                url = f"/admin/export-assignments/?semester={self.semester.pk}&faculty="
+                own = self.client.get(url + str(self.teacher.department.faculty_id))
+                check = own.context["completeness"]
+                self.assertTrue(check["ready"])
+                self.assertEqual(check["expected"], 1)
+                self.assertEqual(check["counts"]["missing"], 0)
+                self.assertEqual(check["pending_entries"], [])
+                self.assertNotContains(own, "Foreign course")
+                foreign = self.client.get(url + str(self.foreign_faculty.pk))
+                check = foreign.context["completeness"]
+                self.assertFalse(check["ready"])
+                self.assertEqual(check["expected"], 1)
+                self.assertEqual(check["counts"]["missing"], 1)
+                self.assertEqual(len(check["pending_entries"]), 1)
+                book = load_workbook(BytesIO(self.client.get(
+                    url + str(self.teacher.department.faculty_id) + "&action=download").content))
+                info = dict(row for row in book["ThongTin"].values if len(row) == 2)
+                self.assertEqual(info["Kiểm tra phạm vi đơn vị"], "Đủ theo buổi yêu cầu đã lưu")
+                self.assertIn(self.teacher.department.faculty.name, info["Phạm vi kiểm tra"])
+                book.close()
+
     def test_role_screens_hide_actions_the_user_cannot_perform(self):
         review_url = f"/admin/review-schedules/?semester={self.semester.pk}"
         for user, can_edit, can_approve in ((self.viewer, False, False),

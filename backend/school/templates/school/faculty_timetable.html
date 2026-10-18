@@ -23,7 +23,7 @@
 {% for cell in row.cells %}{% if cell %}<td rowspan="{{ cell.rowspan }}"{% if cell.slots %} class="occupied{% if cell.slots.0.entry.group.lab_group %} practical-cell{% endif %}"{% endif %}>{% for slot in cell.slots %}<div class="slot">
 <strong>{{ slot.entry.group.course.code }} · {{ slot.entry.group.course.name }}</strong><br>Nhóm {{ slot.entry.group.group }}{% if slot.entry.group.lab_group %} / Tổ TH {{ slot.entry.group.lab_group }}{% endif %}<br>
 Tiết {{ slot.entry.start_period_id }}{% if cell.end_period %}–{{ cell.end_period }}{% endif %} · {% if slot.entry.room %}{{ slot.entry.room.code }}{% else %}{{ slot.entry.other_location|default:'Chưa có địa điểm' }}{% endif %}<br>
-<a href="{% url 'edit_schedule' slot.entry.pk %}">Xem buổi dạy</a>
+{% if slot.entry.pk in editable_entry_ids %}<a href="{% url 'edit_schedule' slot.entry.pk %}">Xem buổi dạy</a>{% endif %}
 </div>{% endfor %}</td>{% endif %}{% endfor %}</tr>{% empty %}<tr><td colspan="8">Chưa cấu hình tiết học.</td></tr>{% endfor %}
 </tbody></table></div></section>{% empty %}<p>Chưa có lịch đã duyệt ở tuần này. Hãy chọn tuần khác hoặc một giảng viên cụ thể để xem lịch trống.</p>{% endfor %}
 <div class="pages">{% if page.has_previous %}<a href="?{{ query_prefix }}&page={{ page.previous_page_number }}">← Trang trước</a>{% endif %}<span>Trang {{ page.number }}/{{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ query_prefix }}&page={{ page.next_page_number }}">Trang sau →</a>{% endif %}</div>

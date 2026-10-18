@@ -3,11 +3,16 @@
 from collections import defaultdict
 from django.db.models import Q
 
-from .models import AlgorithmRun, CourseGroup, ScheduleEntry
+from .models import AlgorithmRun, CourseGroup, Department, ScheduleEntry
 from .preference_checks import day_off_violations
 
 
-def assignment_completeness(semester, departments=None):
+def assignment_completeness(semester, departments=None, faculty=None):
+    if faculty is not None:
+        faculty_departments = Department.objects.filter(faculty=faculty)
+        if departments is not None:
+            faculty_departments = faculty_departments.filter(pk__in=departments)
+        departments = faculty_departments
     group_query = CourseGroup.objects.filter(semester=semester)
     if departments is not None:
         group_query = group_query.filter(
@@ -79,5 +84,6 @@ def assignment_completeness(semester, departments=None):
         "unknown_groups": unknown_groups, "pending_entries": pending_entries,
         "ready": bool(required and not issues and not unknown_groups and not pending_entries and not hard_conflicts),
         "hard_conflicts": hard_conflicts,
-        "scope_label": "Toàn học kỳ" if departments is None else "Phạm vi đơn vị được phân quyền",
+        "scope_label": (f"Phạm vi đơn vị được phân quyền · {faculty.name}" if faculty is not None
+                        else "Toàn học kỳ" if departments is None else "Phạm vi đơn vị được phân quyền"),
     }

@@ -31,7 +31,7 @@ def export_assignments(request):
     completeness = None
     if semester is not None and faculty is not None and not errors:
         departments = allowed_departments(request.user)
-        completeness = assignment_completeness(semester, departments=departments)
+        completeness = assignment_completeness(semester, departments=departments, faculty=faculty)
         # This read-only report belongs to the lecturer's unit, including service
         # teaching for courses managed by a different unit. Mutation scopes stay strict.
         visible = None if departments is None else set(departments.values_list("pk", flat=True))

@@ -68,3 +68,22 @@ phạm vi xuất, không lộ dữ liệu ngoài phạm vi và các trạng thá
 Lệnh kiểm tra: `python backend/manage.py test school --verbosity 1`.
 Lượt kiểm tra cuối: 181/181 kiểm thử đạt, hoàn tất trong 35,965 giây.
 Không có thay đổi cấu trúc CSDL; kiểm tra migration không phát sinh tệp mới.
+
+## Bổ sung theo review của Quang tại issue #2
+
+- Phạm vi đọc `ScheduleEntry` và `ScheduleWeek` được xác định theo đơn vị quản lý
+  giảng viên. Buổi chưa phân công giảng viên thuộc phạm vi đơn vị quản lý học phần.
+  Thời khóa biểu khoa, trang rà soát, API đọc lịch và bảng xuất vì vậy cùng hiển thị
+  buổi dạy liên khoa của giảng viên thuộc đơn vị được phân quyền.
+- Quyền sửa, xóa và duyệt vẫn kiểm tra cả đơn vị quản lý học phần và đơn vị của
+  giảng viên. Buổi liên khoa chỉ được xem sẽ không có liên kết mở biểu mẫu sửa,
+  không có ô duyệt khả dụng; gọi trực tiếp thao tác ghi vẫn bị từ chối.
+- Khi xuất một khoa, kiểm tra độ đầy đủ dùng giao của các bộ môn thuộc khoa đang
+  xuất với phạm vi tài khoản. Quy tắc này áp dụng cả tài khoản quản lý nhiều khoa
+  và quản trị toàn trường; cảnh báo của khoa khác không đi vào bảng xuất này.
+  Hàm đối chiếu vẫn hỗ trợ kiểm tra toàn học kỳ khi gọi riêng không chọn khoa.
+- Thêm ba kiểm thử hồi quy: đối chiếu lịch liên khoa giữa các trang và quyền ghi;
+  quyền đọc buổi chưa phân công và tuần học; xuất hai khoa có trạng thái đầy đủ
+  khác nhau với tài khoản quản lý hai khoa và quản trị toàn trường.
+- Lượt kiểm tra sau sửa review: 184/184 kiểm thử đạt trong 64,689 giây;
+  không phát sinh migration và không có lỗi khoảng trắng trong diff.

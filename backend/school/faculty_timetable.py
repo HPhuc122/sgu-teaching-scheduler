@@ -63,6 +63,9 @@ def faculty_timetable(request):
             schedule_weeks__week=week, status="DaDuyet",
         ).select_related("group__course", "room").order_by("day", "start_period_id", "pk"))
         entries = scoped(entries, request.user)
+        editable_entry_ids = set(scoped(entries, request.user, "change").values_list("pk", flat=True))
+        if semester.status == "DaKhoa":
+            editable_entry_ids.clear()
         grid = {}
         for entry in entries:
             for number in range(entry.start_period_id, entry.start_period_id + entry.period_count):
@@ -98,6 +101,7 @@ def faculty_timetable(request):
                     index += 1
             timetable.append({"lecturer": lecturer, "rows": rows})
     context = {
+        "editable_entry_ids": editable_entry_ids if semester and faculty and not errors else set(),
         "semesters": semesters, "faculties": faculties, "selected_semester": semester,
         "selected_faculty": faculty, "semester_id": semester_id, "faculty_id": faculty_id,
         "lecturer_id": lecturer_id, "lecturers": scoped(Lecturer.objects.filter(department__faculty=faculty), request.user).order_by("name")

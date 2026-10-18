@@ -77,6 +77,16 @@ def scoped(qs, user, action="view"):
         return qs
     if name not in PATHS:
         return qs.none()
+    if action == "view" and name in ("scheduleentry", "scheduleweek"):
+        prefix = "entry__" if name == "scheduleweek" else ""
+        # Reading a teaching timetable follows the lecturer's unit. Unassigned
+        # sessions remain visible to the course unit; write/approval scopes below
+        # continue to require both units for cross-unit teaching.
+        return qs.filter(
+            Q(**{prefix + "lecturer__department__in": departments}) |
+            Q(**{prefix + "lecturer__isnull": True,
+                 prefix + "group__course__department__in": departments})
+        ).distinct()
     for path in PATHS[name]:
         condition = Q(**{path + "__in": departments})
         # An unassigned session belongs to its course unit.
