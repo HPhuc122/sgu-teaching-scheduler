@@ -57,6 +57,9 @@ def _review_context(request, semester, errors, filters, faculty):
                              if faculty else Lecturer.objects.all()).order_by("name"),
                "rooms": Room.objects.all().order_by("code")}
     context["lecturers"] = scoped(context["lecturers"], request.user)
+    context["lecturer_choices"] = scoped(
+        Lecturer.objects.select_related("department").order_by("name", "pk"), request.user
+    )
     context["filters"] = filters
     qs = scoped(_review_entries(semester, filters), request.user) if not errors else ScheduleEntry.objects.none()
     context["count"] = qs.count()

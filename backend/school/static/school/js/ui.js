@@ -94,7 +94,14 @@
   document.querySelectorAll('[data-reset-lecturer]').forEach(select => {
     select.addEventListener('change', () => {
       const lecturer = document.getElementById('lecturer');
-      if (lecturer) lecturer.value = '';
+      const choices = document.getElementById('lecturerChoices');
+      if (lecturer) {
+        lecturer.replaceChildren(lecturer.options[0].cloneNode(true));
+        choices?.content.querySelectorAll('option').forEach(option => {
+          if (!select.value || option.dataset.faculty === select.value) lecturer.append(option.cloneNode(true));
+        });
+        lecturer.value = '';
+      }
       // Keep explicit filter submission so users can finish other fields first.
     });
   });

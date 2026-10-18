@@ -102,6 +102,9 @@ def faculty_timetable(request):
         "selected_faculty": faculty, "semester_id": semester_id, "faculty_id": faculty_id,
         "lecturer_id": lecturer_id, "lecturers": scoped(Lecturer.objects.filter(department__faculty=faculty), request.user).order_by("name")
         if faculty else Lecturer.objects.none(),
+        "lecturer_choices": scoped(
+            Lecturer.objects.select_related("department").order_by("name", "pk"), request.user
+        ),
         "week": week, "weeks": range(1, semester.week_count + 1) if semester else [],
         "public_demo_count": public_demo_count,
         "days": DAYS, "page": page, "timetable": timetable, "errors": errors,

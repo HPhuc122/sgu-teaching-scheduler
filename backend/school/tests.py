@@ -428,7 +428,9 @@ class ScheduleApiTests(TestCase):
         page = self.client.get(url)
         self.assertEqual(page.context["count"], 1)
         self.assertEqual(list(page.context["lecturers"]), [self.teacher, self.other_teacher])
-        self.assertNotContains(page, "Giảng viên khoa Toán")
+        visible_filter = page.content.decode().split('<template id="lecturerChoices">')[0]
+        self.assertNotIn("Giảng viên khoa Toán", visible_filter)
+        self.assertContains(page, f'data-faculty="{other_faculty.pk}">20001 – Giảng viên khoa Toán')
         self.assertContains(page, "Tất cả khoa")
         wrong = self.client.post("/admin/review-schedules/", {
             "action": "approve", "semester": str(self.semester.pk),
@@ -637,7 +639,9 @@ class ScheduleApiTests(TestCase):
         first_week = self.client.get(base + "&week=1")
         self.assertEqual(first_week.status_code, 200)
         self.assertContains(first_week, "Kiến trúc máy tính")
-        self.assertNotContains(first_week, "Giảng viên ngoài khoa")
+        visible_filter = first_week.content.decode().split('<template id="lecturerChoices">')[0]
+        self.assertNotIn("Giảng viên ngoài khoa", visible_filter)
+        self.assertContains(first_week, f'data-faculty="{other_faculty.pk}">20001 · Giảng viên ngoài khoa')
         all_lecturers = self.client.get(base.split("&lecturer=")[0] + "&week=1")
         self.assertEqual(all_lecturers.context["page"].paginator.count, 1)
         first_cell = first_week.context["timetable"][0]["rows"][0]["cells"][0]
