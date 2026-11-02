@@ -1,0 +1,28 @@
+{% extends "school/base.html" %}
+{% block title %}Điều chỉnh kế hoạch{% endblock %}
+{% block breadcrumb %}Điều chỉnh kế hoạch{% endblock %}
+{% block content %}<h1>{% if obj %}Điều chỉnh{% else %}Thêm{% endif %} {% if kind == 'assignment' %}phân công giảng viên{% elif kind == 'group' %}kế hoạch nhóm{% elif kind == 'activity' %}hoạt động ngoài trường{% else %}công tác khác{% endif %}</h1>
+{% if obj.group %}<p>{{ obj.group.course }} · Nhóm {{ obj.group.group }} · {{ obj.group.semester }}</p>{% endif %}
+<form method="post" data-busy="Đang lưu…">{% csrf_token %}{{ form.non_field_errors }}<div class="form-grid">{% for field in form %}<div><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</div>{% endfor %}</div><div class="actions-row"><button type="submit">Lưu kế hoạch</button>{% if obj and kind == 'activity' or obj and kind == 'duty' %}<button type="submit" name="action" value="delete" class="secondary" formnovalidate>Xóa mục này</button>{% endif %}<a href="{% url 'teaching_plans' %}">Quay lại</a></div></form>{% endblock %}
+
+{% block scripts %}{% if kind == 'activity' %}
+{{ cohort_options|json_script:"plan-cohort-options" }}
+<script>
+(function () {
+  const semester = document.getElementById('id_semester');
+  const cohort = document.getElementById('id_cohort');
+  const immutable = cohort.disabled;
+  const options = JSON.parse(document.getElementById('plan-cohort-options').textContent);
+  function updateCohorts() {
+    const selected = cohort.value;
+    cohort.replaceChildren(new Option(semester.value ? 'Chọn lớp' : 'Chọn học kỳ trước', ''));
+    options.filter(item => String(item.semester) === semester.value).forEach(item => {
+      cohort.add(new Option(item.label, String(item.id)));
+    });
+    cohort.value = Array.from(cohort.options).some(item => item.value === selected) ? selected : '';
+    cohort.disabled = immutable || !semester.value;
+  }
+  semester.addEventListener('change', updateCohorts);
+  updateCohorts();
+})();
+</script>{% endif %}{% endblock %}

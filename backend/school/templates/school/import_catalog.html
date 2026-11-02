@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Nhập danh mục: {% if kind == 'courses' %}Học phần{% elif kind == 'rooms' %}Phòng học{% else %}Giảng viên{% endif %}</h1>
-<nav class="catalog-tabs" aria-label="Loại danh mục"><a href="{% url 'import_catalog' 'courses' %}" {% if kind == 'courses' %}aria-current="page"{% endif %}>Học phần</a><a href="{% url 'import_catalog' 'rooms' %}" {% if kind == 'rooms' %}aria-current="page"{% endif %}>Phòng học</a><a href="{% url 'import_catalog' 'lecturers' %}" {% if kind == 'lecturers' %}aria-current="page"{% endif %}>Giảng viên</a></nav><p class="hint">Đây là chuẩn nhập liệu đề xuất cho hệ thống, chưa phải biểu mẫu Excel chính thức của SGU. Dữ liệu cùng mã sẽ được cập nhật; file không xóa các bản ghi vắng mặt.</p>
+<nav class="catalog-tabs" aria-label="Loại danh mục"><a href="{% url 'import_catalog' 'courses' %}" {% if kind == 'courses' %}aria-current="page"{% endif %}>Học phần</a><a href="{% url 'import_catalog' 'rooms' %}" {% if kind == 'rooms' %}aria-current="page"{% endif %}>Phòng học</a><a href="{% url 'import_catalog' 'lecturers' %}" {% if kind == 'lecturers' %}aria-current="page"{% endif %}>Giảng viên</a></nav><p class="hint">Dữ liệu cùng mã sẽ được cập nhật; file không xóa các bản ghi vắng mặt.</p>
 <p><a href="{% url 'import_catalog_template' kind %}">Tải mẫu Excel</a> · Tối đa 1000 dòng, 2 MB.</p>
 {% if kind == 'courses' or kind == 'lecturers' %}<p class="hint">Mã khoa và mã bộ môn phải có trong danh mục quản trị. {% if kind == 'lecturers' %}Nhập học phần trước giảng viên để gắn chuyên môn.{% endif %}</p>{% endif %}
 {% for message in messages %}<div class="message {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}

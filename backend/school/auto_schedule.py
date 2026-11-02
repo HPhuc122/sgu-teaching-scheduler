@@ -25,6 +25,8 @@ from .models import (AlgorithmRun, CourseGroup, Department, Faculty, Lecturer,
                      LecturerPreference, Period, Room, ScheduleEntry, ScheduleWeek, Semester, TeachingQualification)
 from .preference_checks import day_off_error, day_off_violations
 from .schedule_import import parse_weeks
+from .planning import (PLAN_SHEETS, DUTY_SHEETS, LECTURER_FIELDS, validate_plan_inputs,
+                       persist_plan, activity_blocks, update_selected_assignments)
 
 
 AUTO_SHEETS = {
@@ -33,7 +35,9 @@ AUTO_SHEETS = {
         "BoMon": ("ma_bo_mon", "ten_bo_mon", "ma_khoa"),
         **SHEETS["courses"],
         "BuoiHocYeuCau": ("ma_mon_hoc", "nhom", "to_th", "ma_buoi", "so_tiet",
-                           "tuan_hoc", "loai_phong", "thu_duoc_xep"),
+                           "tuan_hoc", "loai_phong", "thu_duoc_xep",
+                           "ma_vien_chuc_phan_cong", "loai_buoi", "so_tiet_thuc_te"),
+        **PLAN_SHEETS,
     },
     "rooms": {
         **SHEETS["rooms"],
@@ -41,7 +45,9 @@ AUTO_SHEETS = {
     },
     "lecturers": {
         **SHEETS["lecturers"],
+        "GiangVien": (*SHEETS["lecturers"]["GiangVien"], *LECTURER_FIELDS),
         "GiangVienKhongKhaDung": ("ma_vien_chuc", "thu", "tiet_bat_dau", "so_tiet", "tuan_hoc"),
+        **DUTY_SHEETS,
     },
 }
 MAX_BYTES = 10 * 1024 * 1024
@@ -72,7 +78,8 @@ def read_auto_workbook(upload, kind):
         book = load_workbook(upload, read_only=True, data_only=True)
         problems = []
         expected = set(AUTO_SHEETS[kind])
-        for name in sorted(expected - set(book.sheetnames)):
+        optional_sheets = set(PLAN_SHEETS) | set(DUTY_SHEETS)
+        for name in sorted(expected - set(book.sheetnames) - optional_sheets):
             problems.append(issue(kind, name, None, "Thiếu sheet theo mẫu"))
         for name in sorted(set(book.sheetnames) - expected):
             problems.append(issue(kind, name, None, "Sheet không có trong mẫu"))
@@ -81,10 +88,18 @@ def read_auto_workbook(upload, kind):
         limit_reported = False
         for name, headers in AUTO_SHEETS[kind].items():
             if name not in book.sheetnames:
+                result[name] = []
                 continue
             rows = book[name].iter_rows(values_only=True)
             heading = next(rows, None)
-            if heading is None or tuple(str(value or "").strip() for value in heading) != headers:
+            actual_headers = tuple(str(value or "").strip() for value in heading or ())
+            row_headers = headers
+            # Accept existing workbooks created before the optional assigned-teacher
+            # column was introduced. Newly downloaded templates include the column.
+            minimum = 8 if name == "BuoiHocYeuCau" else 6 if name == "GiangVien" else len(headers)
+            if minimum <= len(actual_headers) <= len(headers) and actual_headers == headers[:len(actual_headers)]:
+                row_headers = actual_headers
+            if heading is None or actual_headers != row_headers:
                 problems.append(issue(kind, name, 1, "Tiêu đề cột không khớp mẫu"))
                 continue
             result[name] = []
@@ -99,16 +114,17 @@ def read_auto_workbook(upload, kind):
                     problems.append(issue(kind, name, line,
                                           f"File vượt {MAX_ROWS} dòng dữ liệu"))
                     limit_reported = True
-                if any(value not in (None, "") for value in values[len(headers):]):
+                if any(value not in (None, "") for value in values[len(row_headers):]):
                     problems.append(issue(kind, name, line, "Dữ liệu ngoài cột mẫu"))
-                padded = list(values[:len(headers)]) + [None] * max(0, len(headers) - len(values))
-                for key, value in zip(headers, padded):
+                padded = list(values[:len(row_headers)]) + [None] * max(0, len(row_headers) - len(values))
+                normalized = {key: "" if value is None else str(value).strip()
+                              for key, value in zip(row_headers, padded)}
+                for header in headers:
+                    normalized.setdefault(header, "")
+                for key, value in zip(row_headers, padded):
                     if (key.startswith("ma_") or key in ("nhom", "to_th")) and isinstance(value, (int, float)):
                         problems.append(issue(kind, name, line, f"{key} phải là ô văn bản"))
-                result[name].append({"line": line, **{
-                    key: "" if value is None else str(value).strip()
-                    for key, value in zip(headers, padded)
-                }})
+                result[name].append({"line": line, **normalized})
         if problems:
             raise InputIssues(problems)
         return result
@@ -210,6 +226,9 @@ def _prepare_inputs(semester, data):
             problems.append(issue("courses", "BoMon", row["line"], "Mã hoặc tên quá dài"))
     demands = []
     keys = set()
+    lecturer_rows = {row["ma_vien_chuc"]: row for row in lecturers["GiangVien"]}
+    qualified_pairs = {(row["ma_vien_chuc"], row["ma_mon_hoc"])
+                       for row in lecturers["GiangVienHocPhan"]}
     group_keys = {(row["ma_mon_hoc"], row["nhom"], row["to_th"]) for row in courses["NhomHocPhan"]}
     requested_keys = set()
     for row in courses["BuoiHocYeuCau"]:
@@ -230,9 +249,22 @@ def _prepare_inputs(semester, data):
             room_type = row["loai_phong"]
             if room_type and room_type not in ROOM_TYPES:
                 raise ValueError("Loại phòng không hỗ trợ")
+            assigned_code = row.get("ma_vien_chuc_phan_cong", "")
+            component = row.get("loai_buoi", "")
+            if component and component not in ("LT", "BT", "TH"):
+                raise ValueError("loai_buoi phải là LT, BT hoặc TH")
+            if assigned_code:
+                teacher_row = lecturer_rows.get(assigned_code)
+                if teacher_row is None:
+                    raise ValueError("Mã giảng viên phân công chưa có trong file Giảng viên")
+                if teacher_row["trang_thai"] != "DangCongTac":
+                    raise ValueError("Giảng viên phân công không ở trạng thái đang công tác")
+                if (assigned_code, row["ma_mon_hoc"]) not in qualified_pairs:
+                    raise ValueError("Giảng viên phân công chưa được khai báo chuyên môn cho học phần")
             demands.append({"key": group_key, "code": row["ma_buoi"], "line": row["line"], "count": count,
                             "weeks": _week_set(row["tuan_hoc"], semester),
-                            "room_type": room_type, "days": _days(row["thu_duoc_xep"])})
+                            "room_type": room_type, "days": _days(row["thu_duoc_xep"]),
+                            "assigned_teacher_code": assigned_code, "component": component})
         except ValueError as exc:
             problems.append(issue("courses", "BuoiHocYeuCau", row["line"], exc))
     for row in courses["NhomHocPhan"]:
@@ -309,7 +341,14 @@ def _create_catalog(semester, data, demand_rows, room_blocks, teacher_blocks):
     for code, *_ in teacher_blocks:
         if code not in teacher_map:
             raise ValueError(f"Giảng viên không khả dụng {code} chưa có trong file")
-    return [dict(row, group=group_map[row["key"]]) for row in demand_rows], room_map, teacher_map
+    prepared_demands = []
+    for row in demand_rows:
+        teacher = teacher_map.get(row["assigned_teacher_code"]) if row["assigned_teacher_code"] else None
+        if row["assigned_teacher_code"] and teacher is None:
+            raise InputIssues([issue("courses", "BuoiHocYeuCau", row["line"],
+                                      "Giảng viên phân công chưa có trong danh mục đã nhập")])
+        prepared_demands.append(dict(row, group=group_map[row["key"]], assigned_teacher=teacher))
+    return prepared_demands, room_map, teacher_map
 
 
 def _add_fixed(buckets, key, day, start, count, weeks, model, label):
@@ -419,11 +458,15 @@ def _prepare_choices(demands, room_map, qualification, periods, deadline):
         count = demand["count"]
         times = [(day, start, periods[start].block) for day in demand["days"]
                  for start in sorted(periods)
-                 if all(number in periods and periods[number].block == periods[start].block
+                 if not any((day, week) in demand.get("activity_blocks", set()) for week in demand["weeks"])
+                 and all(number in periods and periods[number].block == periods[start].block
                         for number in range(start, start + count))]
         rooms = [room for room in available_rooms if room.capacity >= group.capacity
                  and (not demand["room_type"] or room.room_type == demand["room_type"])]
         teachers = qualification[group.course_id]
+        if demand.get("assigned_teacher") is not None:
+            teachers = [item for item in teachers
+                        if item.lecturer_id == demand["assigned_teacher"].pk]
         if not times or not rooms or not teachers:
             reasons = []
             if not times:
@@ -431,7 +474,9 @@ def _prepare_choices(demands, room_map, qualification, periods, deadline):
             if not rooms:
                 reasons.append("không có phòng phù hợp")
             if not teachers:
-                reasons.append("không có giảng viên đủ chuyên môn")
+                reasons.append("giảng viên được chỉ định không có trong danh sách đủ chuyên môn"
+                               if demand.get("assigned_teacher") is not None
+                               else "không có giảng viên đủ chuyên môn")
             problems.append(issue("courses", "BuoiHocYeuCau", demand["line"],
                                   "; ".join(reasons)))
         choices.append((times, None, rooms, None, teachers, None))
@@ -815,6 +860,7 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         raise ValueError("Học kỳ đã khóa")
     data = read_auto_files(files)
     demands, room_blocks, teacher_blocks = _prepare_inputs(semester, data)
+    plan_input = validate_plan_inputs(semester, data)
     demands, room_map, teacher_map = _create_catalog(semester, data, demands, room_blocks, teacher_blocks)
     demand_group_ids = {demand["group"].pk for demand in demands}
     existing_in_group = (ScheduleEntry.objects.filter(group_id__in=demand_group_ids)
@@ -827,6 +873,10 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
                                  "đã có lịch được duyệt hoặc nhập riêng. Hãy vào Rà soát và duyệt, "
                                  "chọn Sửa ở từng buổi cần thay đổi, lưu về chờ duyệt rồi duyệt lại; "
                                  "không chạy lại ba tệp Excel cho nhóm này.")])
+    persist_plan(semester, data, demands, plan_input)
+    blocked_dates = activity_blocks(semester)
+    for demand in demands:
+        demand["activity_blocks"] = blocked_dates.get(demand["group"].pk, set())
     allowed_pairs = {(row["ma_vien_chuc"], row["ma_mon_hoc"])
                      for row in data["lecturers"]["GiangVienHocPhan"]}
     preferences = list(LecturerPreference.objects.filter(semester=semester)
@@ -877,6 +927,7 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
         run.quality_snapshot = quality_snapshot
         run.save(update_fields=["objective_version", "quality_snapshot"])
         return run
+    update_selected_assignments(result)
     replaced = ScheduleEntry.objects.filter(group__semester=semester, source="ThuatToan", status="ChoDuyet")
     replaced_run_ids = set(replaced.exclude(algorithm_run_id__isnull=True)
                            .values_list("algorithm_run_id", flat=True))
@@ -968,6 +1019,11 @@ def approve_algorithm_run(run_id, actor):
                      ("lecturer", entry.lecturer_id)]
         resources.extend(("cohort", link.cohort_id) for link in entry.group.cohort_links.all())
         weeks = [item.week for item in entry.schedule_weeks.all()]
+        from .planning import check_entry_plan
+        try:
+            check_entry_plan(entry, weeks)
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from exc
         if not weeks or min(weeks) < 1 or max(weeks) > semester.week_count:
             raise ValidationError("Lịch có tuần ngoài học kỳ; cần xếp lại")
         for week in weeks:

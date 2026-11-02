@@ -205,6 +205,7 @@ class LecturerAdmin(SchoolModelAdmin):
     list_filter = ("department", "status")
     fieldsets = (
         ("Hồ sơ giảng viên", {"fields": ("employee_code", "name", "email")}),
+        ("Nguồn giảng viên và chuyên môn", {"fields": ("source_kind", "specialty", "academic_title", "workplace")}),
         ("Đơn vị & tài khoản", {"fields": ("department", "user", "status")}),
     )
 
@@ -258,7 +259,7 @@ class SemesterAdmin(SchoolModelAdmin):
     search_fields = ("name", "academic_year")
     list_filter = ("status", "academic_year")
     fieldsets = (
-        ("Thông tin học kỳ", {"fields": ("name", "academic_year", "status")}),
+        ("Thông tin học kỳ", {"fields": ("name", "academic_year", "number", "status")}),
         ("Thời gian đào tạo", {"fields": ("start_date", "end_date", "week_count")}),
     )
 

@@ -35,6 +35,10 @@ class Lecturer(models.Model):
     name = models.CharField(max_length=200, db_column="HoTen")
     email = models.EmailField(null=True, blank=True, db_column="Email")
     status = models.CharField(max_length=20, default="DangCongTac", db_column="TrangThai")
+    source_kind = models.CharField(max_length=20, default="CO_HUU", choices=(("CO_HUU", "Trong trường"), ("THINH_GIANG", "Thỉnh giảng")))
+    specialty = models.CharField(max_length=200, blank=True)
+    academic_title = models.CharField(max_length=100, blank=True)
+    workplace = models.CharField(max_length=200, blank=True)
 
     class Meta:
         db_table = "GiangVien"
@@ -92,6 +96,7 @@ class TeachingQualification(models.Model):
 
 
 class Semester(models.Model):
+    number = models.PositiveSmallIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(3)], verbose_name="Học kỳ số")
     name = models.CharField(max_length=50, db_column="TenHocKy")
     academic_year = models.CharField(max_length=20, db_column="NamHoc")
     start_date = models.DateField(db_column="NgayBatDau")
@@ -173,6 +178,68 @@ class GroupCohort(models.Model):
     class Meta:
         db_table = "LopHocPhanLopHanhChinh"
         constraints = [models.UniqueConstraint(fields=["group", "cohort"], name="uq_group_cohort")]
+
+
+class SemesterResourcePlan(models.Model):
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE, related_name="resource_plan")
+    room_blocks = models.JSONField(default=list)
+    teacher_blocks = models.JSONField(default=list)
+
+
+class GroupTeachingPlan(models.Model):
+    group = models.OneToOneField(CourseGroup, on_delete=models.CASCADE, related_name="teaching_plan")
+    semester_number = models.PositiveSmallIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(3)])
+    cohort_label = models.CharField(max_length=150, blank=True)
+    lecture_periods = models.PositiveIntegerField(null=True, blank=True)
+    exercise_periods = models.PositiveIntegerField(null=True, blank=True)
+    practical_periods = models.PositiveIntegerField(null=True, blank=True)
+    coefficient = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, validators=[MinValueValidator(Decimal("0.001"))])
+    note = models.CharField(max_length=500, blank=True)
+
+
+class TeachingAssignment(models.Model):
+    group = models.ForeignKey(CourseGroup, on_delete=models.CASCADE, related_name="teaching_assignments")
+    request_code = models.CharField(max_length=50)
+    component = models.CharField(max_length=2, choices=(("LT", "Lý thuyết"), ("BT", "Bài tập"), ("TH", "Thực hành")), blank=True)
+    period_count = models.PositiveSmallIntegerField()
+    reported_periods = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(Decimal("0"))])
+    weeks = models.JSONField(default=list)
+    allowed_days = models.JSONField(default=list)
+    room_type = models.CharField(max_length=30, blank=True)
+    fixed_lecturer = models.ForeignKey(Lecturer, null=True, blank=True, on_delete=models.PROTECT, related_name="fixed_teaching_assignments")
+    lecturer = models.ForeignKey(Lecturer, null=True, blank=True, on_delete=models.PROTECT, related_name="planned_teaching_assignments")
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["group", "request_code"], name="uq_planned_group_session")]
+
+
+class LecturerOtherDuty(models.Model):
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
+    lecturer = models.ForeignKey(Lecturer, on_delete=models.PROTECT)
+    code = models.CharField(max_length=50)
+    description = models.CharField(max_length=300)
+    kind = models.CharField(max_length=10, choices=(("KHAC", "Công tác khác"), ("CLC", "Chất lượng cao")), default="KHAC")
+    periods = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal("0"))])
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["semester", "lecturer", "code"], name="uq_other_duty_code")]
+
+
+class OffCampusActivity(models.Model):
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
+    cohort = models.ForeignKey(Cohort, on_delete=models.PROTECT)
+    code = models.CharField(max_length=50)
+    cohort_label = models.CharField(max_length=150, blank=True)
+    training_level = models.CharField(max_length=50, default="ĐH")
+    description = models.CharField(max_length=300)
+    location = models.CharField(max_length=200, blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    student_count = models.PositiveIntegerField()
+    semester_number = models.PositiveSmallIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(3)])
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["semester", "cohort", "code"], name="uq_offcampus_cohort_code")]
 
 
 class AlgorithmRun(models.Model):

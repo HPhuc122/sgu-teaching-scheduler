@@ -72,6 +72,11 @@ def save_schedule_entry(data, *, instance=None, actor=None):
     entry.group = group
     if weeks is None:
         weeks = list(ScheduleWeek.objects.filter(entry=instance).values_list("week", flat=True))
+    from .planning import check_entry_plan
+    try:
+        check_entry_plan(entry, weeks)
+    except ValueError as exc:
+        raise ValidationError(str(exc)) from exc
     current_values = (entry.group_id, entry.lecturer_id, entry.room_id, entry.other_location,
                       entry.day, entry.start_period_id, entry.period_count)
     materially_changed = (previous_values is not None and
@@ -129,6 +134,9 @@ def save_schedule_entry(data, *, instance=None, actor=None):
     except DjangoValidationError as exc:
         raise ValidationError(exc.message_dict) from exc
     entry.save()
+    if entry.request_code:
+        from .models import TeachingAssignment
+        TeachingAssignment.objects.filter(group=entry.group, request_code=entry.request_code).update(lecturer=entry.lecturer)
     ScheduleWeek.objects.filter(entry=entry).delete()
     ScheduleWeek.objects.bulk_create([ScheduleWeek(entry=entry, week=week) for week in weeks])
     return entry

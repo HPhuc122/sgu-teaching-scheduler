@@ -6,6 +6,7 @@
     <a href="{% url 'workload_report' %}">Khối lượng giảng dạy</a>
     {% if request.user.is_staff %}
       <div class="ui-nav-label">Không gian làm việc</div>
+      <a href="{% url 'teaching_plans' %}" title="Kế hoạch và phân công"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Kế hoạch và phân công</span></a>
       <a href="{% url 'admin:index' %}" title="Tổng quan"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='dashboard' %}</span><span class="ui-nav-text">Tổng quan</span></a>
       {% if capabilities.runs %}<a href="{% url 'auto_schedule' %}" title="Xếp lịch chất lượng"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='calendar' %}</span><span class="ui-nav-text">Xếp lịch chất lượng</span></a>{% endif %}
       <a href="{% url 'review_schedules' %}" title="Rà soát và duyệt"><span class="ui-icon" aria-hidden="true">{% include 'school/icon.html' with icon='check' %}</span><span class="ui-nav-text">Rà soát và duyệt</span></a>

@@ -3,7 +3,7 @@
 from collections import defaultdict
 from django.db.models import Q
 
-from .models import AlgorithmRun, CourseGroup, Department, ScheduleEntry
+from .models import AlgorithmRun, CourseGroup, Department, ScheduleEntry, TeachingAssignment
 from .preference_checks import day_off_violations
 
 
@@ -37,6 +37,13 @@ def assignment_completeness(semester, departments=None, faculty=None):
                 latest[group_id][1].append(item)
 
     entries_by_key = defaultdict(list)
+    planned = defaultdict(list)
+    for assignment in TeachingAssignment.objects.filter(group_id__in=group_ids).select_related("group__course"):
+        group = assignment.group
+        planned[group.pk].append({"course_code": group.course.code, "group": group.group,
+            "lab_group": group.lab_group or "", "code": assignment.request_code, "excel_row": None})
+    for group_id, items in planned.items():
+        latest[group_id] = (latest[group_id][0] if group_id in latest else None, items)
     pending_entries = []
     entries = (ScheduleEntry.objects.filter(group_id__in=group_ids)
                .select_related("group__course", "lecturer")

@@ -36,7 +36,7 @@ HEADERS = {
         "HocPhan": ("ma_mon_hoc", "ten_mon_hoc", "so_tin_chi", "ma_bo_mon_phu_trach", "loai_mon"),
         "HocPhanChuongTrinh": ("ma_mon_hoc", "ma_nganh_ctdt", "chu_ky_ctdt", "loai_trong_ctdt"),
         "NhomHocPhan": ("ma_mon_hoc", "hoc_ky", "nhom", "to_th", "si_so_du_kien", "ten_lop"),
-        "BuoiHocYeuCau": ("ma_mon_hoc", "nhom", "to_th", "ma_buoi", "so_tiet", "tuan_hoc", "loai_phong", "thu_duoc_xep"),
+        "BuoiHocYeuCau": ("ma_mon_hoc", "nhom", "to_th", "ma_buoi", "so_tiet", "tuan_hoc", "loai_phong", "thu_duoc_xep", "ma_vien_chuc_phan_cong"),
     },
     "rooms": {
         "PhongHoc": ("ma_phong", "ma_toa_nha", "ten_toa_nha", "ten_phong", "suc_chua", "loai_phong", "trang_thai"),
@@ -371,7 +371,8 @@ def build(output: Path, programs: list[str], source_dir: Path, *, semester=SEMES
         key = (row["course"], row["group"], row["lab"])
         counters[key] += 1
         c["BuoiHocYeuCau"].append((row["course"], row["group"], row["lab"], f"SGU_DEMO_{counters[key]:03d}",
-                                   int(row["duration"]), row["weeks_demo"], "LyThuyet", "2-7"))
+                                   int(row["duration"]), row["weeks_demo"], "LyThuyet", "2-7",
+                                   row["employee"]))
     for room in sorted(rooms):
         building = room.split(".")[0] if "." in room else "SGU_DEMO"
         r["PhongHoc"].append((room, building, f"Cơ sở {building} (tên mô phỏng)", room,

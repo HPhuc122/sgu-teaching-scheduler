@@ -18,7 +18,7 @@ from .access import can_approve as user_can_approve
 class NewSemesterForm(forms.ModelForm):
     class Meta:
         model = Semester
-        fields = ("name", "academic_year", "start_date", "end_date", "week_count")
+        fields = ("name", "academic_year", "number", "start_date", "end_date", "week_count")
         widgets = {"start_date": forms.DateInput(attrs={"type": "date"}),
                    "end_date": forms.DateInput(attrs={"type": "date"})}
         labels = {"name": "Tên học kỳ", "academic_year": "Năm học",
@@ -33,6 +33,8 @@ class NewSemesterForm(forms.ModelForm):
         year = data.get("academic_year", "").strip()
         if name and year and Semester.objects.filter(name__iexact=name, academic_year__iexact=year).exists():
             self.add_error("name", "Học kỳ này đã tồn tại")
+        if year and data.get("number") and Semester.objects.filter(academic_year=year, number=data["number"]).exists():
+            self.add_error("number", "Số học kỳ này đã tồn tại trong năm học")
         return data
 
 
@@ -63,12 +65,16 @@ def auto_schedule(request):
                     run.message = f"Đã duyệt {count} buổi dạy."
                 except (ValidationError, ScheduleConflictError, AlgorithmRun.DoesNotExist) as exc:
                     errors.append(f"Không thể duyệt phương án: {exc}")
-        elif action == "run":
+        elif action in ("run", "save_plan"):
             semester = Semester.objects.filter(pk=selected).first() if selected.isdigit() else None
             if semester is None:
                 errors.append("Hãy chọn học kỳ hợp lệ")
             else:
                 try:
+                    if action == "save_plan":
+                        from .planning import save_plan_from_workbooks
+                        save_plan_from_workbooks(semester.pk, request.FILES)
+                        return redirect(f"/admin/teaching-plans/?semester={semester.pk}")
                     run = enqueue_schedule(semester.pk, request.FILES, request.user)
                     return redirect(f"/admin/auto-schedule/?run={run.pk}")
                 except InputIssues as exc:

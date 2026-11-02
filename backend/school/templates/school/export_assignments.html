@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Xuất bảng phân công giảng dạy</h1>
-<p class="hint">Mẫu xuất đề xuất dựa trên các trường thời khóa biểu công khai của SGU; chưa phải biểu mẫu phân công nội bộ đã xác minh. Khoa được xác định theo đơn vị quản lý giảng viên.</p>
+<p class="hint">Xuất các buổi đã duyệt theo khoa quản lý giảng viên. Để xuất kế hoạch mở nhóm, phân công cơ hữu, mời giảng, thỉnh giảng và hoạt động ngoài trường, mở <a href="{% url 'teaching_plans' %}">Kế hoạch và phân công</a>.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
 <form class="filters" method="get">
 <div><label for="semester">Học kỳ</label><select id="semester" name="semester" required><option value="">Chọn học kỳ</option>{% for item in semesters %}<option value="{{ item.pk }}" {% if selected_semester.pk == item.pk %}selected{% endif %}>{{ item.name }} ({{ item.academic_year }})</option>{% endfor %}</select></div>

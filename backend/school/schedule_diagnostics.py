@@ -107,6 +107,10 @@ def diagnose(semester, demands, room_map, teacher_map, room_blocks, teacher_bloc
                  and room.capacity >= group.capacity
                  and (not demand["room_type"] or room.room_type == demand["room_type"])]
         teachers = qualifications[group.course_id]
+        if demand.get("assigned_teacher") is not None:
+            teachers = [t for t in teachers if t.pk == demand["assigned_teacher"].pk]
+        times = [(day, start) for day, start in times
+                 if not any((day, week) in demand.get("activity_blocks", set()) for week in weeks)]
         free_group_times = 0
         times_with_room = times_with_teacher = combinations = 0
         for day, start in times:

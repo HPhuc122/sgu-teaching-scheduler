@@ -1,0 +1,119 @@
+[
+  {
+    "semester": "Học kỳ 1 - Năm học 2027 - 2028",
+    "number": 1,
+    "academic_year": "2027-2028",
+    "start_date": "2027-09-06",
+    "end_date": "2027-12-26",
+    "weeks": 16,
+    "sessions": 240,
+    "groups": 232,
+    "faculties": 15,
+    "courses": 158,
+    "lecturers": 207,
+    "rooms": 144,
+    "folder": "samples\\ke_hoach_bieu_mau\\hk1",
+    "counts": {
+      "courses": {
+        "Khoa": 15,
+        "BoMon": 15,
+        "ChuongTrinh": 43,
+        "HocPhan": 158,
+        "HocPhanChuongTrinh": 273,
+        "NhomHocPhan": 232,
+        "BuoiHocYeuCau": 240,
+        "LopHanhChinh": 174,
+        "KeHoachMoNhom": 232,
+        "HoatDongNgoaiTruong": 15
+      },
+      "rooms": {
+        "PhongHoc": 144,
+        "PhongKhongKhaDung": 0
+      },
+      "lecturers": {
+        "GiangVien": 207,
+        "GiangVienHocPhan": 676,
+        "GiangVienKhongKhaDung": 0,
+        "CongTacKhac": 30
+      }
+    }
+  },
+  {
+    "semester": "Học kỳ 2 - Năm học 2027 - 2028",
+    "number": 2,
+    "academic_year": "2027-2028",
+    "start_date": "2028-01-03",
+    "end_date": "2028-04-23",
+    "weeks": 16,
+    "sessions": 480,
+    "groups": 454,
+    "faculties": 15,
+    "courses": 278,
+    "lecturers": 303,
+    "rooms": 176,
+    "folder": "samples\\ke_hoach_bieu_mau\\hk2",
+    "counts": {
+      "courses": {
+        "Khoa": 15,
+        "BoMon": 15,
+        "ChuongTrinh": 43,
+        "HocPhan": 278,
+        "HocPhanChuongTrinh": 426,
+        "NhomHocPhan": 454,
+        "BuoiHocYeuCau": 480,
+        "LopHanhChinh": 296,
+        "KeHoachMoNhom": 454,
+        "HoatDongNgoaiTruong": 15
+      },
+      "rooms": {
+        "PhongHoc": 176,
+        "PhongKhongKhaDung": 0
+      },
+      "lecturers": {
+        "GiangVien": 303,
+        "GiangVienHocPhan": 1220,
+        "GiangVienKhongKhaDung": 0,
+        "CongTacKhac": 30
+      }
+    }
+  },
+  {
+    "semester": "Học kỳ 3 - Năm học 2027 - 2028",
+    "number": 3,
+    "academic_year": "2027-2028",
+    "start_date": "2028-05-01",
+    "end_date": "2028-08-20",
+    "weeks": 16,
+    "sessions": 960,
+    "groups": 829,
+    "faculties": 15,
+    "courses": 410,
+    "lecturers": 408,
+    "rooms": 191,
+    "folder": "samples\\ke_hoach_bieu_mau\\hk3",
+    "counts": {
+      "courses": {
+        "Khoa": 15,
+        "BoMon": 15,
+        "ChuongTrinh": 43,
+        "HocPhan": 410,
+        "HocPhanChuongTrinh": 573,
+        "NhomHocPhan": 829,
+        "BuoiHocYeuCau": 960,
+        "LopHanhChinh": 429,
+        "KeHoachMoNhom": 829,
+        "HoatDongNgoaiTruong": 15
+      },
+      "rooms": {
+        "PhongHoc": 191,
+        "PhongKhongKhaDung": 0
+      },
+      "lecturers": {
+        "GiangVien": 408,
+        "GiangVienHocPhan": 1837,
+        "GiangVienKhongKhaDung": 0,
+        "CongTacKhac": 30
+      }
+    }
+  }
+]

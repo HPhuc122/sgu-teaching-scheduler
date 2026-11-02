@@ -74,12 +74,15 @@ def improve(semester, initial, room_map, teacher_map, room_blocks, teacher_block
             return finish(list(initial), first_score, "SETUP_TIME_LIMIT")
         group = demand["group"]
         times = [(day, start) for day in demand["days"] for start in sorted(periods)
-                 if all(number in periods and periods[number].block == periods[start].block
+                 if not any((day, week) in demand.get("activity_blocks", set()) for week in demand["weeks"])
+                 and all(number in periods and periods[number].block == periods[start].block
                         for number in range(start, start + demand["count"]))]
         rooms = [room for room in room_map.values() if room.status == "SanSang"
                  and room.capacity >= group.capacity
                  and (not demand["room_type"] or room.room_type == demand["room_type"])]
         teachers = [row.lecturer for row in qualifications[group.course_id]]
+        if demand.get("assigned_teacher") is not None:
+            teachers = [t for t in teachers if t.pk == demand["assigned_teacher"].pk]
         options.append((times, rooms, teachers, {row.lecturer_id: row.priority
                                                  for row in qualifications[group.course_id]}))
 

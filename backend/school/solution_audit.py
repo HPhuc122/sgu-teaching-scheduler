@@ -9,6 +9,8 @@ def _overlap(a_start, a_count, b_start, b_count):
 
 def audit_solution(semester, demands, result, room_map, teacher_map, room_blocks,
                    teacher_blocks, allowed_pairs, *, preferences=None):
+    from .planning import activity_blocks
+    blocked_dates = activity_blocks(semester)
     if len(result) != len(demands) or any(item[0] is not demand
                                            for demand, item in zip(demands, result)):
         raise ValueError("Phương án không chứa đúng từng buổi yêu cầu")
@@ -65,6 +67,10 @@ def audit_solution(semester, demands, result, room_map, teacher_map, room_blocks
         group = demand["group"]
         count, weeks = demand["count"], demand["weeks"]
         label = f"{group.course.code}/{group.group}/{demand['code']}"
+        if demand.get("assigned_teacher") is not None and teacher.pk != demand["assigned_teacher"].pk:
+            raise ValueError(f"Buổi {label}: giảng viên khác phân công cố định")
+        if any((day, week) in blocked_dates.get(group.pk, set()) for week in weeks):
+            raise ValueError(f"Buổi {label}: trùng hoạt động ngoài trường của lớp")
         if day not in demand["days"] or day not in range(2, 9):
             raise ValueError(f"Buổi {label}: thứ nằm ngoài phạm vi cho phép")
         if start not in periods or any(

@@ -15,6 +15,10 @@ PATHS = {"faculty": ["department"], "department": ["pk"], "lecturer": ["departme
          "scheduleentry": ["group__course__department", "lecturer__department"],
          "scheduleweek": ["entry__group__course__department", "entry__lecturer__department"],
          "lecturerpreference": ["lecturer__department"], "teachingquota": ["lecturer__department"]}
+PATHS.update({"groupteachingplan": ["group__course__department"],
+              "teachingassignment": ["group__course__department"],
+              "offcampusactivity": ["cohort__department"],
+              "lecturerotherduty": ["lecturer__department"]})
 
 
 def roles(user):
@@ -77,6 +81,11 @@ def scoped(qs, user, action="view"):
         return qs
     if name not in PATHS:
         return qs.none()
+    if action == "view" and name == "teachingassignment":
+        return qs.filter(Q(group__course__department__in=departments) | Q(lecturer__department__in=departments)).distinct()
+    if action == "view" and name == "offcampusactivity":
+        return qs.filter(Q(cohort__department__in=departments) | Q(
+            cohort__department__isnull=True, cohort__groupcohort__group__course__department__in=departments)).distinct()
     if action == "view" and name in ("scheduleentry", "scheduleweek"):
         prefix = "entry__" if name == "scheduleweek" else ""
         # Reading a teaching timetable follows the lecturer's unit. Unassigned
@@ -148,10 +157,14 @@ def check_write(user, model, values, instance=None, action="change"):
         owner_ids = []
         if name in ("lecturer", "course", "cohort"):
             owner_ids = [candidate.department_id]
-        elif name in ("teachingquota", "lecturerpreference"):
+        elif name in ("teachingquota", "lecturerpreference", "lecturerotherduty"):
             owner_ids = [candidate.lecturer.department_id]
         elif name == "teachingqualification":
             owner_ids = [candidate.lecturer.department_id, candidate.course.department_id]
+        elif name in ("groupteachingplan", "teachingassignment"):
+            owner_ids = [candidate.group.course.department_id]
+        elif name == "offcampusactivity":
+            owner_ids = [candidate.cohort.department_id]
         elif name in ("coursegroup", "courseprogram"):
             owner_ids = [candidate.course.department_id]
             if name == "courseprogram":

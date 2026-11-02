@@ -1,0 +1,28 @@
+{
+  "source_files": {
+    "courses": {
+      "path": "samples\\sgu_15_khoa\\bo_01\\courses.xlsx",
+      "sha256": "00d1010bcbdf7290abded0b0044d4c7358ab4acaa076ff42a77613bc7028d736"
+    },
+    "rooms": {
+      "path": "samples\\sgu_15_khoa\\bo_01\\rooms.xlsx",
+      "sha256": "73165c2305d123920605fbca2067dcd2192ea4750f9cdfd037bb4db72a249df0"
+    },
+    "lecturers": {
+      "path": "samples\\sgu_15_khoa\\bo_01\\lecturers.xlsx",
+      "sha256": "5fd62a349e51b33debb4fa44a0b1b1aa59a5895dce7747885b7aea8df54a186d"
+    }
+  },
+  "lecturer_identity": "All lecturer names, identifiers, titles, employment categories and appointments are fictional. No personal data copied from internal photographs.",
+  "academic_period": "HK1 public 2026-2027 snapshot adapted as three simulated semesters of 2027-2028; not official HK2/HK3 data.",
+  "simulated_attributes": [
+    "lecture/practical classification from group structure",
+    "class ownership mapping",
+    "planned hours and coefficient 1",
+    "reported hours",
+    "other duties",
+    "off-campus activities",
+    "lecturer qualifications and availability"
+  ],
+  "preserve_existing_catalog": true
+}

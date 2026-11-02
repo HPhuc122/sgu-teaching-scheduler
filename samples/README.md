@@ -1,6 +1,8 @@
 # Bộ dữ liệu giả lập
 
-Mỗi thư mục `synthetic_*` chứa ba file `courses.xlsx`, `rooms.xlsx`, `lecturers.xlsx` theo mẫu nhập tự động của hệ thống. Dữ liệu hoàn toàn hư cấu, tái tạo được bằng lệnh `generate_sample_workbooks` với seed 42; không phải dữ liệu hay biểu mẫu chính thức của Đại học Sài Gòn.
+Bộ trình diễn theo biểu mẫu nằm ở [ke_hoach_bieu_mau](ke_hoach_bieu_mau/README.md): ba học kỳ, đủ 15 khoa, 240/480/960 buổi. Bộ này dùng học phần SGU có nguồn và hồ sơ giảng viên hư cấu với họ tên tự nhiên. Các bộ `synthetic_*` dưới đây dành cho kiểm thử kỹ thuật.
+
+Mỗi thư mục `synthetic_*` chứa ba file `courses.xlsx`, `rooms.xlsx`, `lecturers.xlsx` theo mẫu nhập tự động của hệ thống. Dữ liệu hoàn toàn hư cấu, tái tạo được bằng lệnh `generate_sample_workbooks` với seed 42; không phải dữ liệu hay biểu mẫu chính thức của Đại học Sài Gòn. Ở sheet `BuoiHocYeuCau`, `ma_vien_chuc_phan_cong` là tùy chọn: mã được điền sẽ giữ giảng viên đó, còn ô trống cho phép thuật toán chọn giảng viên đủ chuyên môn.
 
 | Thư mục | Số buổi | Mục đích |
 | --- | ---: | --- |

@@ -12,6 +12,8 @@ MODEL_LABELS = {
 }
 
 FIELD_LABELS = {
+    "number": "Học kỳ số", "source_kind": "Nguồn giảng viên", "specialty": "Chuyên ngành",
+    "academic_title": "Học vị, chức danh", "workplace": "Đơn vị công tác",
     "target_units": "Định mức giờ quy đổi", "allocation_fraction": "Tỷ lệ phân bổ (0,01–1)",
     "default_factor": "Hệ số mô phỏng mặc định (có thể để trống)", "factor": "Hệ số mô phỏng",
     "course_kind": "Loại học phần", "balance_weight": "Trọng số cân bằng (0 = tắt)",

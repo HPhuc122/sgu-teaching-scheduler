@@ -129,7 +129,7 @@ def workbook_bytes(kind, sheets):
         sheet.freeze_panes = "A2"
         for index, header in enumerate(headers, 1):
             sheet.column_dimensions[sheet.cell(1, index).column_letter].width = max(18, len(header) + 2)
-        for values in sheets[name]:
+        for values in sheets.get(name, []):
             sheet.append(values)
             for column, header in enumerate(headers, 1):
                 if header.startswith("ma_") or header in ("nhom", "to_th", "ten_lop"):
