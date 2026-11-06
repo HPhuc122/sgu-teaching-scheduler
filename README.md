@@ -12,4 +12,6 @@ Xem [hướng dẫn backend](backend/README.md) để cài đặt, chạy Django
 
 Để trình diễn bằng thông tin đã công bố của SGU, dùng [bộ chuyển đổi PDF công khai sang ba workbook](docs/du_lieu_sgu_cong_khai.md). Mỗi bộ có `provenance.json` phân biệt trường lấy từ nguồn và giả định phục vụ bộ giải. Giao diện web dùng phong cách tham khảo cổng đào tạo SGU với bố cục riêng cho admin và giảng viên.
 
-Các quy trình nghiệp vụ và mẫu Excel xuất hiện tại là thiết kế của đề tài dựa trên nguồn công khai; chưa được xác nhận là biểu mẫu phân công nội bộ chính thức của trường.
+Hệ thống đã bổ sung kế hoạch, phân công và bộ xuất Mẫu 1–5 theo cấu trúc các ảnh biểu mẫu được cung cấp; xem [phạm vi đối chiếu](docs/quy_trinh_bieu_mau_2026.md). Những trường không có căn cứ quy đổi không được tự suy diễn.
+
+Bộ phục vụ báo cáo mới gồm [20 học kỳ có kết quả và một học kỳ dành để chạy trực tiếp](docs/bo_mau_bao_cao_20_hoc_ky.md). Đầu vào ở `samples/bao_cao_21_hoc_ky`, kết quả ở `outputs/bao_cao_20_mau`. Khởi động cả web và worker bằng `./start_report_demo.ps1`.

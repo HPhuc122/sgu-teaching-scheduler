@@ -1,0 +1,77 @@
+{
+  "index": 12,
+  "number": 2,
+  "academic_year": "2023-2024",
+  "name": "Học kỳ 2 - Năm học 2023 - 2024",
+  "start_date": "2024-01-01",
+  "end_date": "2024-04-21",
+  "weeks": 16,
+  "seed": 20262173,
+  "presentation": false,
+  "folder": "samples\\bao_cao_21_hoc_ky\\12_2023-2024_HK2",
+  "sessions": 960,
+  "groups": 829,
+  "faculties": 15,
+  "courses": 410,
+  "lecturers": 408,
+  "rooms": 191,
+  "input_sha256": {
+    "courses": "063f02b1c9e7e50304d3759d2edf4231b5c03e26b6e2d30922584fb868ef7cab",
+    "rooms": "f90b01601593ec4c4767ba0e1db8497cf93f97bfe9047c29f38b01dabddf8075",
+    "lecturers": "0d750273103c7eef99cfafc8580c9692481498ec45d2fbaa19956579494be35a"
+  },
+  "provenance": {
+    "source_files": {
+      "courses": {
+        "path": "D:\\uctp_project\\samples\\sgu_15_khoa\\bo_03\\courses.xlsx",
+        "sha256": "08dc0283b3aa533467247f3b5a4e7635b73e949ecf95643921088cc5794f199c"
+      },
+      "rooms": {
+        "path": "D:\\uctp_project\\samples\\sgu_15_khoa\\bo_03\\rooms.xlsx",
+        "sha256": "8b3eb9bdfc2d6aec4d48d49ae0e0295b044f1e4a492b1548fcecef5017368b16"
+      },
+      "lecturers": {
+        "path": "D:\\uctp_project\\samples\\sgu_15_khoa\\bo_03\\lecturers.xlsx",
+        "sha256": "adc36d66da2e2d2b5e0fdfe3ae1fb3a3be3a6f5619cd5abbe6ea67b897880982"
+      }
+    },
+    "lecturer_identity": "All lecturer names, identifiers, titles, employment categories and appointments are fictional. No personal data copied from internal photographs.",
+    "academic_period": "HK1 public 2026-2027 snapshot adapted as three simulated semesters of 2027-2028; not official HK2/HK3 data.",
+    "simulated_attributes": [
+      "lecture/practical classification from group structure",
+      "class ownership mapping",
+      "planned hours and coefficient 1",
+      "reported hours",
+      "other duties",
+      "off-campus activities",
+      "lecturer qualifications and availability"
+    ],
+    "preserve_existing_catalog": true,
+    "simulation": {
+      "index": 12,
+      "number": 2,
+      "academic_year": "2023-2024",
+      "name": "Học kỳ 2 - Năm học 2023 - 2024",
+      "start_date": "2024-01-01",
+      "end_date": "2024-04-21",
+      "weeks": 16,
+      "seed": 20262173,
+      "presentation": false,
+      "folder": "samples\\bao_cao_21_hoc_ky\\12_2023-2024_HK2",
+      "sessions": 960,
+      "groups": 829,
+      "faculties": 15,
+      "courses": 410,
+      "lecturers": 408,
+      "rooms": 191,
+      "input_sha256": {
+        "courses": "063f02b1c9e7e50304d3759d2edf4231b5c03e26b6e2d30922584fb868ef7cab",
+        "rooms": "f90b01601593ec4c4767ba0e1db8497cf93f97bfe9047c29f38b01dabddf8075",
+        "lecturers": "0d750273103c7eef99cfafc8580c9692481498ec45d2fbaa19956579494be35a"
+      }
+    },
+    "note": "Historical dates and appointments are simulations, not historical SGU records.",
+    "reference_year": "2026-2027",
+    "source_start_date": "2028-05-01"
+  }
+}

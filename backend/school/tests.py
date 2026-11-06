@@ -706,7 +706,8 @@ class ScheduleApiTests(TestCase):
         self.assertEqual(detail[1][15], 9)
         summary = list(workbook["TongHopGV"].values)
         self.assertEqual(summary[1][3:], (1, 9))
-        self.assertIn("MẪU XUẤT ĐỀ XUẤT", workbook["ThongTin"]["A1"].value)
+        self.assertIn("LỊCH GIẢNG DẠY ĐÃ DUYỆT", workbook["ThongTin"]["A1"].value)
+        self.assertIn("Mẫu 1–5", str(list(workbook["ThongTin"].values)))
         workbook.close()
 
     def test_assignment_export_rejects_invalid_selection_and_non_staff(self):

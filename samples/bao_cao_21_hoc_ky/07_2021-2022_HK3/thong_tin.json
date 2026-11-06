@@ -1,0 +1,77 @@
+{
+  "index": 7,
+  "number": 3,
+  "academic_year": "2021-2022",
+  "name": "Học kỳ 3 - Năm học 2021 - 2022",
+  "start_date": "2022-05-02",
+  "end_date": "2022-08-21",
+  "weeks": 16,
+  "seed": 20261688,
+  "presentation": false,
+  "folder": "samples\\bao_cao_21_hoc_ky\\07_2021-2022_HK3",
+  "sessions": 240,
+  "groups": 232,
+  "faculties": 15,
+  "courses": 158,
+  "lecturers": 207,
+  "rooms": 144,
+  "input_sha256": {
+    "courses": "5f8807ecc297a5606f7d7d4267827dee423c361487124dff33b379e9b1b3a369",
+    "rooms": "0f93fb8a70feba3f260698520c51526b6a75c7af3ab675cc693133d1a920fad6",
+    "lecturers": "e82cc86948e4d38f8306da93ba961a515eb4ea8d5962dd6916b3e6485339ff5c"
+  },
+  "provenance": {
+    "source_files": {
+      "courses": {
+        "path": "D:\\uctp_project\\samples\\sgu_15_khoa\\bo_01\\courses.xlsx",
+        "sha256": "00d1010bcbdf7290abded0b0044d4c7358ab4acaa076ff42a77613bc7028d736"
+      },
+      "rooms": {
+        "path": "D:\\uctp_project\\samples\\sgu_15_khoa\\bo_01\\rooms.xlsx",
+        "sha256": "73165c2305d123920605fbca2067dcd2192ea4750f9cdfd037bb4db72a249df0"
+      },
+      "lecturers": {
+        "path": "D:\\uctp_project\\samples\\sgu_15_khoa\\bo_01\\lecturers.xlsx",
+        "sha256": "5fd62a349e51b33debb4fa44a0b1b1aa59a5895dce7747885b7aea8df54a186d"
+      }
+    },
+    "lecturer_identity": "All lecturer names, identifiers, titles, employment categories and appointments are fictional. No personal data copied from internal photographs.",
+    "academic_period": "HK1 public 2026-2027 snapshot adapted as three simulated semesters of 2027-2028; not official HK2/HK3 data.",
+    "simulated_attributes": [
+      "lecture/practical classification from group structure",
+      "class ownership mapping",
+      "planned hours and coefficient 1",
+      "reported hours",
+      "other duties",
+      "off-campus activities",
+      "lecturer qualifications and availability"
+    ],
+    "preserve_existing_catalog": true,
+    "simulation": {
+      "index": 7,
+      "number": 3,
+      "academic_year": "2021-2022",
+      "name": "Học kỳ 3 - Năm học 2021 - 2022",
+      "start_date": "2022-05-02",
+      "end_date": "2022-08-21",
+      "weeks": 16,
+      "seed": 20261688,
+      "presentation": false,
+      "folder": "samples\\bao_cao_21_hoc_ky\\07_2021-2022_HK3",
+      "sessions": 240,
+      "groups": 232,
+      "faculties": 15,
+      "courses": 158,
+      "lecturers": 207,
+      "rooms": 144,
+      "input_sha256": {
+        "courses": "5f8807ecc297a5606f7d7d4267827dee423c361487124dff33b379e9b1b3a369",
+        "rooms": "0f93fb8a70feba3f260698520c51526b6a75c7af3ab675cc693133d1a920fad6",
+        "lecturers": "e82cc86948e4d38f8306da93ba961a515eb4ea8d5962dd6916b3e6485339ff5c"
+      }
+    },
+    "note": "Historical dates and appointments are simulations, not historical SGU records.",
+    "reference_year": "2026-2027",
+    "source_start_date": "2027-09-06"
+  }
+}

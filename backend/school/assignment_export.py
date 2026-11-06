@@ -1,4 +1,4 @@
-"""Provisional faculty assignment report based on approved schedule entries."""
+"""Faculty timetable details based on approved schedule entries."""
 
 from collections import defaultdict
 from io import BytesIO
@@ -98,14 +98,14 @@ def assignment_workbook_bytes(semester, faculty, entries, completeness=None):
     _style_table(summary, SUMMARY_HEADERS, summary_rows, (6, 16, 30, 17, 21))
     note = workbook.create_sheet("ThongTin")
     info = (
-        ("BẢNG PHÂN CÔNG GIẢNG DẠY – MẪU XUẤT ĐỀ XUẤT",),
+        ("BẢNG CHI TIẾT LỊCH GIẢNG DẠY ĐÃ DUYỆT",),
         ("Học kỳ", semester.name),
         ("Năm học", semester.academic_year),
         ("Khoa quản lý giảng viên", faculty.name),
         ("Phạm vi", "Chỉ các buổi đã duyệt của giảng viên thuộc khoa"),
         ("Tổng tiết theo lịch", "Số tiết/buổi × số tuần đã xếp; chưa quy đổi giờ giảng"),
         ("Nguồn cột", "Các trường thời khóa biểu công khai SGU X5110AB.006 và X5010B.001"),
-        ("Lưu ý", "Chưa xác minh biểu mẫu phân công giảng dạy nội bộ chính thức của SGU"),
+        ("Biểu mẫu kế hoạch", "Bộ Mẫu 1–5 theo cấu trúc tài liệu đã khảo sát được xuất riêng tại Kế hoạch giảng dạy"),
     )
     for row in info:
         note.append([_safe_cell(value) for value in row])
