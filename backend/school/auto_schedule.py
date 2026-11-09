@@ -861,6 +861,8 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
     data = read_auto_files(files)
     demands, room_blocks, teacher_blocks = _prepare_inputs(semester, data)
     plan_input = validate_plan_inputs(semester, data)
+    from .plan_sync import begin_import, finish_import
+    import_context = begin_import(semester)
     demands, room_map, teacher_map = _create_catalog(semester, data, demands, room_blocks, teacher_blocks)
     demand_group_ids = {demand["group"].pk for demand in demands}
     existing_in_group = (ScheduleEntry.objects.filter(group_id__in=demand_group_ids)
@@ -874,6 +876,7 @@ def run_from_workbooks(semester_id, files, actor, existing_run_id=None):
                                  "chọn Sửa ở từng buổi cần thay đổi, lưu về chờ duyệt rồi duyệt lại; "
                                  "không chạy lại ba tệp Excel cho nhóm này.")])
     persist_plan(semester, data, demands, plan_input)
+    finish_import(semester, import_context, demands, plan_input, data)
     blocked_dates = activity_blocks(semester)
     for demand in demands:
         demand["activity_blocks"] = blocked_dates.get(demand["group"].pk, set())

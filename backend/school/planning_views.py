@@ -2,8 +2,9 @@ from django import forms
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -47,7 +48,7 @@ def teaching_plans(request):
         activities = activities.filter(Q(cohort__department__faculty=faculty) | Q(
             cohort__department__isnull=True, cohort__groupcohort__group__course__department__faculty=faculty)).distinct()
         duties = duties.filter(lecturer__department__faculty=faculty)
-    assignments = assignments.select_related("group__course__department__faculty", "group__semester", "group__teaching_plan", "lecturer__department__faculty", "fixed_lecturer").order_by("group__semester__start_date", "group__course__code", "group__group", "request_code")
+    assignments = assignments.select_related("group__course__department__faculty", "group__semester", "group__teaching_plan", "lecturer__department__faculty", "fixed_lecturer").order_by("group__semester__start_date", "group__course__code", "group__group", "request_code", "pk")
     if request.method == "POST":
         require_global(request.user, "run")
         try:
@@ -71,18 +72,28 @@ def teaching_plans(request):
                 extra = extra.filter(group__semester=semester)
             combined = TeachingAssignment.objects.filter(pk__in=set(assignments.values_list("pk", flat=True)) | set(extra.values_list("pk", flat=True))).select_related(
                 "group__course__department__faculty", "group__semester", "group__teaching_plan", "lecturer__department__faculty")
-            response = HttpResponse(forms_workbook(faculty, year, combined, activities.select_related("semester", "cohort"), duties.select_related("lecturer")),
+            response = HttpResponse(forms_workbook(faculty, year, combined, activities.select_related("semester", "cohort"), duties.select_related("lecturer__department__faculty")),
                                     content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             response["Content-Disposition"] = 'attachment; filename="ke_hoach_phan_cong.xlsx"'
             return response
+    # Summary counts cover the full filtered scope; only page items need reconciliation.
+    summary = assignments.aggregate(
+        unassigned=Count("pk", filter=Q(lecturer__isnull=True)),
+        unknown_semesters=Count("pk", filter=(
+            (Q(group__semester__number__isnull=True) | Q(group__semester__number=0)) &
+            (Q(group__teaching_plan__semester_number__isnull=True) | Q(group__teaching_plan__semester_number=0)))),
+    )
+    paginator = Paginator(assignments, 50)
+    page_obj = paginator.get_page(request.GET.get("page"))
+    page_assignments = list(page_obj.object_list)
+    page_ids = [a.pk for a in page_assignments]
+    editable = set(scoped(TeachingAssignment.objects.filter(pk__in=page_ids), request.user, "change").values_list("pk", flat=True))
+    entries = ScheduleEntry.objects.filter(group_id__in={a.group_id for a in page_assignments}).prefetch_related("schedule_weeks")
     rows = []
-    all_assignments = list(assignments)
-    editable = set(scoped(TeachingAssignment.objects.all(), request.user, "change").values_list("pk", flat=True))
-    entries = ScheduleEntry.objects.filter(group_id__in={a.group_id for a in all_assignments}).prefetch_related("schedule_weeks")
     entry_map = {}
     for entry in entries:
         entry_map.setdefault((entry.group_id, entry.request_code), []).append(entry)
-    for a in all_assignments:
+    for a in page_assignments:
         scheduled = entry_map.get((a.group_id, a.request_code), [])
         actual = sum(e.period_count * len(e.schedule_weeks.all()) for e in scheduled)
         matched = (len(scheduled) == 1 and scheduled[0].lecturer_id == a.lecturer_id
@@ -92,14 +103,22 @@ def teaching_plans(request):
                          can_edit=a.pk in editable and a.group.semester.status != "DaKhoa",
                          state="Chưa xếp lịch" if not scheduled else "Khớp kế hoạch" if matched else "Cần đối chiếu",
                          approved=matched and scheduled[0].status == "DaDuyet"))
+    pagination_filters = request.GET.copy()
+    for key in list(pagination_filters):
+        if key not in ("year", "semester", "faculty"):
+            del pagination_filters[key]
+    pagination_filters["year"] = year
     return render(request, "school/teaching_plans.html", dict(
-        rows=rows[:300], total=len(rows), semesters=Semester.objects.order_by("-start_date"), semester=semester,
+        rows=rows, total=paginator.count, page_obj=page_obj,
+        page_range=paginator.get_elided_page_range(page_obj.number, on_each_side=2, on_ends=1),
+        page_ellipsis=paginator.ELLIPSIS, pagination_query=pagination_filters.urlencode(),
+        semesters=Semester.objects.order_by("-start_date"), semester=semester,
         years=Semester.objects.values_list("academic_year", flat=True).distinct(), year=year,
         faculties=scoped(Faculty.objects.all(), request.user).order_by("name"), faculty=faculty,
         activities=activities.select_related("cohort", "semester"), duties=duties.select_related("lecturer", "semester"),
-        unassigned=sum(a.lecturer_id is None for a in all_assignments),
+        unassigned=summary["unassigned"],
         manage=system_admin(request.user) or roles(request.user).filter(can_manage=True).exclude(role="HEAD").exists(),
-        unknown_semesters=sum(not (a.group.semester.number or a.group.teaching_plan.semester_number) for a in all_assignments)))
+        unknown_semesters=summary["unknown_semesters"]))
 
 
 class PlanForm(forms.ModelForm):

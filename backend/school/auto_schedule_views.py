@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 
 from .auto_schedule import AUTO_SHEETS, approve_algorithm_run, template_bytes
 from .auto_schedule_errors import InputIssues
-from .models import AlgorithmRun, Semester
+from .models import AlgorithmRun, Semester, PendingPlanImport
 from .preference_checks import day_off_violations
 from .schedule_queue import enqueue_schedule
 from .services import ScheduleConflictError
@@ -45,6 +45,7 @@ def auto_schedule(request):
     input_issues = []
     input_issue_count = 0
     run = None
+    plan_preview = None
     selected = request.POST.get("semester", "") if request.method == "POST" else request.GET.get("semester", "")
     semester_form = NewSemesterForm(request.POST if request.method == "POST" and
                                     request.POST.get("action") == "create_semester" else None)
@@ -65,6 +66,21 @@ def auto_schedule(request):
                     run.message = f"Đã duyệt {count} buổi dạy."
                 except (ValidationError, ScheduleConflictError, AlgorithmRun.DoesNotExist) as exc:
                     errors.append(f"Không thể duyệt phương án: {exc}")
+        elif action in ("confirm_plan", "cancel_plan"):
+            from .plan_sync import confirm_import
+            from .access import require_global
+            require_global(request.user, "run")
+            try:
+                pending = PendingPlanImport.objects.get(pk=request.POST.get("preview_id"), actor=request.user)
+                if action == "cancel_plan":
+                    pending.delete()
+                    return redirect(f"/admin/auto-schedule/?semester={pending.semester_id}")
+                saved = confirm_import(pending.pk, request.user, remove_missing=request.POST.get("remove_missing") == "yes")
+                return redirect(f"/admin/teaching-plans/?semester={saved.pk}")
+            except (PendingPlanImport.DoesNotExist, forms.ValidationError):
+                errors.append("Bản xem trước không hợp lệ hoặc không thuộc tài khoản hiện tại")
+            except (ValueError, InputIssues) as exc:
+                errors.append(str(exc))
         elif action in ("run", "save_plan"):
             semester = Semester.objects.filter(pk=selected).first() if selected.isdigit() else None
             if semester is None:
@@ -72,11 +88,11 @@ def auto_schedule(request):
             else:
                 try:
                     if action == "save_plan":
-                        from .planning import save_plan_from_workbooks
-                        save_plan_from_workbooks(semester.pk, request.FILES)
-                        return redirect(f"/admin/teaching-plans/?semester={semester.pk}")
-                    run = enqueue_schedule(semester.pk, request.FILES, request.user)
-                    return redirect(f"/admin/auto-schedule/?run={run.pk}")
+                        from .plan_sync import preview_import
+                        plan_preview = preview_import(semester.pk, request.FILES, request.user)
+                    else:
+                        run = enqueue_schedule(semester.pk, request.FILES, request.user)
+                        return redirect(f"/admin/auto-schedule/?run={run.pk}")
                 except InputIssues as exc:
                     input_issues = exc.issues
                     input_issue_count = len(exc.issues)
@@ -102,6 +118,7 @@ def auto_schedule(request):
         "run": run, "recent": recent, "can_approve": can_approve,
         "approved_count": approved_count, "hard_conflicts": hard_conflicts,
         "semester_form": semester_form,
+        "plan_preview": plan_preview,
     }, status=400 if errors or input_issues or semester_form.errors else 200)
 
 

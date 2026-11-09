@@ -9,7 +9,7 @@ Bảy ảnh trong `docs/DACN_Biểu mẫu` thể hiện năm loại biểu mẫu
 ## Luồng đã triển khai
 
 1. Chọn năm học, học kỳ và học kỳ số 1, 2 hoặc 3.
-2. Tải ba workbook Học phần, Phòng học, Giảng viên. Có thể lưu kế hoạch trước hoặc chạy xếp lịch ngay.
+2. Tải ba workbook Học phần, Phòng học, Giảng viên. Chọn lưu kế hoạch để xem trước thêm/cập nhật/bản ghi vắng, rồi xác nhận áp dụng; có thể chạy xếp lịch ngay nếu không cần loại bỏ bản ghi cũ.
 3. Kiểm tra danh mục, nhóm mở, buổi yêu cầu, phân công cố định, loại buổi, metadata kế hoạch, công tác khác và hoạt động ngoài trường.
 4. Lưu `GroupTeachingPlan` và `TeachingAssignment` riêng với `ScheduleEntry`. Kế hoạch có thể tồn tại khi chưa có lịch phòng/thời gian hoặc khi chưa tìm được lịch khả thi.
 5. Giữ giảng viên được chỉ định; các buổi còn trống được thuật toán chọn trong danh sách đủ chuyên môn. Lưu người được chọn vào phân công kế hoạch sau khi có nghiệm hợp lệ.
@@ -35,7 +35,7 @@ Các cột mới đặt sau các cột cũ. Workbook cũ thiếu các cột/shee
 - `CongTacKhac`: `ma_vien_chuc`, `ma_cong_tac`, `noi_dung`, `loai` (`KHAC`, `CLC`), `so_tiet`.
 - Phân công mời giảng được xác định theo từng khoa lập kế hoạch: người trong trường thuộc khoa khác là mời giảng; người có nguồn `THINH_GIANG` là thỉnh giảng. Một giảng viên có thể xuất hiện ở bảng cơ hữu của khoa mình và bảng mời giảng của khoa khác.
 
-Workbook phòng giữ cấu trúc hiện có. Các bản ghi metadata, công tác và hoạt động cùng khóa được cập nhật; bản ghi vắng trong sheet không bị tự xóa. Danh sách buổi yêu cầu của những nhóm được nhập là danh sách thay thế đầy đủ cho nhóm đó.
+Workbook phòng giữ cấu trúc hiện có. Các bản ghi cùng khóa được cập nhật, không tạo bản sao. Nhập lại không tự xóa buổi, metadata, công tác, hoạt động hoặc liên kết lớp–nhóm vắng trong Excel. Bước xem trước liệt kê những bản ghi vắng, kể cả nhóm bị bỏ toàn bộ. Chỉ bản ghi có dấu vết do Excel tạo, còn nguyên so với lần nhập gần nhất, mới đủ điều kiện xóa khi người dùng đánh dấu đồng ý và xác nhận. Bản ghi chưa rõ nguồn, đã sửa thủ công và danh mục dùng chung được giữ lại. Dữ liệu cũ không được tự nhận là có nguồn Excel chỉ vì trùng khóa. Xem [cơ chế đồng bộ và kiểm tra trước commit](dong_bo_ke_hoach_quang1.md).
 
 ## Ý nghĩa số tiết và xuất biểu mẫu
 

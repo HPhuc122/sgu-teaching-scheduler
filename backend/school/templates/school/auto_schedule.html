@@ -6,6 +6,19 @@
 <h1>Xếp lịch chất lượng</h1>
 <p class="hint">Chọn học kỳ, tải đủ ba file Excel rồi nhấn Xếp lịch chất lượng. Hệ thống tự tìm và giữ phương án hợp lệ có điểm phạt thấp nhất trong các phương án đã xét; trang trạng thái tự cập nhật khi đang xử lý.</p>
 {% for error in errors %}<p class="error">{{ error }}</p>{% endfor %}
+{% if plan_preview %}
+<section aria-labelledby="plan-preview-title">
+<h2 id="plan-preview-title">Xem trước đồng bộ kế hoạch · {{ plan_preview.semester }}</h2>
+<p role="status">{{ plan_preview.summary.added|length }} bản ghi thêm · {{ plan_preview.summary.updated|length }} bản ghi cập nhật · {{ plan_preview.summary.missing|length }} bản ghi vắng trong Excel. Chưa áp dụng thay đổi.</p>
+{% if plan_preview.summary.added %}<details><summary>Chi tiết {{ plan_preview.summary.added|length }} bản ghi thêm</summary>{% for item in plan_preview.summary.added %}<p>Thêm: {{ item.label }}</p>{% endfor %}</details>{% endif %}
+{% if plan_preview.summary.updated %}<details><summary>Chi tiết {{ plan_preview.summary.updated|length }} bản ghi cập nhật</summary>{% for item in plan_preview.summary.updated %}<details><summary>Cập nhật: {{ item.label }} · {{ item.source }}</summary><div class="table-wrap"><table><thead><tr><th>Trường</th><th>Hiện tại</th><th>Trong Excel</th></tr></thead><tbody>{% for field in item.fields %}<tr><td>{{ field.name }}</td><td>{{ field.before|default_if_none:"—" }}</td><td>{{ field.after|default_if_none:"—" }}</td></tr>{% endfor %}</tbody></table></div></details>{% endfor %}</details>{% endif %}
+{% if plan_preview.summary.missing %}<details><summary>Chi tiết {{ plan_preview.summary.missing|length }} bản ghi vắng trong Excel</summary>{% for item in plan_preview.summary.missing %}<p>Vắng trong Excel: {{ item.label }} · {{ item.source }} · {{ item.reason }}</p>{% endfor %}</details>{% endif %}
+<form method="post">{% csrf_token %}<input type="hidden" name="semester" value="{{ selected }}"><input type="hidden" name="preview_id" value="{{ plan_preview.pk }}">
+{% if plan_preview.summary.removable_count %}<label><input type="checkbox" name="remove_missing" value="yes"> Đồng ý xóa {{ plan_preview.summary.removable_count }} bản ghi do Excel tạo, không bị sửa thủ công và không còn trong file. Bỏ chọn để giữ lại.</label>{% endif %}
+<p class="hint">Danh mục dùng chung và bản ghi chưa rõ nguồn luôn được giữ khi vắng trong Excel. Bản xem trước có hiệu lực trong 30 phút.</p>
+<div class="actions-row"><button type="submit" name="action" value="confirm_plan">Xác nhận áp dụng kế hoạch</button><button type="submit" name="action" value="cancel_plan" class="secondary">Hủy bản xem trước</button></div></form>
+</section>
+{% endif %}
 {% if input_issues %}<div class="error"><strong>Phát hiện {{ input_issue_count }} lỗi trong ba file. Hãy sửa rồi tải lại:</strong><div class="table-wrap"><table><thead><tr><th>File</th><th>Sheet</th><th>Dòng</th><th>Lỗi</th></tr></thead><tbody>{% for item in input_issues %}<tr><td>{{ item.file }}</td><td>{{ item.sheet|default:"—" }}</td><td>{{ item.line|default:"—" }}</td><td>{{ item.message }}</td></tr>{% endfor %}</tbody></table></div></div>{% endif %}
 {% if capabilities.run %}{% if run.status != 'QUEUED' and run.status != 'RUNNING' %}
 <ol class="workflow" aria-label="Quy trình xếp lịch"><li>Chọn học kỳ</li><li>Tải ba file Excel</li><li>Kiểm tra đầu vào</li><li>Xác nhận cấu hình</li><li>Chạy xếp lịch</li><li>Rà soát kết quả</li></ol>

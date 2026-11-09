@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from decimal import Decimal
+import uuid
 
 
 class Faculty(models.Model):
@@ -184,6 +185,25 @@ class SemesterResourcePlan(models.Model):
     semester = models.OneToOneField(Semester, on_delete=models.CASCADE, related_name="resource_plan")
     room_blocks = models.JSONField(default=list)
     teacher_blocks = models.JSONField(default=list)
+
+
+class PlanImportState(models.Model):
+    """Last Excel values for records demonstrably created by the import pipeline."""
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE, related_name="plan_import_state")
+    records = models.JSONField(default=dict)
+
+
+class PendingPlanImport(models.Model):
+    """Short-lived, user-bound input for an explicit preview/confirm operation."""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    baseline_digest = models.CharField(max_length=64)
+    courses_file = models.BinaryField()
+    rooms_file = models.BinaryField()
+    lecturers_file = models.BinaryField()
+    summary = models.JSONField(default=dict)
 
 
 class GroupTeachingPlan(models.Model):

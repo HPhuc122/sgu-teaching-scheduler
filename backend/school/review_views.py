@@ -1,10 +1,13 @@
 """Admin-only review screens for proposed teaching assignments."""
 
 from urllib.parse import urlencode
+import logging
+import sqlite3
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
+from django.db import connection, OperationalError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from rest_framework.exceptions import ValidationError
@@ -17,6 +20,15 @@ from .access import scoped, global_action
 
 
 FILTER_KEYS = ("faculty", "course", "group", "lecturer", "room", "status", "run")
+log = logging.getLogger(__name__)
+
+
+def _sqlite_busy(exc):
+    code = getattr(exc.__cause__, "sqlite_errorcode", None)
+    return connection.vendor == "sqlite" and (
+        (isinstance(code, int) and (code & 0xff) in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED)) or
+        str(exc).lower() == "database is locked" or
+        str(exc).lower().startswith("database table is locked"))
 
 
 def _review_filters(request):
@@ -104,6 +116,7 @@ def review_schedules(request):
     else:
         semester = Semester.objects.order_by("-start_date").first()
     errors = []
+    error_status = 400
     if semester_id and semester is None:
         errors.append("Học kỳ không hợp lệ")
     faculty = (Faculty.objects.filter(pk=filters["faculty"]).first()
@@ -136,8 +149,20 @@ def review_schedules(request):
                     return redirect(f"{reverse('review_schedules')}?{query}")
                 except (ValidationError, ScheduleConflictError) as exc:
                     errors.append(f"Không thể duyệt; dữ liệu chưa được thay đổi: {exc}")
-    return render(request, "school/review_schedules.html", _review_context(request, semester, errors, filters, faculty),
-                  status=400 if errors else 200)
+                except OperationalError as exc:
+                    if not _sqlite_busy(exc):
+                        raise
+                    # The service's atomic block (including commit) has exited
+                    # and rolled back before we render or issue more queries.
+                    log.warning("SQLite busy approving semester %s, %s entries", semester.pk, len(ids), exc_info=True)
+                    errors.append("Cơ sở dữ liệu đang bận. Yêu cầu này chưa duyệt buổi nào. "
+                                  "Hãy chờ thao tác đang chạy hoàn tất, tải lại trang rồi thử lại.")
+                    error_status = 503
+    response = render(request, "school/review_schedules.html", _review_context(request, semester, errors, filters, faculty),
+                      status=error_status if errors else 200)
+    if error_status == 503:
+        response["Retry-After"] = "2"
+    return response
 
 
 @staff_member_required

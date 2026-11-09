@@ -168,24 +168,28 @@ def persist_plan(semester, data, demands, prepared):
             Lecturer.objects.filter(employee_code=row["ma_vien_chuc"]).update(**updates)
     for name, values in prepared["activities"]:
         cohort = Cohort.objects.get(semester=semester, name=name)
+        values = values.copy()
         code = values.pop("code")
         OffCampusActivity.objects.update_or_create(semester=semester, cohort=cohort, code=code, defaults=values)
     for code, duty_code, values in prepared["duties"]:
         LecturerOtherDuty.objects.update_or_create(semester=semester, lecturer=Lecturer.objects.get(employee_code=code), code=duty_code, defaults=values)
-    keep = defaultdict(list)
+    existing = {(a.group_id, a.request_code): a for a in TeachingAssignment.objects.filter(group__semester=semester)}
     reported = {(r["ma_mon_hoc"], r["nhom"], r["to_th"], r["ma_buoi"]): r.get("so_tiet_thuc_te", "")
                 for r in data["courses"]["BuoiHocYeuCau"]}
     for d in demands:
-        keep[d["group"].pk].append(d["code"])
+        old = existing.get((d["group"].pk, d["code"]))
+        teacher = d.get("assigned_teacher")
+        # An unchanged, unfixed input must not erase the last selected lecturer.
+        lecturer = teacher if teacher or not old or old.fixed_lecturer_id else old.lecturer_id
         obj, _ = TeachingAssignment.objects.update_or_create(group=d["group"], request_code=d["code"], defaults=dict(
             component=d.get("component", ""), period_count=d["count"], weeks=sorted(d["weeks"]),
             allowed_days=sorted(d["days"]), room_type=d["room_type"],
-            fixed_lecturer=d.get("assigned_teacher"), lecturer=d.get("assigned_teacher"),
+            fixed_lecturer=teacher, lecturer_id=getattr(lecturer, "pk", lecturer),
             reported_periods=_number(reported[(*d["key"], d["code"])],
                 "Số tiết thực tế", optional=True)))
         d["planned_assignment_id"] = obj.pk
-    for group_id, codes in keep.items():
-        TeachingAssignment.objects.filter(group_id=group_id).exclude(request_code__in=codes).delete()
+    # Missing rows are retained here. Only a confirmed synchronization may remove
+    # unchanged, proven Excel records, including rows from entirely omitted groups.
 
 
 def appointment_kind(assignment):
@@ -245,13 +249,18 @@ def save_plan_from_workbooks(semester_id, files):
         raise ValueError("Học kỳ đã khóa")
     if hasattr(semester, "active_schedule_run"):
         raise ValueError("Học kỳ đang có phiên xếp lịch; hãy chờ hoàn tất")
+    if ScheduleEntry.objects.filter(group__semester=semester).exists():
+        raise ValueError("Học kỳ đã có lịch; cần xử lý lịch đang lưu trước khi thay kế hoạch đầu vào")
     data = read_auto_files(files)
     demands, rb, tb = _prepare_inputs(semester, data)
     prepared = validate_plan_inputs(semester, data)
+    from .plan_sync import begin_import, finish_import
+    context = begin_import(semester)
     demands, _, _ = _create_catalog(semester, data, demands, rb, tb)
     if ScheduleEntry.objects.filter(group_id__in={d["group"].pk for d in demands}).exists():
         raise ValueError("Nhóm đã có lịch; cần xử lý lịch đang lưu trước khi thay kế hoạch đầu vào")
     persist_plan(semester, data, demands, prepared)
+    semester.import_result = finish_import(semester, context, demands, prepared, data)
     return semester
 
 
@@ -263,23 +272,26 @@ def workbooks_from_plan(semester):
     from .sample_data import workbook_bytes
     rows = {kind: {sheet: [] for sheet in sheets} for kind, sheets in AUTO_SHEETS.items()}
     c, r, t = rows["courses"], rows["rooms"], rows["lecturers"]
-    assignments = list(TeachingAssignment.objects.filter(group__semester=semester).select_related("group__course"))
+    assignments = list(TeachingAssignment.objects.filter(group__semester=semester).select_related(
+        "group__course", "group__teaching_plan", "fixed_lecturer").prefetch_related("group__cohort_links__cohort"))
     if not assignments:
         raise ValueError("Học kỳ chưa có kế hoạch buổi học")
     groups = {a.group_id: a.group for a in assignments}
     courses = Course.objects.filter(pk__in={g.course_id for g in groups.values()})
     department_ids = set(courses.values_list("department_id", flat=True))
-    qualifications = TeachingQualification.objects.filter(course__in=courses, lecturer__status="DangCongTac").select_related("lecturer__department")
+    qualifications = list(TeachingQualification.objects.filter(course__in=courses, lecturer__status="DangCongTac").select_related("lecturer__department__faculty", "course"))
     teachers = {q.lecturer_id: q.lecturer for q in qualifications}
+    duties = list(LecturerOtherDuty.objects.filter(semester=semester).select_related("lecturer__department__faculty"))
+    teachers.update((d.lecturer_id, d.lecturer) for d in duties)
     department_ids.update(teacher.department_id for teacher in teachers.values())
     departments = Department.objects.filter(pk__in=department_ids)
     c["Khoa"] = [(f.code, f.name) for f in Faculty.objects.filter(pk__in=departments.values("faculty_id"))]
     c["BoMon"] = [(d.code, d.name, d.faculty.code) for d in departments.select_related("faculty")]
     c["HocPhan"] = [(course.code, course.name, course.credits, course.department.code, course.kind) for course in courses.select_related("department")]
     for group in groups.values():
-        classes = ";".join(group.cohort_links.values_list("cohort__name", flat=True))
+        classes = ";".join(link.cohort.name for link in group.cohort_links.all())
         c["NhomHocPhan"].append((group.course.code, semester.name, group.group, group.lab_group or "", group.capacity, classes))
-        p = GroupTeachingPlan.objects.filter(group=group).first()
+        p = getattr(group, "teaching_plan", None)
         if p:
             c["KeHoachMoNhom"].append((group.course.code, group.group, group.lab_group or "", p.semester_number or semester.number,
                 p.cohort_label, p.lecture_periods, p.exercise_periods, p.practical_periods, p.coefficient, p.note))
@@ -294,7 +306,12 @@ def workbooks_from_plan(semester):
     for teacher in teachers.values():
         t["GiangVien"].append((teacher.employee_code, teacher.name, teacher.email or "", teacher.department.faculty.code,
             teacher.department.code, teacher.status, teacher.source_kind, teacher.specialty, teacher.academic_title, teacher.workplace))
-    t["GiangVienHocPhan"] = [(q.lecturer.employee_code, q.course.code) for q in qualifications.select_related("course")]
+    t["GiangVienHocPhan"] = [(q.lecturer.employee_code, q.course.code) for q in qualifications]
+    t["CongTacKhac"] = [(d.lecturer.employee_code, d.code, d.description, d.kind, d.periods) for d in duties]
+    c["HoatDongNgoaiTruong"] = [(a.code, a.cohort.name, a.cohort_label, a.training_level,
+        a.description, a.location, a.start_date.isoformat(), a.end_date.isoformat(), a.student_count,
+        a.semester_number or semester.number) for a in OffCampusActivity.objects.filter(
+            semester=semester, cohort__groupcohort__group_id__in=groups).select_related("cohort").distinct()]
     # Availability uploaded for a previous run is not reconstructed from catalogs.
     # Keep the last input resource blocks as part of the semester plan snapshot.
     snapshot = getattr(semester, "resource_plan", None)

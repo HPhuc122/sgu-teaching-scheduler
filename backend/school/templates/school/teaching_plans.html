@@ -15,7 +15,30 @@
 <div class="actions-row"><a class="button secondary" href="{% url 'auto_schedule' %}">Nhập kế hoạch từ ba file Excel</a>{% if capabilities.run and semester %}<form method="post" data-busy="Đang gửi yêu cầu…">{% csrf_token %}<input type="hidden" name="semester" value="{{ semester.pk }}"><button type="submit">Xếp toàn học kỳ từ kế hoạch đã lưu</button></form>{% endif %}</div>
 <div class="table-wrap"><table><thead><tr><th>Học kỳ</th><th>Học phần / nhóm</th><th>Buổi</th><th>Giảng viên</th><th>Phân loại</th><th>Tiết kế hoạch</th><th>Tiết đã xếp</th><th>Đối chiếu</th><th>Thao tác</th></tr></thead><tbody>
 {% for row in rows %}{% with a=row.assignment %}<tr><td>{{ a.group.semester.name }}</td><td>{{ a.group.course }}<br>Nhóm {{ a.group.group }}{% if a.group.lab_group %} / TH {{ a.group.lab_group }}{% endif %}</td><td>{{ a.request_code }}<br>{{ a.get_component_display|default:"Chưa phân loại" }}</td><td>{{ a.lecturer|default:"Chưa phân công" }}{% if a.fixed_lecturer_id %}<br><small>Giữ phân công</small>{% endif %}</td><td>{{ row.kind }}</td><td>{{ row.planned }}</td><td>{{ row.scheduled }}</td><td>{{ row.state }}{% if row.approved %}<br>Đã duyệt lịch{% endif %}</td><td>{% if row.can_edit %}<a href="{% url 'edit_plan_item' 'assignment' a.pk %}">Phân công</a><br><a href="{% url 'edit_plan_item' 'group' a.group.teaching_plan.pk %}">Kế hoạch nhóm</a>{% else %}Chỉ xem{% endif %}</td></tr>{% endwith %}{% empty %}<tr><td colspan="9">Chưa có kế hoạch trong phạm vi được chọn.</td></tr>{% endfor %}</tbody></table></div>
-{% if total > 300 %}<p class="hint">Đang hiển thị 300/{{ total }} buổi. Chọn học kỳ và khoa để thu hẹp; file xuất bao gồm đầy đủ phạm vi đã chọn.</p>{% endif %}
+<p role="status">Đang xem dòng {{ page_obj.start_index }}–{{ page_obj.end_index }} trên tổng {{ total }} buổi · Trang {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}.</p>
+{% if page_obj.has_other_pages %}
+<nav class="actions-row pagination" aria-label="Phân trang kế hoạch giảng dạy">
+{% if page_obj.has_previous %}
+<a class="button secondary page-link" href="?{{ pagination_query }}&amp;page=1">Trang đầu</a>
+<a class="button secondary page-link" href="?{{ pagination_query }}&amp;page={{ page_obj.previous_page_number }}">Trang trước</a>
+{% else %}
+<span class="button secondary" aria-disabled="true">Trang đầu</span>
+<span class="button secondary" aria-disabled="true">Trang trước</span>
+{% endif %}
+{% for number in page_range %}
+{% if number == page_ellipsis %}<span class="hint" aria-label="Các trang khác">...</span>
+{% elif number == page_obj.number %}<span class="button" aria-current="page" aria-label="Trang {{ number }}">{{ number }}</span>
+{% else %}<a class="button secondary page-link" href="?{{ pagination_query }}&amp;page={{ number }}" aria-label="Trang {{ number }}">{{ number }}</a>{% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+<a class="button secondary page-link" href="?{{ pagination_query }}&amp;page={{ page_obj.next_page_number }}">Trang sau</a>
+<a class="button secondary page-link" href="?{{ pagination_query }}&amp;page={{ page_obj.paginator.num_pages }}">Trang cuối</a>
+{% else %}
+<span class="button secondary" aria-disabled="true">Trang sau</span>
+<span class="button secondary" aria-disabled="true">Trang cuối</span>
+{% endif %}
+</nav>
+{% endif %}
 <h2>Công tác khác và chất lượng cao</h2>{% if manage %}<a href="{% url 'new_plan_item' 'duty' %}">Thêm công tác</a>{% endif %}
 <div class="table-wrap"><table><thead><tr><th>Học kỳ</th><th>Giảng viên</th><th>Nội dung</th><th>Loại</th><th>Số tiết</th><th></th></tr></thead><tbody>{% for d in duties %}<tr><td>{{ d.semester }}</td><td>{{ d.lecturer }}</td><td>{{ d.description }}</td><td>{{ d.get_kind_display }}</td><td>{{ d.periods }}</td><td><a href="{% url 'edit_plan_item' 'duty' d.pk %}">Sửa</a></td></tr>{% empty %}<tr><td colspan="6">Chưa có công tác được nhập.</td></tr>{% endfor %}</tbody></table></div>
 <h2>Hoạt động tập trung ngoài trường</h2>{% if manage %}<a href="{% url 'new_plan_item' 'activity' %}">Thêm hoạt động</a>{% endif %}

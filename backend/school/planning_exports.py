@@ -45,12 +45,15 @@ def _sheet(book, name, title, faculty, year, headers, rows, subtitle=""):
     for row in rows:
         sheet.append([_safe(v) for v in row])
     thin = Side(style="thin", color="000000")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    fonts = {bold: Font(name="Times New Roman", size=12, color="000000", bold=bold) for bold in (True, False)}
+    alignments = {center: Alignment(wrap_text=True, vertical="center", horizontal="center" if center else "left") for center in (True, False)}
     for row in sheet:
         for cell in row:
-            cell.font = Font(name="Times New Roman", size=12, color="000000", bold=cell.row in (1, 3, 5))
-            cell.alignment = Alignment(wrap_text=True, vertical="center", horizontal="center" if cell.row <= 5 else "left")
+            cell.font = fonts[cell.row in (1, 3, 5)]
+            cell.alignment = alignments[cell.row <= 5]
             if cell.row >= 5:
-                cell.border = Border(left=thin, right=thin, top=thin, bottom=thin)
+                cell.border = border
     for i, header in enumerate(headers, 1):
         sheet.column_dimensions[get_column_letter(i)].width = 30 if any(word in header for word in ("Tên", "Họ", "Nội dung", "Ghi chú", "Đơn vị", "Công tác")) else 15
     sheet.row_dimensions[3].height = 36
@@ -72,20 +75,29 @@ def forms_workbook(faculty, year, assignments, activities, duties):
     book = Workbook()
     book.remove(book.active)
     own = [a for a in assignments if a.group.course.department.faculty_id == faculty.pk]
+    own_ids = {a.pk for a in own}
+    teacher_items = defaultdict(list)
+    own_teacher_items = defaultdict(list)
+    for a in assignments:
+        teacher_items[a.lecturer_id].append(a)
+    for a in own:
+        own_teacher_items[a.lecturer_id].append(a)
     # Every semester remains separate even when exporting one academic year.
     for number in (1, 2, 3, None):
         selected = [a for a in own if semester_number(a) == number]
         if number is None and not selected:
             continue
         buckets = defaultdict(list)
+        course_groups = defaultdict(set)
         for a in selected:
             buckets[(a.group_id, a.lecturer_id, a.component)].append(a)
+            course_groups[a.group.course_id].add(a.group_id)
         rows = []
         for index, items in enumerate(buckets.values(), 1):
             a, group = items[0], items[0].group
             plan = getattr(group, "teaching_plan", None)
             teacher = a.lecturer
-            group_count = len({x.group_id for x in selected if x.group.course_id == group.course_id})
+            group_count = len(course_groups[group.course_id])
             rows.append((index, group.course.code, group.course.name, group.course.credits,
                 plan.cohort_label if plan else "", plan.lecture_periods if plan else None,
                 plan.exercise_periods if plan else None, plan.practical_periods if plan else None,
@@ -103,11 +115,12 @@ def forms_workbook(faculty, year, assignments, activities, duties):
             continue
         if a.lecturer.source_kind == "CO_HUU" and a.lecturer.department.faculty_id == faculty.pk:
             buckets[("CO_HUU", a.lecturer_id, a.group.course_id)].append(a)
-        elif a in own:
+        elif a.pk in own_ids:
             buckets[(appointment_kind(a), a.lecturer_id, a.group.course_id)].append(a)
     duty_map = defaultdict(list)
     for duty in duties:
-        duty_map[duty.lecturer_id].append(duty)
+        if duty.lecturer.source_kind == "CO_HUU" and duty.lecturer.department.faculty_id == faculty.pk:
+            duty_map[duty.lecturer_id].append(duty)
     rows2, rows3, rows4 = [], [], []
     displayed_duties = set()
     for (kind, _teacher_id, _course_id), items in buckets.items():
@@ -117,16 +130,16 @@ def forms_workbook(faculty, year, assignments, activities, duties):
         total = sum(planned_periods(x) for x in items)
         explicit = _sum_explicit(x.reported_periods for x in items)
         if kind == "CO_HUU":
+            first_teacher_row = teacher.pk not in displayed_duties
             duties_here = duty_map[teacher.pk] if teacher.pk not in displayed_duties else []
             displayed_duties.add(teacher.pk)
             other = "; ".join(f"{d.description} ({d.periods})" for d in duties_here if d.kind == "KHAC")
             clc = sum((d.periods for d in duties_here if d.kind == "CLC"), Decimal(0))
-            teacher_items = [x for x in assignments if x.lecturer_id == teacher.pk]
-            teaching_total = _sum_explicit(x.reported_periods for x in teacher_items)
+            teaching_total = _sum_explicit(x.reported_periods for x in teacher_items[teacher.pk])
             total_work = teaching_total + sum((d.periods for d in duty_map[teacher.pk]), Decimal(0)) if teaching_total is not None else None
             rows2.append((len(rows2) + 1, teacher.employee_code, teacher.name, "", teacher.academic_title,
                 a.group.course.name, a.group.course.code, a.group.course.credits, _course_periods(plan),
-                len({x.group_id for x in items}), *counts, total, other, clc, total_work if duties_here or not any(r[1] == teacher.employee_code for r in rows2) else None))
+                len({x.group_id for x in items}), *counts, total, other, clc, total_work if first_teacher_row else None))
         elif kind == "MOI_GIANG":
             rows3.append((len(rows3) + 1, a.group.course.name, a.group.course.code, a.group.course.credits,
                 _course_periods(plan), len({x.group_id for x in items}), *counts, explicit,
@@ -135,7 +148,7 @@ def forms_workbook(faculty, year, assignments, activities, duties):
             rows4.append((len(rows4) + 1, teacher.name, "", teacher.specialty, teacher.academic_title,
                 teacher.workplace, a.group.course.name, a.group.course.code, a.group.course.credits,
                 _course_periods(plan), len({x.group_id for x in items}), *counts, explicit,
-                _sum_explicit(x.reported_periods for x in own if x.lecturer_id == teacher.pk)))
+                _sum_explicit(x.reported_periods for x in own_teacher_items[teacher.pk])))
     # Include staff whose current plan only contains non-teaching duties.
     for teacher_id, items in duty_map.items():
         if teacher_id not in displayed_duties:

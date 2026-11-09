@@ -1,13 +1,14 @@
 """Luu lich trong giao dich va kiem tra xung dot truoc khi ghi."""
 
-from django.db import transaction
+from django.db import connection, transaction
+from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
 from scheduling.validation import TeachingSession, conflicts_for_candidate
 
-from .models import ScheduleEntry, ScheduleWeek, Semester, TeachingQualification
+from .models import ScheduleEntry, ScheduleWeek, Semester, TeachingAssignment, TeachingQualification
 from .preference_checks import day_off_error, day_off_violations
 
 
@@ -37,7 +38,7 @@ def _to_session(entry, *, weeks=None, cohort_ids=None):
 
 
 @transaction.atomic
-def save_schedule_entry(data, *, instance=None, actor=None):
+def save_schedule_entry(data, *, instance=None, actor=None, _validate_only=False):
     values = dict(data)
     if actor is not None:
         from .access import check_write, require_object
@@ -133,6 +134,8 @@ def save_schedule_entry(data, *, instance=None, actor=None):
         entry.full_clean(exclude=["source"])
     except DjangoValidationError as exc:
         raise ValidationError(exc.message_dict) from exc
+    if _validate_only:
+        return entry
     entry.save()
     if entry.request_code:
         from .models import TeachingAssignment
@@ -149,6 +152,11 @@ def approve_schedule_entries(semester_id, entry_ids, *, actor):
     ids = list(entry_ids)
     if not ids or len(ids) > 100 or len(ids) != len(set(ids)):
         raise ValidationError("Chọn từ 1 đến 100 buổi dạy, không lặp")
+    if connection.vendor == "sqlite":
+        # SQLite ignores select_for_update(). Reserve the writer BEFORE reading
+        # the approval snapshot, avoiding a deferred read-to-write lock upgrade.
+        # This changes no semester value and honors SQLite's busy timeout.
+        Semester.objects.filter(pk=semester_id).update(id=F("id"))
     semester = Semester.objects.select_for_update().get(pk=semester_id)
     if semester.status == "DaKhoa":
         raise ValidationError("Học kỳ đã khóa")
@@ -164,6 +172,24 @@ def approve_schedule_entries(semester_id, entry_ids, *, actor):
     violations = day_off_violations(semester_id, entries)
     if violations:
         raise ValidationError(day_off_error(violations))
-    for entry in entries:
-        save_schedule_entry({"status": "DaDuyet"}, instance=entry, actor=actor)
+    validated = [save_schedule_entry({"status": "DaDuyet"}, instance=entry, actor=actor,
+                                     _validate_only=True) for entry in entries]
+    changed = ScheduleEntry.objects.filter(pk__in=ids, status="ChoDuyet").update(
+        status="DaDuyet", approved_by=actor, approved_at=timezone.now())
+    if changed != len(ids):
+        raise ValidationError("Danh sách đã thay đổi trong khi duyệt; hãy tải lại trang")
+    # Retain the existing plan-lecturer synchronization without rewriting the
+    # timetable or deleting/recreating ScheduleWeek rows for a status change.
+    lecturers = {(entry.group_id, entry.request_code): entry.lecturer_id
+                 for entry in validated if entry.request_code}
+    plans = TeachingAssignment.objects.filter(
+        group_id__in={key[0] for key in lecturers}, request_code__in={key[1] for key in lecturers})
+    updates = []
+    for plan in plans:
+        key = (plan.group_id, plan.request_code)
+        if key in lecturers and plan.lecturer_id != lecturers[key]:
+            plan.lecturer_id = lecturers[key]
+            updates.append(plan)
+    if updates:
+        TeachingAssignment.objects.bulk_update(updates, ["lecturer"])
     return len(entries)

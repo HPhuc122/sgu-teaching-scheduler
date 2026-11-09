@@ -83,6 +83,9 @@ body.sgu-app {margin:0; padding:0; min-height:100vh; background:var(--canvas); c
 .sgu-app .button.secondary:hover {background:var(--tint); border-color:var(--blue)}
 .sgu-app button:disabled,.sgu-app input:disabled {opacity:.55; cursor:not-allowed; box-shadow:none}
 .sgu-app .actions-row {display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:18px}
+.sgu-app .pagination {gap:6px; margin-bottom:24px}
+.sgu-app .pagination .button {padding:8px 12px}
+.sgu-app .pagination [aria-disabled=true] {opacity:.55; cursor:default}
 .sgu-app .empty-state .actions-row {justify-content:center}
 .sgu-app input[type=file] {display:block; padding:10px; border:1px dashed var(--line); background:var(--surface-alt); border-radius:8px; width:100%}
 .sgu-app input[type=file]::file-selector-button {padding:7px 10px; margin-right:10px; border:1px solid var(--line); border-radius:5px; background:var(--surface); color:var(--blue); font:inherit; cursor:pointer}
